@@ -296,6 +296,71 @@ for nn in noiselevels2plot:
             plt.ylabel(None)
         
     plt.suptitle('Average reconstructions, leave one spatial freq out, \n%s, noise=%.2f' % (stim_types[tt],noise_levels[nn]))
+    
+#%% train/test across stim type, but within spatial freq
+           
+plt.close('all')
+#plt.figure()
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = np.arange(0,nLayers,6)
+timepts2plot = np.arange(0,1)
+#layers2plot = [14]
+noiselevels2plot = [0]
+ylims = [-1,1]
+nVox2Use = 100
+bb=3
+
+for nn in noiselevels2plot:
+    ii=0;
+    plt.figure()
+    for ww1 in layers2plot:
+#        for ww2 in timepts2plot:
+        
+        ii=ii+1
+#        plt.subplot(np.size(layers2plot),np.size(timepts2plot),ii)
+    
+        ori_labs = actual_labels
+        center_deg=90
+        n_chans=9
+#        n_folds = 10
+        
+#        alldat = allw[ww1][ww2]
+        
+        myinds = np.where(sflist==bb)[0]
+        
+        alldat = allw[ww1][nn][ww2][myinds,0:nVox2Use]
+        alldat = alldat - np.tile(np.expand_dims(np.mean(alldat,axis=1),1), [1,np.shape(alldat)[1]])
+        ori_labs_now = ori_labs[myinds]
+#        chan_resp_all = IEM.run_crossval_IEM(alldat,ori_labs,10,9)
+#         cross-validate, leaving one stimulus type and SF out at a time
+        chan_resp_all = np.zeros([np.shape(alldat)[0], 180])
+        un,whichCV = np.unique(np.concatenate((typelist[myinds],sflist[myinds]), axis=1), return_inverse=True, axis=0)
+        for cv in range(np.size(np.unique(whichCV))):
+            trninds = np.where(whichCV!=cv)[0]
+            tstinds = np.where(whichCV==cv)[0]
+#            print('training set has %d trials, testing set has %d trials' % (np.size(trninds), np.size(tstinds)))
+        
+            chan_resp_all[tstinds,:] = IEM.get_recons(alldat[trninds,:],ori_labs_now[trninds],alldat[tstinds,:],n_chans)
+            
+        average_recons = IEM.shift_and_average(chan_resp_all,ori_labs_now,center_deg);
+          
+        plt.subplot(np.ceil(len(layers2plot)/4),4,ii)
+        plt.plot(xx,average_recons)
+        plt.ylim(ylims)
+        plt.plot([center_deg,center_deg], ylims)
+        plt.title('%s - %s' % (layer_labels[ww1], timepoint_labels[ww2]))
+        if ww1==np.max(layers2plot)-2:
+            plt.xlabel('Orientation Channel (deg)')
+            plt.ylabel('Channel Activation Weight')
+        else:
+            plt.tick_params(axis='x', bottom=False,labelbottom = False)
+            
+        if (np.size(timepts2plot)>1 and ww2==np.max(timepts2plot)):
+            
+            plt.tick_params(axis='y', left=False,labelleft = False)
+            plt.ylabel(None)
+        
+    plt.suptitle('Average reconstructions, leave one stim type out \nsf=%.2f, noise=%.2f' % (sf_vals[bb],noise_levels[nn]))
 #%% train across SF, separate the test set according to type/sf
 
 plt.close('all')
@@ -306,7 +371,7 @@ layers2plot = np.arange(0,nLayers,6)
 timepts2plot = np.arange(0,1)
 
 noiselevels2plot = [0]
-
+tt=0
 
 ylims = [-5,0]
 
@@ -323,13 +388,12 @@ for ww1 in layers2plot:
             n_chans=9
     #        n_folds = 20
             
+            inds = np.where(typelist==tt)[0]
+    
             # run the IEM across all stims as the training set
-            alldat = allw[ww1][nn][ww2][:,0:nVox2Use]
-    #        alldat = scipy.stats.zscore(alldat, axis=1)
-    #        alldat = alldat - np.tile(np.expand_dims(np.mean(alldat,axis=1),1), [1,np.shape(alldat)[1]])
+            alldat = allw[ww1][0][ww2][inds,0:nVox2Use]
             
-    #        chan_resp_all = IEM.run_crossval_IEM(alldat,ori_labs,10,9)
-            
+ 
             # cross-validate, leaving one stimulus type and SF out at a time
             chan_resp_all = np.zeros([np.shape(alldat)[0], 180])
             un,whichCV = np.unique(np.concatenate((typelist,sflist), axis=1), return_inverse=True, axis=0)
