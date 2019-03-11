@@ -8,9 +8,6 @@ Created on Thu Oct 18 15:46:07 2018
 
 import numpy as np
 
-import matplotlib.pyplot as plt
-
-import scipy
 
 def make_basis_function(xx, mu, basis_pwr = 8):
     """ Define a raised cosine function at each point in xx.
@@ -60,20 +57,20 @@ def get_recons(trndat, ori_labs_trn, tstdat, n_ori_chans = 9):
     
     """
      
-#    trndat =scipy.stats.zscore(trndat,axis=0)
-#    tstdat =scipy.stats.zscore(tstdat,axis=0)
-    
+    # check a couple things in the inputs
+    if np.shape(trndat)[1]!=np.shape(tstdat)[1]:
+        raise ValueError('number of features in training and testing sets must be equal')
+    if np.shape(trndat)[1]<n_ori_chans:
+        raise ValueError('must have at least as many features as channels')    
+    if np.mod(180,n_ori_chans):
+        raise ValueError('n_chans must be a factor of n_pts (180)')
+
     n_pts = 180      
     xx = np.arange(0,n_pts, 1)        
     basis_pwr = n_ori_chans-1
-    
-#    print(ori_labs_trn)
-    
+ 
     stim_mask = make_stim_mask(ori_labs_trn, xx)
-
-    if np.mod(n_pts,n_ori_chans):
-        raise ValueError('n_chans must be a factor of n_pts (180)')
-
+   
     chan_resp = np.zeros([np.shape(tstdat)[0], len(xx)]);   
   
     # start the loop from 1:20 (e.g. if num chans == 9). Each time shift the
@@ -104,8 +101,7 @@ def get_recons(trndat, ori_labs_trn, tstdat, n_ori_chans = 9):
         # basis functions. 
         
         chan_resp[:,chan_center] = np.matmul(tstdat, np.linalg.pinv(w));
-        
-     
+             
     return chan_resp
 
 def run_crossval_IEM(dat,ori_labs,n_folds = 10, n_ori_chans = 9):
