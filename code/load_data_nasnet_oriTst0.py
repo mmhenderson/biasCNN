@@ -10,29 +10,9 @@ Created on Mon Feb  4 15:33:38 2019
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
-
 os.chdir(os.path.join(root, 'code'))
 
 import numpy as np
-import matplotlib.pyplot as plt
-
-import scipy
-
-from sklearn import decomposition
- 
-from sklearn import manifold
- 
-from sklearn import discriminant_analysis
-
-import IEM
-
-import sklearn
- 
-import classifiers
-
-#import pycircstat
-
-import scipy
 
 noise_levels = [0, 0.2, 0.4, 0.6, 0.8]
 

@@ -6,120 +6,30 @@ Created on Sun Sep  9 15:30:56 2018
 @author: mmhender
 """
 
+#%% get the data ready to go...then can run any below cells independently.
+
+%reset
+
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
-
 os.chdir(os.path.join(root, 'code'))
+%run load_data_nasnet_oriTst1
 
-import numpy as np
+nVox2Use = 100
+center_deg=90
+n_chans=9
+
 import matplotlib.pyplot as plt
-
 import scipy
-
-from sklearn import decomposition
- 
-from sklearn import manifold
- 
+from sklearn import decomposition 
+from sklearn import manifold 
 from sklearn import discriminant_analysis
-
 import IEM
-
 import sklearn
- 
 import classifiers
-
 from matplotlib import cm
 from colorspacious import cspace_converter
 from collections import OrderedDict
-
-
-#import pycircstat
-
-
-weight_path_before = os.path.join(root, 'activations', 'nasnet_oriTst1_short_reduced')
-weight_path_after = os.path.join(root, 'activations', 'nasnet_oriTst1_long_reduced')
-#weight_path_after = os.path.join(root, 'activations', 'nasnet_oriTst1_long_reduced')
-#weight_path_before = os.path.join(root, 'weights', 'inception_v3_grating_orient_short')
-#weight_path_after = os.path.join(root, 'weights', 'inception_v3_grating_orient_long')
-#dataset_path = os.path.join(root, 'datasets', 'datasets_Grating_Orient_SF')
-
-#layer_labels = ['Conv2d_1a_3x3', 'Conv2d_4a_3x3','Mixed_7c','logits']
-timepoint_labels = ['before retraining','after retraining']
-
-layer_labels = []
-for cc in range(17):
-    layer_labels.append('Cell_%d' % (cc+1))
-layer_labels.append('global_pool')
-layer_labels.append('logits')
-#%% information about the stimuli. There are two types - first is a full field 
-# sinusoidal grating (e.g. a rectangular image with the whole thing a grating)
-# second is a gaussian windowed grating.
-noise_levels = [0, 0.25, 0.5]
-nNoiseLevels = np.size(noise_levels)
-sf_vals = np.logspace(np.log10(0.4), np.log10(2.2),4)
-stim_types = ['Gaussian']
-nOri=180
-nSF=np.size(sf_vals)
-nPhase=4
-nType=np.size(stim_types)
-
-# list all the image features in a big matrix, where every row is unique.
-noiselist = np.expand_dims(np.repeat(np.arange(nNoiseLevels), nPhase*nOri*nSF*nType),1)
-typelist = np.transpose(np.tile(np.repeat(np.arange(nType), nPhase*nOri*nSF), [1,nNoiseLevels]))
-orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nSF*nPhase), [1,nType*nNoiseLevels]))
-sflist=np.transpose(np.tile(np.repeat(np.arange(nSF),nPhase),[1,nOri*nType*nNoiseLevels]))
-phaselist=np.transpose(np.tile(np.arange(nPhase),[1,nOri*nSF*nType*nNoiseLevels]))
-
-featureMat = np.concatenate((noiselist,typelist,orilist,sflist,phaselist),axis=1)
-
-assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
-
-actual_labels = orilist
-
-
-#%% load the data (already in reduced/PCA-d format)
-
-allw = []
-
-for ll in range(np.size(layer_labels)):
-    
-    tmp = []
-    
-#    for nn in range(np.size(noise_levels)):
-#        print(nn)
-#        print(noise_levels[nn])
-    file = os.path.join(weight_path_before, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
-    w1 = np.load(file)
-    
-    file = os.path.join(weight_path_after, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
-    w2 = np.load(file)
-    
-    tmp.append([w1,w2])
-        
-    allw.append(tmp)
-#    allw.append([w1])
-    
-nLayers = len(allw)
-nTimepts = len(allw[0][0])
-# can change these if you want just a subset of plots made at a time
-layers2plot = np.arange(0,nLayers,1)
-#timepts2plot = np.arange(0,nTimepts,1)
-timepts2plot = np.arange(0,1)
-
-#%% load the predicted orientation labels from the re-trained network
-
-num_batches = 80
-
-all_labs = []
-
-file = os.path.join(weight_path_before, 'allStimsLabsPredicted_Cell_1.npy')    
-labs1 = np.load(file)
- 
-file = os.path.join(weight_path_after,'allStimsLabsPredicted_Cell_1.npy')    
-labs2 = np.load(file)
-
-all_labs.append([labs1,labs2])
- 
 
 #%% run the IEM - within each stimulus type and sf separately
 
@@ -174,7 +84,8 @@ for ww1 in layers2plot:
     #                    plt.xticks(ticks=None,labels=None)
     #                    plt.ylabel('')
             plt.suptitle('Average reconstruction, trn/test within stimulus type and SF. \nWeights from %s - %s, noise=%.2f' % (layer_labels[ww1], timepoint_labels[ww2], noise_levels[nn]))
-#%% train the IEM across all trials
+
+#%% train the IEM across SF within noise level, plot one noise level at a time
         
 plt.close('all')
 
@@ -217,6 +128,73 @@ for nn in noiselevels2plot:
         plt.subplot(np.ceil(len(layers2plot)/4),4,ii)
         plt.plot(xx,average_recons)
         plt.ylim(ylims)
+        plt.plot([center_deg,center_deg], ylims,c=[0,0,0])
+        plt.title('%s - %s' % (layer_labels[ww1], timepoint_labels[ww2]))
+        if ww1==np.max(layers2plot)-2:
+            plt.xlabel('Orientation Channel (deg)')
+            plt.ylabel('Channel Activation Weight')
+        else:
+            plt.tick_params(axis='x', bottom=False,labelbottom = False)
+            
+        if (np.size(timepts2plot)>1 and ww2==np.max(timepts2plot)):
+            
+            plt.tick_params(axis='y', left=False,labelleft = False)
+            plt.ylabel(None)
+        
+    plt.suptitle('Average reconstructions, leave one spatial freq out\nnoise==%.2f' % noise_levels[nn])
+    
+#%% train the IEM across SF within noise level, overlay noise levels
+        
+plt.close('all')
+
+layers2plot = np.arange(0,19,1)
+timepts2plot = [0]
+noiselevels2plot = [0,1,2]
+
+ylims = [-1,1]
+
+nVox2Use = 100
+
+plt.figure()
+legendlabs = []
+lh = []
+
+for nn in noiselevels2plot:
+    ii=0;
+    legendlabs.append('noise=%.2f' % noise_levels[nn])
+    for ww1 in layers2plot:
+       
+        ii=ii+1
+
+        ori_labs = actual_labels
+        center_deg=90
+        n_chans=9
+        
+        myinds = np.where(noiselist==nn)[0]
+
+        alldat = allw[ww1][0][ww2][myinds,0:nVox2Use]
+        typelist_now = typelist[myinds]
+        sflist_now = sflist[myinds]
+
+        chan_resp_all = np.zeros([np.shape(alldat)[0], 180])
+        un,whichCV = np.unique(np.concatenate((typelist_now,sflist_now), axis=1), return_inverse=True, axis=0)
+        for cv in range(np.size(np.unique(whichCV))):
+            trninds = np.where(whichCV!=cv)[0]
+            tstinds = np.where(whichCV==cv)[0]
+#            print('training set has %d trials, testing set has %d trials' % (np.size(trninds), np.size(tstinds)))
+        
+            chan_resp_all[tstinds,:] = IEM.get_recons(alldat[trninds,:],ori_labs[trninds],alldat[tstinds,:],n_chans)
+            
+        average_recons = IEM.shift_and_average(chan_resp_all,ori_labs,center_deg);
+          
+        ax=plt.subplot(np.ceil(len(layers2plot)/4),4,ii)
+        h, =plt.plot(xx,average_recons)
+        if ww1==np.max(layers2plot):
+            lh.append(h)
+            if nn==np.max(noiselevels2plot):
+                ax.legend(lh,legendlabs)
+            
+        plt.ylim(ylims)
         plt.plot([center_deg,center_deg], ylims)
         plt.title('%s - %s' % (layer_labels[ww1], timepoint_labels[ww2]))
         if ww1==np.max(layers2plot)-2:
@@ -230,7 +208,89 @@ for nn in noiselevels2plot:
             plt.tick_params(axis='y', left=False,labelleft = False)
             plt.ylabel(None)
         
-    plt.suptitle('Average reconstructions, leave one stimulus type out\nnoise=%.2f' % (noise_levels[nn]))
+plt.suptitle('Average reconstructions, leave one spatial freq out')
+
+#%% train the IEM across SF, across noise levels
+        
+plt.close('all')
+
+layers2plot = np.arange(0,19,1)
+timepts2plot = [0]
+
+nn1=2
+tstNoise = [0,1,2]
+
+ylims = [-1,1]
+
+nVox2Use = 100
+
+plt.figure()
+legendlabs = []
+lh = []
+
+for nn2 in tstNoise:
+    ii=0;
+    legendlabs.append('test noise=%.2f' % noise_levels[nn2])
+    for ww1 in layers2plot:
+       
+        ii=ii+1
+    
+        ori_labs = actual_labels
+        center_deg=90
+        n_chans=9
+        
+        # first separate out the training/testing noise levels
+        trninds1 = np.where(noiselist==nn1)[0]
+    
+        alldat_trn = allw[ww1][0][ww2][trninds1,0:nVox2Use]
+        typelist_trn = typelist[trninds1]
+        sflist_trn = sflist[trninds1]
+        orilabs_trn = ori_labs[trninds1]
+        
+        tstinds1 = np.where(noiselist==nn2)[0]
+    
+        alldat_tst = allw[ww1][0][ww2][tstinds1,0:nVox2Use]
+        typelist_tst = typelist[tstinds1]
+        sflist_tst = sflist[tstinds1]
+        orilabs_tst = ori_labs[tstinds1]
+        
+        # the other labels on these partitions of the data should be identical
+        assert np.array_equal(typelist_trn, typelist_tst) & np.array_equal(sflist_trn, sflist_tst) & np.array_equal(orilabs_trn, orilabs_tst)
+    
+        chan_resp_all = np.zeros([np.shape(alldat_tst)[0], 180])
+        un,whichCV = np.unique(np.concatenate((typelist_trn,sflist_trn), axis=1), return_inverse=True, axis=0)
+        for cv in range(np.size(np.unique(whichCV))):
+            trninds2 = np.where(whichCV!=cv)[0]
+            tstinds2 = np.where(whichCV==cv)[0]
+    #            print('training set has %d trials, testing set has %d trials' % (np.size(trninds), np.size(tstinds)))
+        
+            chan_resp_all[tstinds2,:] = IEM.get_recons(alldat_trn[trninds2,:],orilabs_trn[trninds2],alldat_tst[tstinds2,:],n_chans)
+            
+        average_recons = IEM.shift_and_average(chan_resp_all,orilabs_tst,center_deg);
+          
+        ax=plt.subplot(np.ceil(len(layers2plot)/4),4,ii)
+        h, =plt.plot(xx,average_recons)
+        if ww1==np.max(layers2plot):
+            lh.append(h)
+            if nn2==np.max(tstNoise):
+                ax.legend(lh,legendlabs)
+            
+        plt.ylim(ylims)
+        plt.plot([center_deg,center_deg], ylims)
+        plt.title('%s - %s' % (layer_labels[ww1], timepoint_labels[ww2]))
+        if ww1==np.max(layers2plot)-2:
+            plt.xlabel('Orientation Channel (deg)')
+            plt.ylabel('Channel Activation Weight')
+        else:
+            plt.tick_params(axis='x', bottom=False,labelbottom = False)
+            
+        if (np.size(timepts2plot)>1 and ww2==np.max(timepts2plot)):
+            
+            plt.tick_params(axis='y', left=False,labelleft = False)
+            plt.ylabel(None)
+            
+plt.suptitle('Average reconstructions, leave one spatial freq out\ntrain noise=%.2f' %(noise_levels[nn1]))
+
 #%% train all stimuli, separate the test set according to type/sf
 
 plt.close('all')
