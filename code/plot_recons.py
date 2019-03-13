@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy
 import IEM
-from matplotlib import cm
-from colorspacious import cspace_converter
-from collections import OrderedDict
+#from matplotlib import cm
+#from colorspacious import cspace_converter
+#from collections import OrderedDict
 
 #%% get the data ready to go...then can run any below cells independently.
 
@@ -28,7 +28,13 @@ import load_activations
 allw, all_labs, info = load_activations.load_activ(model_str)
 
 # Isolate just the first timepoint, this means we'll need to save fewer recons
-allw = allw[:][0]
+tmp = []
+for ll in range (info['nLayers']):
+    tmp.append([allw[ll][0]])
+allw = tmp
+info['nTimePts'] = 1
+info['timepoint_labels'] = [info['timepoint_labels'][0]]
+    
 
 save_path = os.path.join(root, 'recons', model_str)
 # make all the reconstructions (only have to do this once)
@@ -117,7 +123,8 @@ for ww1 in layers2plot:
 
 #%% train the IEM across all SF and types, within noise level, train test across phase.
  
-chan_resp_withinnoise = np.load(os.path.join(save_path, 'recons_withinnoise_acrossphase.npy'))
+#chan_resp_withinnoise = np.load(os.path.join(save_path, 'recons_withinnoise_acrossphase.npy'))
+chan_resp_withinnoise = np.load(os.path.join(save_path, 'recons_withinnoise_acrosssf.npy'))
 plt.close('all')
 
 layers2plot = np.arange(0,19,1)
