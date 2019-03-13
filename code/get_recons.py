@@ -68,14 +68,16 @@ def run_withinnoise_acrossphase(allw, info, nUnits2Use, savename):
             
             # looping through noise level, spatial frequency, type, and doing training/testing separately within each group.
             for nn in range(info['nNoiseLevels']):               
+                
+                for tt in range(info['nType']):
                   
-                # find my data
-                inds = np.where(info['noiselist']==nn)[0]
-               
-                thisdat = allw[ww1][ww2][inds,0:nUnits2Use]
-                                
-                chan_resp[inds,:] = IEM.run_crossval_IEM_specify_labels(thisdat,info['orilist'][inds],info['phaselist'][inds])
-              
+                    # find my data
+                    inds = np.where(np.logical_and(info['noiselist']==nn, info['typelist']==tt))[0]
+                   
+                    thisdat = allw[ww1][ww2][inds,0:nUnits2Use]
+                                    
+                    chan_resp[inds,:] = IEM.run_crossval_IEM_specify_labels(thisdat,info['orilist'][inds],info['phaselist'][inds])
+                  
             
             tmp.append(chan_resp)
             
@@ -108,13 +110,15 @@ def run_withinnoise_acrosssf(allw, info, nUnits2Use, savename):
             # looping through noise level, spatial frequency, type, and doing training/testing separately within each group.
             for nn in range(info['nNoiseLevels']):               
                   
-                # find my data
-                inds = np.where(info['noiselist']==nn)[0]
-               
-                thisdat = allw[ww1][ww2][inds,0:nUnits2Use]
-                                
-                chan_resp[inds,:] = IEM.run_crossval_IEM_specify_labels(thisdat,info['orilist'][inds],info['sflist'][inds])
-              
+                for tt in range(info['nType']):
+                    
+                    # find my data
+                    inds = np.where(np.logical_and(info['noiselist']==nn, info['typelist']==tt))[0]
+                   
+                    thisdat = allw[ww1][ww2][inds,0:nUnits2Use]
+                                    
+                    chan_resp[inds,:] = IEM.run_crossval_IEM_specify_labels(thisdat,info['orilist'][inds],info['sflist'][inds])
+                  
             
             tmp.append(chan_resp)
             
@@ -149,13 +153,15 @@ def run_acrossnoise_acrossphase(allw, info, trnNoise, nUnits2Use, savename):
 
                 for pp in range(info['nPhase']):
                     
-                    trninds = np.where(np.logical_and(info['phaselist']!=pp, info['noiselist']==trnNoise))[0]
-                    tstinds = np.where(np.logical_and(info['phaselist']==pp, info['noiselist']==nn))[0]
-                
-                    assert not np.intersect1d(trninds,tstinds)
+                    for tt in range(info['nType']):
                     
-                    chan_resp[tstinds,:] = IEM.get_recons(allw[ww1][ww2][trninds],info['orilist'][trninds],allw[ww1][ww2][tstinds])
-             
+                        trninds = np.where(np.logical_and(np.logical_and(info['phaselist']!=pp, info['noiselist']==trnNoise), info['typelist']==tt))[0]
+                        tstinds = np.where(np.logical_and(np.logical_and(info['phaselist']==pp, info['noiselist']==nn), info['typelist']==tt))[0]
+                    
+                        assert not np.intersect1d(trninds,tstinds)
+                        
+                        chan_resp[tstinds,:] = IEM.get_recons(allw[ww1][ww2][trninds],info['orilist'][trninds],allw[ww1][ww2][tstinds])
+                 
                 
             tmp.append(chan_resp)
             
