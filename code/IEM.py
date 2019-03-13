@@ -104,7 +104,7 @@ def get_recons(trndat, ori_labs_trn, tstdat, n_ori_chans = 9):
              
     return chan_resp
 
-def run_crossval_IEM(dat,ori_labs,n_folds = 10, n_ori_chans = 9):
+def run_crossval_IEM_random(dat,ori_labs,n_folds = 10, n_ori_chans = 9):
     """ Run the IEM on all data, using n_folds of cross-validation, leave out a random subset of trials.
     Arguments:
         dat: [nTrials (total) x nVoxels]
@@ -141,6 +141,39 @@ def run_crossval_IEM(dat,ori_labs,n_folds = 10, n_ori_chans = 9):
         chan_resp[tstinds,:] = chan_resp_tmp    
         
     return chan_resp
+
+
+
+def run_crossval_IEM_specify_labels(dat, ori_labs, whichCV, n_ori_chans = 9):    
+    """ Run the IEM on all data, using n_folds of cross-validation, leave out a specified subset of trials.
+    Arguments:
+        dat: [nTrials (total) x nVoxels]
+        ori_labs: [nTrials (total) x 1]
+        whichCV: labels that specify the cross-validation scheme, should be integers 1:n_folds.
+    Returns:
+        chan_resp: [nTrials (total) x 180]; reconstruction for each trial in 1:180 degree space.
+    
+    """
+      
+    nTrialsTotal = np.shape(dat)[0]
+    
+    chan_resp = np.zeros([nTrialsTotal, 180])
+
+    unvals = np.unique(whichCV)
+
+    for ff in range(np.size(unvals)):
+        
+        trninds = np.where(whichCV!=unvals[ff])[0]
+        tstinds = np.where(whichCV==unvals[ff])[0]
+#        print('training set has %d trials, testing set has %d trials' % (np.size(trninds), np.size(tstinds)))
+        # call get_recons for this fold
+        chan_resp_tmp = get_recons(dat[trninds,:], ori_labs[trninds,:], dat[tstinds,:],n_ori_chans)
+
+        chan_resp[tstinds,:] = chan_resp_tmp    
+        
+    return chan_resp
+
+
 
 def shift_and_average(chan_resp, ori_labs, center_deg = 90):
     """ Shift all reconstructions to a common center and average them.
@@ -202,3 +235,4 @@ def shift_flip_and_average(chan_resp, ori_labs, dir_labs, center_deg = 90):
     average_recons = np.mean(recons_shift, axis=0);
     
     return average_recons
+
