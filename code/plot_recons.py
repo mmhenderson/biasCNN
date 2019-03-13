@@ -9,6 +9,7 @@ Created on Sun Sep  9 15:30:56 2018
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy
+from scipy import stats
 import IEM
 #from matplotlib import cm
 #from colorspacious import cspace_converter
@@ -16,7 +17,7 @@ import IEM
 
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'nasnet_oriTst0'
+model_str = 'inception_oriTst0'
 do_recons = 1
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -214,7 +215,7 @@ plt.suptitle('Average reconstructions, leave one phase out, collapsed over SF')
 
 #%% train the IEM across phase, and across noise levels
 
-trnNoise = 2
+trnNoise = 0
 if trnNoise==0:        
     chan_resp = np.load(os.path.join(save_path, 'recons_trnzeronoise_acrossphase.npy'))
 elif trnNoise==nNoiseLevels-1:
@@ -226,14 +227,14 @@ plt.close('all')
 
 layers2plot = np.arange(0,19,1)
 timepts2plot = [0]
-tstNoise = [0,1,2]
+#tstNoise = [0,1,2]
 ylims = [-1,1]
 
 plt.figure()
 legendlabs = []
 lh = []
 
-for nn2 in tstNoise:
+for nn2 in range(nNoiseLevels):
     ii=0;
     legendlabs.append('test noise=%.2f' % noise_levels[nn2])
     for ww1 in layers2plot:
@@ -248,7 +249,7 @@ for nn2 in tstNoise:
         h, =plt.plot(xx,average_recons)
         if ww1==np.max(layers2plot):
             lh.append(h)
-            if nn2==np.max(tstNoise):
+            if nn2==nNoiseLevels-1:
                 ax.legend(lh,legendlabs)
             
         plt.ylim(ylims)
@@ -608,7 +609,7 @@ plt.suptitle('Reconstruction bias, train/test across phase\nwithin noise levels'
 
 #%% trn/test across noise levels, plot bias
     
-trnNoise = 2
+trnNoise = 0
 if trnNoise==0:        
     chan_resp = np.load(os.path.join(save_path, 'recons_trnzeronoise_acrossphase.npy'))
 elif trnNoise==nNoiseLevels-1:
@@ -621,8 +622,6 @@ plt.close('all')
 
 layers2plot = range(nLayers)
 ww2 = 0
-
-tstNoise = [0,1,2]
 
 ylims=[-10,10]
 
@@ -639,7 +638,7 @@ for ww1 in layers2plot:
     ii=ii+1
     ax = plt.subplot(np.ceil(len(layers2plot)/4),np.min([len(layers2plot),4]),ii)
    
-    for nn2 in tstNoise:
+    for nn2 in range(nNoiseLevels):
        
         tstinds1 = np.where(noiselist==nn2)[0]
     
@@ -679,7 +678,7 @@ for ww1 in layers2plot:
 
         if ww1==np.max(layers2plot):
             lh.append(h)
-            if nn2==np.max(tstNoise):
+            if nn2==nNoiseLevels-1:
                 ax.legend(lh,legendlabs)
  
         plt.xlim([0,180])

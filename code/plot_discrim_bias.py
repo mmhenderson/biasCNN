@@ -12,7 +12,7 @@ import numpy as np
 
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'nasnet_oriTst0'
+model_str = 'inception_oriTst0'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
@@ -48,7 +48,7 @@ actual_labels = orilist
 
 plt.close('all')
 
-noiselevels2plot = [0,1,2]
+noiselevels2plot = np.arange(nNoiseLevels)
 
 un = np.unique(actual_labels)
 
@@ -91,7 +91,7 @@ for nn in noiselevels2plot:
 
 plt.close('all')
 
-noiselevels2plot = [0,1,2]
+noiselevels2plot = np.arange(nNoiseLevels)
 
 un = np.unique(actual_labels)
 
@@ -137,7 +137,7 @@ for nn in noiselevels2plot:
     plt.ylabel('predicted')
 
 #%% plot predicted vs actual labels - within each stim type and spat freq
-
+plt.close('all')
 nn=2
 
 pred_labels = all_labs[0][1]
@@ -306,7 +306,7 @@ for ww1 in layers2plot:
 #%% Plot discriminability across all layers, within one envelope and SF, overlay noise levels
     
 plt.close('all')
-noise2plot=np.arange(0,3)
+noise2plot=np.arange(0,nNoiseLevels)
 ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
