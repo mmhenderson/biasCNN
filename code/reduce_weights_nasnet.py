@@ -43,31 +43,12 @@ tf.app.flags.DEFINE_integer(
 FLAGS = tf.app.flags.FLAGS
 
 #%% more parameters that are always the same
+layers2load = []
 
-# list of all the endpoints in this network.
-layers2load = ['Conv2d_1a_3x3',
- 'Conv2d_2a_3x3',
- 'Conv2d_2b_3x3',
- 'MaxPool_3a_3x3',
- 'Conv2d_3b_1x1',
- 'Conv2d_4a_3x3',
- 'MaxPool_5a_3x3',
- 'Mixed_5b',
- 'Mixed_5c',
- 'Mixed_5d',
- 'Mixed_6a',
- 'Mixed_6b',
- 'Mixed_6c',
- 'Mixed_6d',
- 'Mixed_6e',
- 'Mixed_7a',
- 'Mixed_7b',
- 'Mixed_7c',
- 'AuxLogits',
- 'AvgPool_1a',
- 'PreLogits',
- 'Logits',
- 'Predictions']
+for cc in range(17):
+    layers2load.append('Cell_%d' % (cc+1))
+layers2load.append('global_pool')
+layers2load.append('logits')
 
 nLayers = len(layers2load)
 
@@ -96,7 +77,6 @@ featureMat = np.concatenate((noiselist,typelist,orilist,sflist,phaselist),axis=1
 assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
 
 actual_labels = orilist
-
 
 
 #%% load in the weights from the network - BEFORE and AFTER retraining
