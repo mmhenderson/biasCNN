@@ -58,27 +58,29 @@ num_batches = FLAGS.num_batches
 #%% information about the stimuli. There are two types - first is a full field 
 # sinusoidal grating (e.g. a rectangular image with the whole thing a grating)
 # second is a gaussian windowed grating.
-sf_vals = np.logspace(np.log10(0.4), np.log10(2.2),4)
-stim_types = ['Gaussian']
+sf_vals = np.logspace(np.log10(0.2), np.log10(2),5)
+stim_types = ['Fullfield','Gaussian']
 nOri=180
-nSF=4
+nSF=5
 nPhase=4
-nType=1
-nNoiseLevels = 3
-noise_levels = np.arange(0,0.75,0.25)
+nType = 2
+#nNoiseLevels = 5
+#nNoiseLevels = 1
+#noise_levels = np.arange(0,0.85,0.2)
+#noise_levels=  np.arange(0,1)
 
 # list all the image features in a big matrix, where every row is unique.
-noiselist = np.expand_dims(np.repeat(np.arange(nNoiseLevels), nPhase*nOri*nSF*nType),1)
-typelist = np.transpose(np.tile(np.repeat(np.arange(nType), nPhase*nOri*nSF), [1,nNoiseLevels]))
-orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nSF*nPhase), [1,nType*nNoiseLevels]))
-sflist=np.transpose(np.tile(np.repeat(np.arange(nSF),nPhase),[1,nOri*nType*nNoiseLevels]))
-phaselist=np.transpose(np.tile(np.arange(nPhase),[1,nOri*nSF*nType*nNoiseLevels]))
+typelist = np.expand_dims(np.repeat(np.arange(nType), nPhase*nOri*nSF), 1)
+orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nSF*nPhase), [1,nType]))
+sflist=np.transpose(np.tile(np.repeat(np.arange(nSF),nPhase),[1,nOri*nType]))
+phaselist=np.transpose(np.tile(np.arange(nPhase),[1,nOri*nSF*nType]))
 
-featureMat = np.concatenate((noiselist,typelist,orilist,sflist,phaselist),axis=1)
+featureMat = np.concatenate((typelist,orilist,sflist,phaselist),axis=1)
 
 assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
 
 actual_labels = orilist
+
 
 
 #%% load in the weights from the network - BEFORE and AFTER retraining
