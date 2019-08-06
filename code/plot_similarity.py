@@ -15,11 +15,12 @@ from matplotlib import cm
    
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'inception_oriTst0'
+model_str = 'inception_oriTst1';
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
 os.chdir(os.path.join(root, 'code'))
+figfolder = os.path.join(root, 'figures')
 
 import load_activations
 #allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
@@ -49,7 +50,7 @@ actual_labels = orilist
                 
 #%% PCA , plotting pts by orientation
 plt.close('all')
-layers2plot = np.arange(17,18)
+layers2plot = np.arange(6,7)
 timepts2plot = np.arange(0,1)
 noiselevels2plot = [0]
 
@@ -59,10 +60,10 @@ for ww1 in layers2plot:
     for ww2 in timepts2plot:
         for nn in noiselevels2plot:
             
-            pca = decomposition.PCA(n_components = 4)
-            
-            weights_reduced = pca.fit_transform(allw[ww1][ww2])
-           
+#            pca = decomposition.PCA(n_components = 4)
+#            
+#            weights_reduced = pca.fit_transform(allw[ww1][ww2])
+            weights_reduced = allw[ww1][ww2]
             nBins = int(12)
             nPerBin = int(180/nBins)
             binned_labs = np.reshape(np.arange(0,180,1), [nBins,nPerBin])
@@ -109,10 +110,77 @@ for ww1 in layers2plot:
             ax.set_position([box.x0 , box.y0,
                              box.width*0.80, box.height])
             
+#%% PCA , plotting pts by orientation
+plt.close('all')
+layers2plot = np.arange(0,10,1)
+timepts2plot = np.arange(0,1)
+noiselevels2plot = [0]
+
+#clist = cm.plasma(np.linspace(0,1,12))
+c_map = cm.get_cmap('plasma')
+markers = ['^','+','o','x']
+for ww1 in layers2plot:
+    for ww2 in timepts2plot:
+        for nn in noiselevels2plot:
+            
+#            pca = decomposition.PCA(n_components = 4)
+#            
+#            weights_reduced = pca.fit_transform(allw[ww1][ww2])
+            
+            weights_reduced = allw[ww1][ww2]
+#            nBins = int(12)
+#            nPerBin = int(180/nBins)
+#            binned_labs = np.reshape(np.arange(0,180,1), [nBins,nPerBin])
+#            
+#            legend_labs = [];
+            myinds = np.where(noiselist==nn)[0]
+                
+            plt.figure()
+            for sf in range(nSF):
+                myinds = np.where(np.logical_and(phaselist==1,np.logical_and(sflist==sf, noiselist==nn)))[0]
+             
+                sc = plt.scatter(weights_reduced[myinds,0], weights_reduced[myinds,1],
+                                 c=actual_labels[myinds,0],
+                                 vmin = 0,vmax = 180, cmap=c_map,marker=markers[sf])
+                
+#            plt.figure(1)
+            ax = plt.gca()               
+            plt.title('PC 2 versus 1, %s-%s, noise=%.2f' % (layer_labels[ww1], timepoint_labels[ww2], noise_levels[nn]))
+            plt.xlabel('PC1')
+            plt.ylabel('PC2')
+            plt.colorbar(sc,ticks=[0,45,90,135,180])
+            
+            figname = os.path.join(figfolder, '%s_zeronoise_PC1_vs_PC2.eps' % (layer_labels[ww1]))
+            plt.savefig(figname, format='eps')
+#            plt.legend(legend_labs, bbox_to_anchor = (1,1))
+#            box = ax.get_position()
+#            ax.set_position([box.x0 , box.y0,
+#                             box.width*0.80, box.height])
+#            
+#            plt.figure(2)           
+#            ax = plt.gca()         
+#            plt.title('PC 3 versus 1, %s-%s, noise=%.2f' % (layer_labels[ww1], timepoint_labels[ww2], noise_levels[nn]))
+#            plt.xlabel('PC1')
+#            plt.ylabel('PC3')
+#            plt.legend(legend_labs,bbox_to_anchor = (1,1))
+#            box = ax.get_position()
+#            ax.set_position([box.x0 , box.y0,
+#                             box.width*0.80, box.height])
+#                                   
+#            plt.figure(3)            
+#            ax = plt.gca()           
+#            plt.title('PC4 versus 1, %s-%s, noise=%.2f' % (layer_labels[ww1], timepoint_labels[ww2], noise_levels[nn]))
+#            plt.xlabel('PC1')
+#            plt.ylabel('PC4')
+#            plt.legend(legend_labs,bbox_to_anchor = (1,1))
+#            box = ax.get_position()
+#            ax.set_position([box.x0 , box.y0,
+#                             box.width*0.80, box.height])
+#            
 
 #%% PCA , plotting pts by spatial freq
 plt.close('all')
-layers2plot = [2]
+layers2plot = [4]
 timepts2plot = [0,1]
 noiselevels2plot = [0]
 
