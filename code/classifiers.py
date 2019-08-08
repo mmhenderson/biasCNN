@@ -73,7 +73,7 @@ def ideal_observer_gaussian(trndat, tstdat, labels_train):
 
     return likelihoods, log_likelihoods, labels_predicted
     
-def norm_euc_dist(trndat, tstdat, labels_train):
+def class_norm_euc_dist(trndat, tstdat, labels_train):
     
     """Classify the data in trndat according to labels in labels_train, using
     the normalized Euclidean distance.
@@ -104,27 +104,33 @@ def norm_euc_dist(trndat, tstdat, labels_train):
         neach[cc] = len(np.where(labels_train==conds[cc])[0])
         
     # use this to get the pooled variance for each voxel
-    pooledvar = np.sum((vareach*np.tile(neach-1,[1,npred])),axis=0)/np.sum(neach-1)
     
-    # now loop through test set trials, and find their normalized euclidean
-    # distance to each of the training set condition
-    normEucDistAll = np.zeros([np.shape(tstdat)[0],nconds])
-    for cc in range(nconds):
-
-        tiled_means = np.tile(meanrespeach[cc,:],[np.shape(tstdat)[0],1])
-        tiled_var= np.tile(pooledvar, [np.shape(tstdat)[0],1])
-        sumofsq = np.sum(np.power((tstdat-tiled_means)/tiled_var, 2),axis=1)
-        normEucDistAll[:,cc] = np.sqrt(sumofsq)
-            
-    # finally, assign a label to each of your testing set trials, choosing from
-    # the original labels in group
-    column_inds = np.argmin(normEucDistAll, axis=1)
-    labels_predicted = np.zeros(np.shape(column_inds))
+def get_norm_euc_dist(dat1,dat2):
     
-    # make sure these map back into native label space
-    un = np.unique(column_inds)
-    for uu in range(len(un)):
-       
-        labels_predicted[np.where(column_inds==un[uu])] = conds[un[uu]]
+    """Calculate the normalized euclidean distance (d') between the means of
+    two clouds of data points.
 
-    return normEucDistAll, labels_predicted, pooledvar
+    Args:
+      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
+      dat2: [nPts2 x nWeights] 
+     
+    Returns:
+       normEucDist (single value)
+    """
+
+
+    npts1 = np.shape(dat1)[0]
+    npts2 = np.shape(dat2)[0]
+
+    var1 = np.var(dat1,0)
+    var2 = np.var(dat2,0)
+    
+    pooled_var = (var1*(npts1-1)+var2*(npts2-1))/(npts1-1+npts2-1)
+    
+    mean1 = np.mean(dat1,0)
+    mean2 = np.mean(dat2,0)
+    
+    sq = np.power(mean1-mean2,2)/pooled_var
+    normEucDist = np.sqrt(np.sum(sq))
+
+    return normEucDist

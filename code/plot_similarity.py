@@ -15,7 +15,8 @@ from matplotlib import cm
    
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'inception_oriTst1';
+#model_str = 'inception_oriTst1';
+model_str = 'vgg16_oriTst1';
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
