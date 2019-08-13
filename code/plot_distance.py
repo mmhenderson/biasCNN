@@ -21,11 +21,11 @@ import numpy as np
 #model_str = 'inception_oriTst1'
 #model_name_2plot = 'Inception-V3'
 
-model_str = 'nasnet_oriTst1'
-model_name_2plot = 'NASnet'
+#model_str = 'nasnet_oriTst1'
+#model_name_2plot = 'NASnet'
 
-#model_str = 'vgg16_oriTst1'
-#model_name_2plot = 'VGG-16'
+model_str = 'vgg16_oriTst4'
+model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
@@ -68,7 +68,7 @@ ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
 
-sf = 3 # spat freq
+sf = 0 # spat freq
 tt = 0
 
 plt.figure()
@@ -127,7 +127,7 @@ ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
 
-sf = 3 # spat freq
+sf = 0 # spat freq
 tt = 0
 
 plt.figure()
