@@ -1,10 +1,10 @@
 % make a bunch of gratings at different orientations, save as images in my
 % folder under biasCNN project
 
-rndseed = 123423;
+rndseed = 235434;
 rng(rndseed)
 
-root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_4/';
+root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_5a/';
 if ~isdir(root_save)
     mkdir(root_save)
 end
@@ -13,12 +13,12 @@ p.ppd = 10;
 
 % what spatial frequencies do you want? these will each be in a separate
 % folder.
-my_freqs_cpd = logspace(log10(1.25), log10(3.88), 3);
+my_freqs_cpd = [2.20];
 my_freqs_cpp = my_freqs_cpd/p.ppd; 
 my_periods_ppc = 1./my_freqs_cpp;
 
 % specify different amounts of noise
-noise_levels = [0.2];
+noise_levels = [0.2,0.4,0.6];
 
 % how many random phases do you want to make? 4 
 numInstances = 16;
@@ -74,8 +74,8 @@ for nn = 1:length(noise_levels)
         p.TargOrient = linspace(0,179,180);
 
         for tt=1:length(p.TargOrient)
-            p.PhaseJitter = randsample(0:179,numInstances)*(pi/180);
-%             p.PhaseJitter = zeros(numInstances,1);
+%             p.PhaseJitter = randsample(0:179,numInstances)*(pi/180);
+            p.PhaseJitter = zeros(numInstances,1);
             for pp = 1:numInstances
 
                 %% make the full field grating
@@ -97,7 +97,7 @@ for nn = 1:length(noise_levels)
                 %Give the grating the right contrast level and scale it
                 image2 = max(0,min(255,p.MyGrey+p.MyGrey*(p.Contrast* stim)))/255;
 
-                fn2save = [thisdir, 'Gaussian_randphase' num2str(pp) '_' sprintf('%d', p.TargOrient(tt)) 'deg.png'];
+                fn2save = [thisdir, 'Gaussian_fixedphase' num2str(pp) '_' sprintf('%d', p.TargOrient(tt)) 'deg.png'];
                 imwrite(image2, fn2save)
                 fprintf('saving to %s...\n', fn2save)
             end

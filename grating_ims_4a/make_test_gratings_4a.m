@@ -1,10 +1,10 @@
 % make a bunch of gratings at different orientations, save as images in my
 % folder under biasCNN project
 
-rndseed = 123423;
+rndseed = 797842;
 rng(rndseed)
 
-root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_4/';
+root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_4a/';
 if ~isdir(root_save)
     mkdir(root_save)
 end
@@ -74,8 +74,8 @@ for nn = 1:length(noise_levels)
         p.TargOrient = linspace(0,179,180);
 
         for tt=1:length(p.TargOrient)
-            p.PhaseJitter = randsample(0:179,numInstances)*(pi/180);
-%             p.PhaseJitter = zeros(numInstances,1);
+%             p.PhaseJitter = randsample(0:179,numInstances)*(pi/180);
+            p.PhaseJitter = zeros(numInstances,1);
             for pp = 1:numInstances
 
                 %% make the full field grating
@@ -97,7 +97,7 @@ for nn = 1:length(noise_levels)
                 %Give the grating the right contrast level and scale it
                 image2 = max(0,min(255,p.MyGrey+p.MyGrey*(p.Contrast* stim)))/255;
 
-                fn2save = [thisdir, 'Gaussian_randphase' num2str(pp) '_' sprintf('%d', p.TargOrient(tt)) 'deg.png'];
+                fn2save = [thisdir, 'Gaussian_fixedphase' num2str(pp) '_' sprintf('%d', p.TargOrient(tt)) 'deg.png'];
                 imwrite(image2, fn2save)
                 fprintf('saving to %s...\n', fn2save)
             end

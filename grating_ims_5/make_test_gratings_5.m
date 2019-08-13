@@ -1,10 +1,10 @@
 % make a bunch of gratings at different orientations, save as images in my
 % folder under biasCNN project
 
-rndseed = 123423;
+rndseed = 678723;
 rng(rndseed)
 
-root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_4/';
+root_save = '/usr/local/serenceslab/maggie/biasCNN/grating_ims_5/';
 if ~isdir(root_save)
     mkdir(root_save)
 end
@@ -13,12 +13,12 @@ p.ppd = 10;
 
 % what spatial frequencies do you want? these will each be in a separate
 % folder.
-my_freqs_cpd = logspace(log10(1.25), log10(3.88), 3);
+my_freqs_cpd = [2.20];
 my_freqs_cpp = my_freqs_cpd/p.ppd; 
 my_periods_ppc = 1./my_freqs_cpp;
 
 % specify different amounts of noise
-noise_levels = [0.2];
+noise_levels = [0.2,0.4,0.6];
 
 % how many random phases do you want to make? 4 
 numInstances = 16;
