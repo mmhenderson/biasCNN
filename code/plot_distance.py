@@ -24,7 +24,7 @@ import numpy as np
 #model_str = 'nasnet_oriTst1'
 #model_name_2plot = 'NASnet'
 
-model_str = 'vgg16_oriTst4'
+model_str = 'vgg16_oriTst4a'
 model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -68,7 +68,7 @@ ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
 
-sf = 0 # spat freq
+sf = 1 # spat freq
 tt = 0
 
 plt.figure()
@@ -114,7 +114,7 @@ for ww1 in layers2plot:
     else:
         plt.xticks([])
    
-    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f, noise=%.2f' % (stim_types[tt],sf_vals[sf],noise_levels[nn]))
+    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f, noise=%.2f' % (model_str,stim_types[tt],sf_vals[sf],noise_levels[nn]))
              
     xx=xx+1
    
@@ -436,7 +436,7 @@ ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
 #layers2plot = [6, 12]
-sf = 0 # spat freq
+sf = 2 # spat freq
 tt = 0
 nn = 0
 
