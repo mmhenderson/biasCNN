@@ -15,8 +15,8 @@ from matplotlib import cm
    
 #%% get the data ready to go...then can run any below cells independently.
 
-#model_str = 'inception_oriTst1';
-model_str = 'vgg16_oriTst1';
+#model_str = 'inception_oriTst2a';
+model_str = 'vgg16_oriTst2a';
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
@@ -183,8 +183,8 @@ plt.close('all')
 layers2plot = np.arange(10,20,2)
 timepts2plot = np.arange(0,1)
 noiselevels2plot = [0]
-#ori2plot = np.arange(80,101,1)
-ori2plot = np.arange(35,56,1)
+ori2plot = np.arange(80,101,1)
+#ori2plot = np.arange(35,56,1)
 
 #clist = cm.plasma(np.linspace(0,1,12))
 clist = cm.plasma(np.linspace(0,1,np.size(ori2plot)))
@@ -217,14 +217,14 @@ for ww1 in layers2plot:
                 
                 myinds = np.where(np.logical_and(orilist==ori2plot[oo],np.logical_and(sflist==sf, noiselist==nn)))[0]
              
-                if ori2plot[oo]==45:
+                if ori2plot[oo]==90:
                     mark = markers[0]
                 else:
                     mark = markers[3]
                 sc = plt.scatter(weights_reduced[myinds,pc2plot[0]], weights_reduced[myinds,pc2plot[1]],
                                  c=[clist[oo,:],],marker=mark)
-                sc = plt.scatter(np.mean(weights_reduced[myinds,pc2plot[0]],0), np.mean(weights_reduced[myinds,pc2plot[1]],0), 
-                                c=[clist[oo,:],],marker=mark)
+#                sc = plt.scatter(np.mean(weights_reduced[myinds,pc2plot[0]],0), np.mean(weights_reduced[myinds,pc2plot[1]],0), 
+#                                c=[clist[oo,:],],marker=mark)
                 h.append(sc)
                 allpts[oo,:] = [np.mean(weights_reduced[myinds,pc2plot[0]],0), np.mean(weights_reduced[myinds,pc2plot[1]],0)]
                 

@@ -11,6 +11,7 @@ Also this verifies that the early layers of network are frozen when we re-train 
 Exception is any tensors with moving_mean or moving_variance...these differ on each training iteration because batch normalization happens on each batch of ims.
 
 """
+
 import tensorflow as tf
 import os 
 
@@ -22,19 +23,21 @@ from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoi
 from tensorflow.contrib.framework import arg_scope as arg_scope
 from tensorflow.python import pywrap_tensorflow
 
-from slim.nets import inception_v3 as inception_v3
+import slim.nets.vgg as vgg
+from slim.nets.vgg import vgg_16 as vgg_16
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
 
-ckptfile1 = os.path.join(root, 'logs', 'inception_oriTrn1_short','model.ckpt-1')
-metafile1 = os.path.join(root, 'logs', 'inception_oriTrn1_short','model.ckpt-1.meta')
+ckptfile1 = os.path.join(root, 'logs', 'vgg16_oriTrn2_short','model.ckpt-1')
+metafile1 = os.path.join(root, 'logs', 'vgg16_oriTrn2_short','model.ckpt-1.meta')
 
 
-ckptfile2 = os.path.join(root, 'logs', 'inception_oriTrn1_long','model.ckpt-10000')
-metafile2 = os.path.join(root, 'logs', 'inception_oriTrn1_long','model.ckpt-10000.meta')
+ckptfile2 = os.path.join(root, 'logs', 'vgg16_oriTrn2_long','model.ckpt-10000')
+metafile2 = os.path.join(root, 'logs', 'vgg16_oriTrn2_long','model.ckpt-10000.meta')
 
-ckptfile3 = os.path.join(root, 'checkpoints', 'inception_ckpt', 'inception_v3.ckpt')
+
+ckptfile3 = os.path.join(root, 'checkpoints', 'vgg16_ckpt', 'vgg_16.ckpt')
 
 #%% print list of all tensors
 # Load a .ckpt file for the model after some amount of training, inspect the checkpoint file using a tensorflow built-in function.
@@ -50,13 +53,12 @@ ind = 0 # can change this to other numbers
 tensor_list = list(var_to_shape_map.keys())
 tensors2check = []
 for kk in tensor_list:
-    # i'm choosing a random cell here to look at, there are a ton of tensors in this model so it takes forever to check all of them. but you could.
-    if ('Mixed_7b' in kk): 
+    if (not 'global_step' in kk) & (not 'RMSProp' in kk): 
         tensors2check.append('%s:%d' %(kk,ind))
 
 # here we'll store the weights for each of these tensors
 w_check = []
- 
+
 #%% get the weights of each layer, before any re-training
 
 tf.reset_default_graph()
@@ -91,11 +93,11 @@ with tf.Session() as sess:
         w_2.append(sess.run(g.get_tensor_by_name(tensors2check[tt])))
         
     w_check.append(w_2)
-    
+
 #%% get out the activations for same image set, before and after training
 # these activation measurements were saved out by "eval_image_classifier_MMH_biasCNN.py"
 # they have already been subjected to PCA within layer
-model_str = 'inception_oriTst1';
+model_str = 'vgg16_oriTst1';
 
 import load_activations
 #allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
@@ -121,7 +123,7 @@ for l1 in [2,5,8]:
         corrs.append(r)
     
 #%% evaluate the original model before we did anything to it
-# don't have a meta file here so we have to use the .py file to define the graph 
+# don't have a meta file here so we have to use the .py file to define the graph
 
 # note this block of code will NOT run for the model once we've re-trained it, because the sizes of the logits layer are different 
 # since we specified 180 possible labels in orientation space and the original model has 1001. 
@@ -145,26 +147,23 @@ with tf.Session() as sess:
          
         # this argscope line seems to be very important, otherwise the checkpoint doesn't get loaded correctly.
        
-        with arg_scope(inception_v3.inception_v3_arg_scope()):
+        with arg_scope(vgg.vgg_arg_scope()):
 #            
             inputs = tf.placeholder(tf.float32, shape=(batch_size,
                                                          image_size, image_size, 3))
             
-            logits =  inception_v3.inception_v3(inputs, num_classes=1001, is_training=False,
-                 dropout_keep_prob=0.8,
-                 reuse=None,
-                 scope='InceptionV3',
-                 create_aux_logits=True)
+            logits = vgg_16(inputs, num_classes=1000,
+                       is_training=False,spatial_squeeze=False)
             
             test_vars = []
             for tt in range(np.size(tensors2check)):
                 
                 test_vars.append(graph.get_tensor_by_name(tensors2check[tt]))
-           
+            
         # restore the model from saved checkpt
         saver = tf.train.Saver()
         saver.restore(sess, ckptfile3)
-      
+        
         #% first run one set of images through the network...get activations
         mydict = {'Placeholder:0': images}
     
@@ -216,18 +215,19 @@ with tf.Session() as sess:
 
 # these should be the same
 for aa in range(np.size(activ2check)):
-    print(np.array_equal(a_check[0][aa][0:batch_size-1,:], a_check[1][aa][0:batch_size-1,:]))
+    print(np.array_equal(a_check[0][aa][0:batch_size-1,:,:,:], a_check[1][aa][0:batch_size-1,:,:,:]))
   
 # these should be different (last image was actually different)
 for aa in range(np.size(activ2check)):
-    print(np.array_equal(a_check[0][aa][batch_size-1,:], a_check[1][aa][batch_size-1,:]))
+    print(np.array_equal(a_check[0][aa][batch_size-1,:,:,:], a_check[1][aa][batch_size-1,:,:,:]))
   
-#%% print out the comparisons between all these
-# all are the same except for the moving mean and moving variance
- 
+ #%% print out the comparisons between all these
+ # all are same except for fc8, which was fine-tuned.
 for tt in range(np.size(tensors2check)):
-    print('%s:%s' %(np.array_equal(w_check[0][tt],w_check[1][tt]), tensors2check[tt]))
-    
+    print(tensors2check[tt])
+    print(np.array_equal(w_check[0][tt],w_check[1][tt]))
+  
 for tt in range(np.size(tensors2check)):
-    print('%s:%s' %(np.array_equal(w_check[0][tt],w_check[1][tt]), tensors2check[tt]))
-    
+    print(tensors2check[tt])
+    print(np.array_equal(w_check[0][tt],w_check[2][tt]))
+  

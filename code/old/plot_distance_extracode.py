@@ -24,7 +24,7 @@ import numpy as np
 #model_str = 'nasnet_oriTst1'
 #model_name_2plot = 'NASnet'
 
-model_str = 'vgg16_oriTst2'
+model_str = 'vgg16_oriTst3'
 model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -59,138 +59,8 @@ nNoiseLevels = info['nNoiseLevels']
 
 actual_labels = orilist
 
-#%% plot predicted vs actual labels
-
-plt.close('all')
-
-noiselevels2plot = np.arange(nNoiseLevels)
-
-un = np.unique(actual_labels)
-
-for nn in noiselevels2plot:
-
-    ind_bool = noiselist==nn
     
-    avg_pred = np.zeros(np.shape(un))
-    std_pred = np.zeros(np.shape(un))
-    avg_pred_before = np.zeros(np.shape(un))
-    std_pred_before = np.zeros(np.shape(un))
-    
-    pred_labels = all_labs[0][1]
-    pred_labels_before = all_labs[0][0]
-    
-    for uu in range(len(un)):
-        
-        myinds = np.where(np.logical_and(actual_labels==un[uu], ind_bool))[0]
-        
-        avg_pred[uu] = scipy.stats.circmean(pred_labels[myinds], high=180,low=0)
-        std_pred[uu] = scipy.stats.circstd(pred_labels[myinds], high=180,low=0)
-        avg_pred_before[uu] = scipy.stats.circmean(pred_labels_before[myinds], high=180,low=0)
-        std_pred_before[uu] = scipy.stats.circstd(pred_labels_before[myinds], high=180,low=0)
-        
-    plt.figure()
-    plt.scatter(un,avg_pred_before)
-    
-    plt.scatter(un,avg_pred)
-    
-    plt.axis('equal')
-    plt.xlim([0,180])
-    plt.ylim([0,180])
-    
-    plt.title('Predicted labels versus actual labels\nAll stims, noise=%.2f' % noise_levels[nn])
-    plt.legend(['before retraining','after retraining'])
-    plt.plot([0,180],[0,180],'k-')
-    plt.plot([90,90],[0,180],'k-')
-
-#%% plot variability in predictions
-
-plt.close('all')
-
-noiselevels2plot = np.arange(nNoiseLevels)
-
-un = np.unique(actual_labels)
-
-for nn in noiselevels2plot:
-
-    ind_bool = noiselist==nn
-    
-    avg_pred = np.zeros(np.shape(un))
-    std_pred = np.zeros(np.shape(un))
-    avg_pred_before = np.zeros(np.shape(un))
-    std_pred_before = np.zeros(np.shape(un))
-    
-    pred_labels = all_labs[0][1]
-    pred_labels_before = all_labs[0][0]
-    
-    for uu in range(len(un)):
-        
-        myinds = np.where(np.logical_and(actual_labels==un[uu], ind_bool))[0]
-        
-        avg_pred[uu] = scipy.stats.circmean(pred_labels[myinds], high=180,low=0)
-        std_pred[uu] = scipy.stats.circstd(pred_labels[myinds], high=180,low=0)
-        avg_pred_before[uu] = scipy.stats.circmean(pred_labels_before[myinds], high=180,low=0)
-        std_pred_before[uu] = scipy.stats.circstd(pred_labels_before[myinds], high=180,low=0)
-        
-        
-    plt.figure()
-#    plt.errorbar(un,avg_pred_before,std_pred_before)
-    plt.errorbar(un,avg_pred,std_pred)
-
-    plt.axis('equal')
-    plt.xlim([0,180])
-#    plt.ylim([0,180])
-    
-    plt.title('Predicted labels versus actual labels\nAll stims, noise=%.2f' % noise_levels[nn])
-#    plt.legend(['before retraining','after retraining'])
-    plt.plot([0,180],plt.get(plt.gca(),'xlim'),'k-')
-    plt.plot([90,90],plt.get(plt.gca(),'xlim'),'k-')
-    plt.plot([0,0],plt.get(plt.gca(),'xlim'),'k-')
-    plt.plot([180,180],plt.get(plt.gca(),'xlim'),'k-')
-    plt.plot([45,45],plt.get(plt.gca(),'xlim'),'k-')
-    plt.plot([135,135],plt.get(plt.gca(),'xlim'),'k-')
-    plt.xlabel('actual')
-    plt.ylabel('predicted')
-
-#%% plot predicted vs actual labels - within each stim type and spat freq
-plt.close('all')
-nn=0
-
-pred_labels = all_labs[0][1]
-pred_labels_before = all_labs[0][0]
-    
-
-for tt in range(len(stim_types)):
-    for sf in range(len(sf_vals)):
-
-        myinds_bool = np.logical_and(np.logical_and(typelist==tt, sflist==sf), noiselist==nn)
-        
-        un = np.unique(actual_labels)
-        avg_pred = np.zeros(np.shape(un))
-        std_pred = np.zeros(np.shape(un))
-        avg_pred_before = np.zeros(np.shape(un))
-        std_pred_before = np.zeros(np.shape(un))
-        
-        
-
-        for uu in range(len(un)):
-            avg_pred[uu] = scipy.stats.circmean(pred_labels[np.where(np.logical_and(actual_labels==un[uu], myinds_bool))], high=179,low=0)
-            std_pred[uu] = scipy.stats.circstd(pred_labels[np.where(np.logical_and(actual_labels==un[uu], myinds_bool))], high=179,low=0)
-            avg_pred_before[uu] = scipy.stats.circmean(pred_labels_before[np.where(np.logical_and(actual_labels==un[uu], myinds_bool))], high=179,low=0)
-            std_pred_before[uu] = scipy.stats.circstd(pred_labels_before[np.where(np.logical_and(actual_labels==un[uu], myinds_bool))], high=179,low=0)
-            
-        plt.figure()
-#        plt.errorbar(un,avg_pred,std_pred)
-        plt.scatter(un,avg_pred)
-#        plt.scatter(un,avg_pred_before)
-        plt.axis('equal')
-        plt.xlim([0,180])
-        plt.ylim([0,180])
-        plt.plot([0,180],[0,180],'k-')
-        plt.plot([90,90],[0,180],'k-')
-        plt.title('After retraining, noise=%.2f\n predicted labels versus actual labels, %s, SF=%.2f' % (noise_levels[nn], stim_types[tt],sf_vals[sf]))
-
-
-#%% Plot the standardized euclidean distance, within spatial frequency and noise level
+#%% Plot the standardized euclidean distance, within a single spatial frequency and noise level
  
 plt.close('all')
 nn=0
@@ -204,104 +74,31 @@ tt = 0
 plt.figure()
 xx=1
 
-#steps = np.arange(0,5,1)
-steps = [0]
-for ww1 in layers2plot:
-
-    w = allw[ww1][ww2]
-    
-    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
-#    myinds_bool = np.all([typelist==tt, noiselist==nn],axis=0)
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-    disc = np.zeros([np.shape(un)[0],np.size(steps)])
-    sd_disc = np.zeros([np.shape(un)[0],np.size(steps)])
- 
-    for ii in np.arange(0,np.size(un)):
-    
-         # first find the position of all gratings with this exact label
-        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
-        
-        for ss in steps:
-                
-            # then find the positions of nearest neighbor gratings
-            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-(ss+1), 180), myinds_bool))[0]        
-            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+(ss+1), 180), myinds_bool))[0]
-            
-            dist_left = classifiers.get_norm_euc_dist(w[inds,:],w[inds_left,:])
-            dist_right = classifiers.get_norm_euc_dist(w[inds,:],w[inds_right,:])
-            
-            disc[ii,ss] = np.mean([dist_left,dist_right])
-            sd_disc[ii,ss] = np.std([dist_left,dist_right])
-       
-    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
-
-    for ss in steps:
-        plt.errorbar(un,disc[:,ss], sd_disc[:,ss])
-
-    plt.title('%s' % (layer_labels[ww1]))
-    if ww1==layers2plot[-1]:
-        plt.xlabel('actual orientation of grating')
-        plt.ylabel('discriminability (std. euc dist)')
-        plt.legend(['%d deg apart'%(steps[ss]+1) for ss in range(np.size(steps))])
-    else:
-        plt.xticks([])
-   
-    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f, noise=%.2f' % (stim_types[tt],sf_vals[sf],noise_levels[nn]))
-             
-    xx=xx+1
-    
-
-
-#%% Plot the standardized euclidean distance, centering on the mean of two bins, within spatial frequency and noise level
- 
-plt.close('all')
-nn=0
-ww2 = 0;
-
-layers2plot = np.arange(0,nLayers,1)
-
-sf = 2 # spat freq
-tt = 0
-
-plt.figure()
-xx=1
-
-steps = np.arange(1,2,2)
+steps = [1]
 legendlabs = ['%d deg apart'%(steps[ss]) for ss in range(np.size(steps))]
 
-
-#steps = [0]
 for ww1 in layers2plot:
 
     w = allw[ww1][ww2]
     
     myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
-#    myinds_bool = np.all([typelist==tt, noiselist==nn],axis=0)
+    
     un,ia = np.unique(actual_labels, return_inverse=True)
     assert np.all(np.expand_dims(ia,1)==actual_labels)
     
      
     disc = np.zeros([np.shape(un)[0],np.size(steps)])
-#    sd_disc = np.zeros([np.shape(un)[0],np.size(steps)])
 
     for ii in np.arange(0,np.size(un)):
-    
-#        # first find the position of all gratings with this exact label
-#        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
-#        
         for ss in range(np.size(steps)):
                 
-            # then find the positions of nearest neighbor gratings
+            # find all gratings at the positions of interest
             inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-(np.floor(steps[ss]/2)), 180), myinds_bool))[0]        
             inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+(np.ceil(steps[ss]/2)), 180), myinds_bool))[0]
             
             dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
-#            dist_right = classifiers.get_norm_euc_dist(w[inds,:],w[inds_right,:])
-            
+ 
             disc[ii,ss] = dist
-#            sd_disc[ii,ss] = np.std([dist_left,dist_right])
 
     plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
 
@@ -318,6 +115,62 @@ for ww1 in layers2plot:
         plt.xticks([])
    
     plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f, noise=%.2f' % (stim_types[tt],sf_vals[sf],noise_levels[nn]))
+             
+    xx=xx+1
+   
+#%%  Plot the standardized euclidean distance, within spatial freq and noise level
+# Overlay noise levels
+ 
+plt.close('all')
+noise2plot=[0]
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+
+sf = 2 # spat freq
+tt = 0
+
+plt.figure()
+xx=1
+
+legendlabs = ['noise=%.2f'%(noise_levels[nn]) for nn in noise2plot]
+
+for ww1 in layers2plot:
+
+    w = allw[ww1][ww2]
+    
+    for nn in range(np.size(noise2plot)):
+            
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==noise2plot[nn]], axis=0)  
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+ 
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+        
+            # find gratings at the orientations of interest
+            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+            
+            dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+
+            disc[ii] = dist
+    
+        plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
+    
+        plt.plot(np.mod(un+0.5, 180),disc)
+
+
+    plt.title('%s' % (layer_labels[ww1]))
+    if ww1==layers2plot[-1]:
+        plt.xlabel('actual orientation of grating')
+        plt.ylabel('discriminability (std. euc dist)')
+        plt.legend(legendlabs)
+    else:
+        plt.xticks([])
+   
+    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f' % (stim_types[tt],sf_vals[sf]))
              
     xx=xx+1
    
@@ -394,8 +247,70 @@ for ww1 in layers2plot:
     xx=xx+1
 
     
+    
+#%% Plot the standardized euclidean distance, across all SF, multiple orientation steps
+ 
+plt.close('all')
+nn=0
+ww2 = 1;
 
-#%% Plot the standardized euclidean distance, centering on the average of the two compared orientations (even numbered bins), across all SF.
+layers2plot = np.arange(0,nLayers,1)
+
+tt = 0
+
+plt.figure()
+xx=1
+steps = np.arange(0,5,1)
+legendlabs = ['%d deg apart'%(steps[ss]+1) for ss in range(np.size(steps))]
+
+for ww1 in layers2plot:
+
+    w = allw[ww1][ww2]
+    
+    myinds_bool = np.all([typelist==tt, noiselist==nn],axis=0)
+    un,ia = np.unique(actual_labels, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==actual_labels)
+    
+    disc = np.zeros([np.shape(un)[0],np.size(steps)])
+    sd_disc = np.zeros([np.shape(un)[0],np.size(steps)])
+
+    for ii in np.arange(0,np.size(un)):
+    
+        # first find the position of all gratings with this exact label
+        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
+        
+        for ss in steps:
+                
+            # then find the positions of nearest neighbor gratings
+            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-(ss+1), 180), myinds_bool))[0]        
+            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+(ss+1), 180), myinds_bool))[0]
+            
+            dist_left = classifiers.get_norm_euc_dist(w[inds,:],w[inds_left,:])
+            dist_right = classifiers.get_norm_euc_dist(w[inds,:],w[inds_right,:])
+            
+            disc[ii,ss] = np.mean([dist_left,dist_right])
+            sd_disc[ii,ss] = np.std([dist_left,dist_right])
+
+    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
+
+    for ss in range(np.size(steps)):
+        plt.errorbar(un,disc[:,ss], sd_disc[:,ss])
+
+    plt.title('%s' % (layer_labels[ww1]))
+    if ww1==layers2plot[-1]:
+        plt.xlabel('actual orientation of grating')
+        plt.ylabel('discriminability (std. euc dist)')
+        plt.legend(legendlabs)
+    else:
+        plt.xticks([])
+
+    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, all SF, noise=%.2f' % (stim_types[tt],noise_levels[nn]))
+             
+    xx=xx+1
+    
+     
+#%% Plot the standardized euclidean distance, centering on the average of the 
+# two compared orientations (even numbered bins), across all SF.
  
 plt.close('all')
 nn=0
@@ -455,7 +370,8 @@ for ww1 in layers2plot:
              
     xx=xx+1
     
-#%% Plot the standardized euclidean distance, centering on the average of the two compared orientations (odd numbered bins), across all SF.
+#%% Plot the standardized euclidean distance, centering on the average of the 
+# two compared orientations (odd numbered bins), across all SF.
  
 plt.close('all')
 nn=0
@@ -640,7 +556,7 @@ plt.yticks(np.arange(0,180,45))
  
 plt.close('all')
 nn=0
-ww2 = 0;
+ww2 = 1;
 ww1 = 14
 tt = 0
 
@@ -679,68 +595,7 @@ plt.ylabel('orientation 2')
 plt.xticks(np.arange(0,180,45),np.arange(0,180,45))
 plt.yticks(np.arange(0,180,45),np.arange(0,180,45))
         
-    
-#%% Plot the standardized euclidean distance, across all SF, multiple orientation steps
- 
-plt.close('all')
-nn=0
-ww2 = 0;
 
-layers2plot = np.arange(0,nLayers,1)
-
-tt = 0
-
-plt.figure()
-xx=1
-steps = np.arange(0,5,1)
-legendlabs = ['%d deg apart'%(steps[ss]+1) for ss in range(np.size(steps))]
-
-for ww1 in layers2plot:
-
-    w = allw[ww1][ww2]
-    
-    myinds_bool = np.all([typelist==tt, noiselist==nn],axis=0)
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-    disc = np.zeros([np.shape(un)[0],np.size(steps)])
-    sd_disc = np.zeros([np.shape(un)[0],np.size(steps)])
-
-    for ii in np.arange(0,np.size(un)):
-    
-        # first find the position of all gratings with this exact label
-        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
-        
-        for ss in steps:
-                
-            # then find the positions of nearest neighbor gratings
-            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-(ss+1), 180), myinds_bool))[0]        
-            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+(ss+1), 180), myinds_bool))[0]
-            
-            dist_left = classifiers.get_norm_euc_dist(w[inds,:],w[inds_left,:])
-            dist_right = classifiers.get_norm_euc_dist(w[inds,:],w[inds_right,:])
-            
-            disc[ii,ss] = np.mean([dist_left,dist_right])
-            sd_disc[ii,ss] = np.std([dist_left,dist_right])
-
-    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
-
-    for ss in range(np.size(steps)):
-        plt.errorbar(un,disc[:,ss], sd_disc[:,ss])
-
-    plt.title('%s' % (layer_labels[ww1]))
-    if ww1==layers2plot[-1]:
-        plt.xlabel('actual orientation of grating')
-        plt.ylabel('discriminability (std. euc dist)')
-        plt.legend(legendlabs)
-    else:
-        plt.xticks([])
-
-    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, all SF, noise=%.2f' % (stim_types[tt],noise_levels[nn]))
-             
-    xx=xx+1
-    
-     
 #%% Plot the standardized euclidean distance, across a subset of SF, multiple orientation steps
  
 plt.close('all')
@@ -925,12 +780,12 @@ ww2 = 0;
 layers2plot = np.arange(0,nLayers,1)
 #layers2plot = [8,9]
 #layers2plot = []
-sf =0 # spat freq
+sf = 3 # spat freq
 tt = 0
 
 plt.figure()
 xx=1
-units = np.arange(0,5,1)
+units = np.arange(0,15,1)
 #units = [0]
 legendlabs = ['unit %d' %(ii+1) for ii in units]
 
@@ -1111,223 +966,6 @@ for ww1 in layers2plot:
         plt.xticks([])
                  
     plt.suptitle('Variance of individual unit''s response to different phases at the same orientation\n%s, all SF and noise levels' % (stim_types[tt]))
-             
-    xx=xx+1
-    
-#%% Compare within bin/across neighboring bin similarity
- 
-plt.close('all')
-nn=0
-ww2 = 0;
-
-layers2plot = np.arange(0,nLayers,1)
-#layers2plot = []
-sf = 3 # spat freq
-tt = 0
-
-plt.figure()
-xx=1
-
-for ww1 in layers2plot:
-
-    # first get my covariance matrix, across all images. 
-#    my_cov = np.cov(np.transpose(allw[ww1][ww2]))
-#    my_cov_inv = np.linalg.inv(my_cov)
-     
-    
-    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
-    
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-    disc_neighbor = np.zeros(np.shape(un))
-    sd_disc_neighbor = np.zeros(np.shape(un))
-    
-    disc_same = np.zeros(np.shape(un))
-    sd_disc_same = np.zeros(np.shape(un))
-#    t_disc = np.zeros(np.shape(un))
-    
-    for ii in np.arange(0,np.size(un)):
-    
-         # first find the position of all gratings with this exact label
-        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
-
-        # then find the positions of nearest neighbor gratings
-        inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-1, 180), myinds_bool))[0]        
-        inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
-        
-        all_mahal_dist = []
-        
-        for pp in range(np.size(inds)):
-            
-            for pp2 in np.arange(pp+1,np.size(inds)):
-                
-                # get mahalanobis distance, feeding in my full covariance matrix computed above.
-                # this gives the same output as: 
-                # np.sqrt(np.dot(np.dot((x-y), my_cov_inv), np.transpose(x-y)))
-                this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds[pp2],:], VI=my_cov_inv)
-                all_mahal_dist.append(this_dist)
-                
-        disc_same[ii] = np.mean(all_mahal_dist)
-        sd_disc_same[ii] = np.std(all_mahal_dist)
-        
-        all_mahal_dist = []
-        
-        for pp in range(np.size(inds)):
-            
-            for left  in range(np.size(inds_left)):
-                
-                # get mahalanobis distance, feeding in my full covariance matrix computed above.
-                # this gives the same output as: 
-                # np.sqrt(np.dot(np.dot((x-y), my_cov_inv), np.transpose(x-y)))
-                this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds_left[left],:], VI=my_cov_inv)
-                all_mahal_dist.append(this_dist)
-                
-            for right  in range(np.size(inds_right)):
-                this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds_right[right],:], VI=my_cov_inv)
-                all_mahal_dist.append(this_dist)
-            
-        disc_neighbor[ii] = np.mean(all_mahal_dist)
-        sd_disc_neighbor[ii] = np.std(all_mahal_dist)
-
-    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
-
-#    plt.scatter(un, disc)
-#    plt.errorbar(un,disc_neighbor, sd_disc_neighbor)
-#    plt.errorbar(un,disc_same, sd_disc_same)
-    plt.plot(un,disc_neighbor)
-    plt.plot(un,disc_same)
-    plt.plot(un,disc_neighbor-disc_same)
-#    plt.plot(un,disc_same)
-    
-    
-    plt.title('%s' % (layer_labels[ww1]))
-    if ww1==layers2plot[-1]:
-        plt.xlabel('actual orientation of grating')
-        plt.ylabel('discriminability (Maha. dist)')
-        plt.legend(['1 degree apart','0 degree apart','subtraction'])
-    else:
-        plt.xticks([])
-                 
-   
-    plt.suptitle('Discriminability (Maha. distance) between pairs of images\n%s, SF=%.2f, noise=%.2f' % (stim_types[tt],sf_vals[sf],noise_levels[nn]))
-             
-    xx=xx+1
-#%% Compare within bin/across neighboring bin similarity
-    
-plt.close('all')
-nn=0
-ww2 = 0;
-
-layers2plot = np.arange(0,nLayers,1)
-#layers2plot = []
-sf = 3 # spat freq
-tt = 0
-
-plt.figure()
-xx=1
-
-nsteps = 5
-#legendlabs = ['0 degree apart']
-legendlabs = []
-for ss in range(nsteps):
-    legendlabs.append('%d degree apart-0 degree apart' % (ss+1))
-    
-for ww1 in layers2plot:
-
-    # first get my covariance matrix, across all images. 
-    my_cov = np.cov(np.transpose(allw[ww1][ww2]))
-    my_cov_inv = np.linalg.inv(my_cov)
-     
-    
-    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
-    
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-    disc_neighbor = np.zeros([np.shape(un)[0],nsteps])
-    sd_disc_neighbor = np.zeros([np.shape(un)[0],nsteps])
-    
-    disc_same = np.zeros(np.shape(un))
-    sd_disc_same = np.zeros(np.shape(un))
-#    t_disc = np.zeros(np.shape(un))
-    
-    for ii in np.arange(0,np.size(un)):
-    
-         # first find the position of all gratings with this exact label
-        inds = np.where(np.logical_and(actual_labels==un[ii], myinds_bool))[0]    
-
-        all_mahal_dist_same = []
-        
-        for pp in range(np.size(inds)):
-            
-            for pp2 in np.arange(pp+1,np.size(inds)):
-                
-                # get mahalanobis distance, feeding in my full covariance matrix computed above.
-                # this gives the same output as: 
-                # np.sqrt(np.dot(np.dot((x-y), my_cov_inv), np.transpose(x-y)))
-                this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds[pp2],:], VI=my_cov_inv)
-                all_mahal_dist_same.append(this_dist)
-                
-#        disc_same[ii] = np.mean(all_mahal_dist_same)
-#        sd_disc_same[ii] = np.std(all_mahal_dist_same)
-        
-        for ss in range(nsteps):
-            
-            all_mahal_dist_diff = []
-            
-            # then find the positions of nearest neighbor gratings
-            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii]-(ss+1), 180), myinds_bool))[0]        
-            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+(ss+1), 180), myinds_bool))[0]
-            
-            for pp in range(np.size(inds)):
-                
-                for left  in range(np.size(inds_left)):
-                    
-                    # get mahalanobis distance, feeding in my full covariance matrix computed above.
-                    # this gives the same output as: 
-                    # np.sqrt(np.dot(np.dot((x-y), my_cov_inv), np.transpose(x-y)))
-                    this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds_left[left],:], VI=my_cov_inv)
-                    all_mahal_dist_diff.append(this_dist)
-                    
-                for right  in range(np.size(inds_right)):
-                    this_dist = scipy.spatial.distance.mahalanobis(allw[ww1][ww2][inds[pp],:],allw[ww1][ww2][inds_right[right],:], VI=my_cov_inv)
-                    all_mahal_dist_diff.append(this_dist)
-                
-#            disc_neighbor[ii,ss] = np.mean(all_mahal_dist_diff)
-#            sd_disc_neighbor[ii,ss] = np.std(all_mahal_dist_diff)
-
-            (t,p) = scipy.stats.ttest_ind(all_mahal_dist_diff,all_mahal_dist_same,equal_var=False)
-            disc_neighbor[ii,ss] = t
-#            sd_disc_neighbor[ii,ss] = scipy.stats.ttest_ind(all_mahal_dist_diff,all_mahal_dist_same,equal_var=False)
-
-    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
-
-#    plt.scatter(un, disc)
-#    plt.errorbar(un,disc_neighbor, sd_disc_neighbor)
-#    plt.errorbar(un,disc_same, sd_disc_same)
-    
-#    plt.plot(un,disc_same)
-    
-    for ss in range(nsteps):
-        plt.plot(un,disc_neighbor[:,ss])
-#    plt.plot(un,disc_neighbor-disc_same)
-#    plt.plot(un,disc_same)
-    
-    
-    plt.title('%s' % (layer_labels[ww1]))
-    if ww1==layers2plot[-1]:
-        plt.xlabel('actual orientation of grating')
-        plt.ylabel('discriminability (t-stat)')
-        plt.legend(legendlabs)
-    else:
-        plt.xticks([])
-                 
-#    ylims = [0,30]
-    plt.ylim(ylims)
-    for ii in np.arange(0,180,45):
-        plt.plot([ii,ii],ylims,'k')
-    plt.suptitle('Discriminability (t-score) between pairs of images\n%s, SF=%.2f, noise=%.2f' % (stim_types[tt],sf_vals[sf],noise_levels[nn]))
              
     xx=xx+1
 

@@ -11,6 +11,7 @@ Also this verifies that the early layers of network are frozen when we re-train 
 Exception is any tensors with moving_mean or moving_variance...these differ on each training iteration because batch normalization happens on each batch of ims.
 
 """
+
 import tensorflow as tf
 import os 
 
@@ -22,19 +23,20 @@ from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoi
 from tensorflow.contrib.framework import arg_scope as arg_scope
 from tensorflow.python import pywrap_tensorflow
 
-from slim.nets import inception_v3 as inception_v3
+from slim.nets.nasnet import nasnet as nasnet
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
 
-ckptfile1 = os.path.join(root, 'logs', 'inception_oriTrn1_short','model.ckpt-1')
-metafile1 = os.path.join(root, 'logs', 'inception_oriTrn1_short','model.ckpt-1.meta')
+ckptfile1 = os.path.join(root, 'logs', 'nasnet_retrained_grating_orient_sf_short','model.ckpt-1')
+metafile1 = os.path.join(root, 'logs', 'nasnet_retrained_grating_orient_sf_short','model.ckpt-1.meta')
 
 
-ckptfile2 = os.path.join(root, 'logs', 'inception_oriTrn1_long','model.ckpt-10000')
-metafile2 = os.path.join(root, 'logs', 'inception_oriTrn1_long','model.ckpt-10000.meta')
+ckptfile2 = os.path.join(root, 'logs', 'nasnet_retrained_grating_orient_sf_long','model.ckpt-10000')
+metafile2 = os.path.join(root, 'logs', 'nasnet_retrained_grating_orient_sf_long','model.ckpt-10000.meta')
 
-ckptfile3 = os.path.join(root, 'checkpoints', 'inception_ckpt', 'inception_v3.ckpt')
+
+ckptfile3 = os.path.join(root, 'checkpoints', 'pnas_ckpt', 'nasnet-a_large_04_10_2017','model.ckpt')
 
 #%% print list of all tensors
 # Load a .ckpt file for the model after some amount of training, inspect the checkpoint file using a tensorflow built-in function.
@@ -51,7 +53,7 @@ tensor_list = list(var_to_shape_map.keys())
 tensors2check = []
 for kk in tensor_list:
     # i'm choosing a random cell here to look at, there are a ton of tensors in this model so it takes forever to check all of them. but you could.
-    if ('Mixed_7b' in kk): 
+    if ('cell_0' in kk): 
         tensors2check.append('%s:%d' %(kk,ind))
 
 # here we'll store the weights for each of these tensors
@@ -95,7 +97,7 @@ with tf.Session() as sess:
 #%% get out the activations for same image set, before and after training
 # these activation measurements were saved out by "eval_image_classifier_MMH_biasCNN.py"
 # they have already been subjected to PCA within layer
-model_str = 'inception_oriTst1';
+model_str = 'nasnet_oriTst1';
 
 import load_activations
 #allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
@@ -119,9 +121,8 @@ for l1 in [2,5,8]:
     for ii in np.arange(0,np.shape(act1)[0],100):
         r,p = scipy.stats.pearsonr(act1[ii,:],act2[ii,:])
         corrs.append(r)
-    
 #%% evaluate the original model before we did anything to it
-# don't have a meta file here so we have to use the .py file to define the graph 
+# don't have a meta file here so we have to use the .py file to define the graph for NASNet
 
 # note this block of code will NOT run for the model once we've re-trained it, because the sizes of the logits layer are different 
 # since we specified 180 possible labels in orientation space and the original model has 1001. 
@@ -145,16 +146,14 @@ with tf.Session() as sess:
          
         # this argscope line seems to be very important, otherwise the checkpoint doesn't get loaded correctly.
        
-        with arg_scope(inception_v3.inception_v3_arg_scope()):
+        with arg_scope(nasnet.nasnet_large_arg_scope()):
 #            
             inputs = tf.placeholder(tf.float32, shape=(batch_size,
                                                          image_size, image_size, 3))
             
-            logits =  inception_v3.inception_v3(inputs, num_classes=1001, is_training=False,
-                 dropout_keep_prob=0.8,
-                 reuse=None,
-                 scope='InceptionV3',
-                 create_aux_logits=True)
+            logits = nasnet.build_nasnet_large(inputs, num_classes=1001,
+                       is_training=False,
+                       final_endpoint=None)
             
             test_vars = []
             for tt in range(np.size(tensors2check)):
@@ -230,4 +229,31 @@ for tt in range(np.size(tensors2check)):
     
 for tt in range(np.size(tensors2check)):
     print('%s:%s' %(np.array_equal(w_check[0][tt],w_check[1][tt]), tensors2check[tt]))
+    
+
+#%% compare moving mean and variance
+plt.close('all')
+mean_inds = np.where(['moving_mean' in tensors2check[tt] for tt in range(np.size(tensors2check))])[0]
+var_inds = np.where(['moving_var' in tensors2check[tt] for tt in range(np.size(tensors2check))])[0]
+
+#for mm in range(np.size(mean_inds)):
+#for mm in [0,1]:
+#    
+#    vals1 = w_check[0][mean_inds[mm]]
+#    vals2 = w_check[1][mean_inds[mm]]
+#    
+#    plt.figure();plt.plot(vals1);plt.plot(vals2)
+#    plt.legend(info['timepoint_labels'])
+#    plt.title('%s'%tensors2check[mean_inds[mm]])
+ 
+for vv in range(np.size(var_inds)):
+        
+    vals1 = w_check[0][var_inds[vv]]
+    vals2 = w_check[1][var_inds[vv]]
+    vals3 = w_check[2][var_inds[vv]]
+    plt.figure();plt.plot(vals1-vals2)
+    plt.plot([0,350],[0,0],'k')
+#    plt.figure();plt.plot(vals1);plt.plot(vals2);plt.plot(vals3);
+#    plt.legend(['short training','long training','original'])
+    plt.title('Short training variance - long training variance\n%s'%tensors2check[var_inds[vv]])
     
