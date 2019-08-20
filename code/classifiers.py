@@ -8,6 +8,7 @@ Created on Mon Oct  8 15:49:48 2018
 
 import numpy as np
 import scipy
+import sklearn
 
 def ideal_observer_gaussian(trndat, tstdat, labels_train):
     
@@ -138,6 +139,88 @@ def get_norm_euc_dist(dat1,dat2):
 
     return normEucDist
 
+def get_euc_dist(dat1,dat2):
+    
+    """Calculate the euclidean distance (d') between the means of
+    two clouds of data points.
+
+    Args:
+      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
+      dat2: [nPts2 x nWeights] 
+     
+    Returns:
+       eucDist (single value)
+    """
+
+    assert type(dat1)==np.ndarray
+    assert type(dat2)==np.ndarray
+    assert np.shape(dat1)[1]==np.shape(dat2)[1]
+    
+    mean1 = np.mean(dat1,0)
+    mean2 = np.mean(dat2,0)
+    
+    sq = np.power(mean1-mean2,2)
+    eucDist = np.sqrt(np.sum(sq))
+
+    return eucDist
+
+def circ_encoder(trndat,trnlabs,tstdat,tstlabs):
+    
+    """Use encoding model with sin(theta) and cos(theta) as channels
+    to predict values in a continuous circular space, spanning [0,180].
+    
+    Args:
+        trndat: [nTrialsTrn x nFeatures]
+        trnlabs: [nTrialsTrn x 1], 0-180
+        tstdat: [nTrialsTst x nFeatures]
+        tstlabs: [nTrialsTst x 1], 0-180
+        
+    Returns:
+        predlabs: [nTrialsTst x 1], 0-180
+        circ_corr: a single value for the circular correlation coefficient
+        
+    """
+    assert type(trndat)==np.ndarray
+    assert type(tstdat)==np.ndarray
+    assert type(trnlabs)==np.ndarray
+    assert type(tstlabs)==np.ndarray
+    assert np.shape(trnlabs)[1]==1
+    assert np.shape(tstlabs)[1]==1
+    
+    # convert my orientations into two components
+    ang = trnlabs/180*2*np.pi;  # first convert to radians
+    s = np.sin(ang);
+    c = np.cos(ang);
+    
+    # put these two components into a matrix, two predictors
+    trnX = np.concatenate((s,c), axis=1)
+    
+    # solve the linear system of equations
+    w = np.matmul(np.linalg.pinv(trnX), trndat) # verified same thing as the matlab \ operator (trnX\trnDat)
+    
+    # make predictions on test data
+#    x_hat = np.transpose(np.matmul(np.transpose(np.linalg.pinv(w)), np.transpose(tstdat)))  
+    x_hat = np.matmul(tstdat, np.linalg.pinv(w))    # verified these two lines do the same thing, and equivalent to matlab's tstDat*pinv(w) (with some small error)
+    s_hat = x_hat[:,0]
+    c_hat = x_hat[:,1]
+    ang_hat = np.arctan(s_hat/c_hat);
+    
+    # these are restricted to the range -pi to pi. We want them to go
+    # from 0-2pi and be exactly where the original angles were. We'll
+    # need to use our knowledge of the signs of the s and c components here
+    inds = np.where(c_hat<0)[0]
+    ang_hat[inds] = ang_hat[inds]+np.pi;
+    ang_hat = np.mod(ang_hat,2*np.pi);
+    ang_hat = ang_hat[:,np.newaxis]
+    
+    tstlabs_rad = tstlabs/180*2*np.pi
+    circ_corr = circ_corr_coef(tstlabs_rad,ang_hat)
+    
+    # converting back to degrees here
+    predlabs = ang_hat/(2*np.pi)*180
+
+    return predlabs, circ_corr
+
 
 def circ_regression(trndat,trnlabs,tstdat,tstlabs):
     
@@ -171,14 +254,16 @@ def circ_regression(trndat,trnlabs,tstdat,tstlabs):
     trnX = np.concatenate((s,c), axis=1)
     
     # solve the linear system of equations
-    w = np.matmul(np.linalg.pinv(trnX), trndat)
-    
+#    w = np.matmul(np.linalg.pinv(trnX), trndat)
+    r = sklearn.linear_model.LinearRegression().fit(trndat,trnX)
     # make predictions on test data
-    x_hat = np.matmul(tstdat, np.linalg.pinv(w))
+    x_hat = r.predict(tstdat)    
+#    x_hat = np.matmul(tstdat, np.linalg.pinv(w))
+    
     s_hat = x_hat[:,0]
     c_hat = x_hat[:,1]
     ang_hat = np.arctan(s_hat/c_hat);
-    
+   
     # these are restricted to the range -pi to pi. We want them to go
     # from 0-2pi and be exactly where the original angles were. We'll
     # need to use our knowledge of the signs of the s and c components here
@@ -188,12 +273,14 @@ def circ_regression(trndat,trnlabs,tstdat,tstlabs):
     ang_hat = ang_hat[:,np.newaxis]
     
     tstlabs_rad = tstlabs/180*2*np.pi
+    
     circ_corr = circ_corr_coef(tstlabs_rad,ang_hat)
     
     # converting back to degrees here
     predlabs = ang_hat/(2*np.pi)*180
 
     return predlabs, circ_corr
+
 
 
 def circ_corr_coef(x, y):

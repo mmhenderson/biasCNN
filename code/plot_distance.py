@@ -18,10 +18,11 @@ import numpy as np
 #matplotlib.rcParams['text.latex.unicode'] = True
 #%% get the data ready to go...then can run any below cells independently.
 
-#model_str = 'inception_oriTst1'
+#model_str = 'inception_oriTst5a'
 #model_name_2plot = 'Inception-V3'
 
-#model_str = 'nasnet_oriTst1'
+
+#model_str = 'nasnet_oriTst5a'
 #model_name_2plot = 'NASnet'
 
 model_str = 'vgg16_oriTst4a'
@@ -43,6 +44,10 @@ phaselist=  info['phaselist']
 sflist = info['sflist']
 typelist = info['typelist']
 noiselist = info['noiselist']
+if 'phase_vals' in info.keys():
+    phase_vals = info['phase_vals']
+else:
+    phase_vals = []    
 
 layer_labels = info['layer_labels']
 sf_vals = info['sf_vals']
@@ -68,7 +73,7 @@ ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
 
-sf = 1 # spat freq
+sf = 0 # spat freq
 tt = 0
 
 plt.figure()
@@ -117,12 +122,14 @@ for ww1 in layers2plot:
     plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f, noise=%.2f' % (model_str,stim_types[tt],sf_vals[sf],noise_levels[nn]))
              
     xx=xx+1
-   
+ 
+    
+ 
 #%%  Plot the standardized euclidean distance, within spatial freq and noise level
 # Overlay noise levels
  
 plt.close('all')
-noise2plot=[0,1,2]
+noise2plot= [0,1,2]
 ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
@@ -170,7 +177,63 @@ for ww1 in layers2plot:
     else:
         plt.xticks([])
    
-    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f' % (stim_types[tt],sf_vals[sf]))
+    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\n%s, SF=%.2f' % (model_str,stim_types[tt],sf_vals[sf]))
+             
+    xx=xx+1
+    
+#%%  Plot the non-standardized euclidean distance, within spatial freq and noise level
+# Overlay noise levels
+ 
+plt.close('all')
+noise2plot=[0,1,2]
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+
+sf = 0 # spat freq
+tt = 0
+
+plt.figure()
+xx=1
+
+legendlabs = ['noise=%.2f'%(noise_levels[nn]) for nn in noise2plot]
+
+for ww1 in layers2plot:
+
+    w = allw[ww1][ww2]
+    
+    for nn in range(np.size(noise2plot)):
+            
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==noise2plot[nn]], axis=0)  
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+ 
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+        
+            # find gratings at the orientations of interest
+            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+            
+            dist = classifiers.get_euc_dist(w[inds_right,:],w[inds_left,:])
+
+            disc[ii] = dist
+    
+        plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
+    
+        plt.plot(np.mod(un+0.5, 180),disc)
+
+
+    plt.title('%s' % (layer_labels[ww1]))
+    if ww1==layers2plot[-1]:
+        plt.xlabel('actual orientation of grating')
+        plt.ylabel('discriminability (euc dist)')
+        plt.legend(legendlabs)
+    else:
+        plt.xticks([])
+   
+    plt.suptitle('%s\nDiscriminability (euc distance) between pairs of orientations\n%s, SF=%.2f' % (model_str,stim_types[tt],sf_vals[sf]))
              
     xx=xx+1
 
@@ -226,7 +289,7 @@ for ww1 in layers2plot:
     else:
         plt.xticks([])
    
-    plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, noise=%.2f' % (stim_types[tt],noise_levels[nn]))
+    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\n%s, noise=%.2f' % (model_str,stim_types[tt],noise_levels[nn]))
              
     xx=xx+1
 
@@ -286,6 +349,645 @@ for ww1 in layers2plot:
     plt.suptitle('Discriminability (std. euc distance) between pairs of orientations\n%s, all SF, noise=%.2f' % (stim_types[tt],noise_levels[nn]))
              
     xx=xx+1
+
+
+#%% plot anisotropy versus layers: plot each spatial frequency and noise level
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+tt  = 0
+
+sf2plot = [0]
+noise2plot = [0,1,2]
+#sf2plot = [0,1,2]
+#noise2plot = [0]
+
+for sf in sf2plot:
+        
+    for nn in noise2plot:
+            
+        aniso_vals = np.zeros([4,np.size(layers2plot)])
+        
+        for ww1 in layers2plot:
+            
+           
+            w = allw[ww1][ww2]
+            
+            myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+            
+            un,ia = np.unique(actual_labels, return_inverse=True)
+            assert np.all(np.expand_dims(ia,1)==actual_labels)
+            
+             
+            disc = np.zeros([np.shape(un)[0],1])
+        
+            for ii in np.arange(0,np.size(un)):
+                for ss in range(np.size(steps)):
+                        
+                    # find all gratings at the positions of interest
+                    inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                    inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                    
+                    dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+         
+                    disc[ii] = dist
+          
+            # take the bins of interest to get amplitude
+            b = np.arange(22.5,180,45)
+            baseline_discrim = [];
+            for ii in range(np.size(b)):        
+                inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+                baseline_discrim.append(disc[inds])
+                
+            a = np.arange(0,180,45)
+            
+            for ii in range(np.size(a)):       
+                inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+                aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+          
+            
+        plt.figure()
+        ylims = [-1,1]
+        xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+        h = []
+        for aa in range(4):
+            h.append(plt.plot(layers2plot,aniso_vals[aa,]))
+        
+        plt.legend(['0','45','90','135'])
+        plt.plot(xlims, [0,0], 'k')
+        plt.xlim(xlims)
+        plt.ylim(ylims)
+        plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+        plt.title('%s\nDiscriminability at each orientation rel. to baseline\nsf=%.2f, noise=%.2f' % (model_str, sf_vals[sf], noise_levels[nn]))
+        plt.ylabel('Normalized Euclidean Distance difference')
+        plt.xlabel('Layer number')
+
+
+#%% plot Cardinal anisotropy, overlay SF
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf2plot = [0,1,2] # spat freq
+tt  = 0
+nn=0
+
+
+plt.figure()
+
+for sf in sf2plot:
+       
+    aniso_vals = np.zeros([2,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,90)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy\nnoise=%.2f' % (model_str, noise_levels[nn]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+#%% plot Mean discriminability, overlay SF
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf2plot = [0,1,2] # spat freq
+tt  = 0
+nn=0
+
+
+plt.figure()
+
+for sf in sf2plot:
+       
+    mean_disc_vals = np.zeros([np.size(layers2plot),1])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([phaselist<8, sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+                
+        mean_disc_vals[ww1,0] = np.mean(disc)
+   
+    plt.plot(layers2plot,mean_disc_vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+#plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nMean Orientation Discriminability\nnoise=%.2f' % (model_str, noise_levels[nn]))
+plt.ylabel('Normalized Euclidean Distance')
+plt.xlabel('Layer number')
+
+
+#%% plot Cardinal anisotropy based on the non-standardized euc distance, overlay SF
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf2plot = [0,1,2,3] # spat freq
+tt  = 0
+nn=0
+
+
+plt.figure()
+
+for sf in sf2plot:
+       
+    aniso_vals = np.zeros([2,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,90)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy\nnoise=%.2f' % (model_str, noise_levels[nn]))
+plt.ylabel('Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+#%% plot Cardinal anisotropy, overlay noise levels
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf = sf
+tt  = 0
+noise2plot = [0,1,2]
+
+
+plt.figure()
+
+for nn in noise2plot:
+       
+    aniso_vals = np.zeros([2,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,90)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['noise=%.2f'%noise_levels[nn] for nn in noise2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy\nsf=%.2f' % (model_str, sf_vals[sf]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+
+#%% plot Cardinal anisotropy based on the NON-standardized euc distance, overlay noise levels
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf = sf
+tt  = 0
+noise2plot = [0,1,2]
+
+
+plt.figure()
+
+for nn in noise2plot:
+       
+    aniso_vals = np.zeros([2,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,90)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['noise=%.2f'%noise_levels[nn] for nn in noise2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy\nsf=%.2f' % (model_str, sf_vals[sf]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+
+#%% plot Cardinal - Oblique anisotropy, overlay SF
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf2plot = [0,1,2] # spat freq
+tt  = 0
+nn=0
+
+
+plt.figure()
+
+for sf in sf2plot:
+       
+    aniso_vals = np.zeros([4,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,45)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals[[0,2],:],0) - np.mean(aniso_vals[[1,3],:],0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy  - oblique anisotropy\nnoise=%.2f' % (model_str, noise_levels[nn]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+
+#%% plot Cardinal - Oblique anisotropy, overlay noise
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+sf = 0
+tt  = 0
+noise2plot = [0,1,2]
+
+plt.figure()
+
+for nn in noise2plot:
+       
+    aniso_vals = np.zeros([4,np.size(layers2plot)])
+    
+    for ww1 in layers2plot:
+        
+       
+        w = allw[ww1][ww2]
+        
+        myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+        
+        un,ia = np.unique(actual_labels, return_inverse=True)
+        assert np.all(np.expand_dims(ia,1)==actual_labels)
+        
+         
+        disc = np.zeros([np.shape(un)[0],1])
+    
+        for ii in np.arange(0,np.size(un)):
+            for ss in range(np.size(steps)):
+                    
+                # find all gratings at the positions of interest
+                inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+                inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+                
+                dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+     
+                disc[ii] = dist
+      
+        # take the bins of interest to get amplitude
+        b = np.arange(22.5,180,45)
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+            baseline_discrim.append(disc[inds])
+            
+        a = np.arange(0,180,45)
+        
+        for ii in range(np.size(a)):       
+            inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals[[0,2],:],0) - np.mean(aniso_vals[[1,3],:],0)
+ 
+    plt.plot(layers2plot,vals)
+
+ylims = [-1,1]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+
+plt.legend(['noise=%.2f'%noise_levels[nn] for nn in noise2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy  - oblique anisotropy\nsf=%.2f' % (model_str, sf_vals[sf]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+
+#%% plot anisotropy versus layers: all SF, plot each noise level
+      
+plt.close('all')
+
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [6, 12]
+#sf = 0 # spat freq
+tt = 0
+nn = 0
+
+aniso_vals = np.zeros([4,np.size(layers2plot)])
+
+for ww1 in layers2plot:
+    
+   
+    w = allw[ww1][ww2]
+    
+    myinds_bool = np.all([typelist==tt, noiselist==nn], axis=0)
+    
+    un,ia = np.unique(actual_labels, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==actual_labels)
+    
+     
+    disc = np.zeros([np.shape(un)[0],1])
+
+    for ii in np.arange(0,np.size(un)):
+        for ss in range(np.size(steps)):
+                
+            # find all gratings at the positions of interest
+            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
+            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
+            
+            dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
+ 
+            disc[ii] = dist
+  
+    # take the bins of interest to get amplitude
+    b = np.arange(22.5,180,45)
+    baseline_discrim = [];
+    for ii in range(np.size(b)):        
+        inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
+        baseline_discrim.append(disc[inds])
+        
+    a = np.arange(0,180,45)
+    
+    for ii in range(np.size(a)):       
+        inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
+        aniso_vals[ii,ww1] = np.mean(disc[inds]) - np.mean(baseline_discrim)
+  
+    
+plt.figure()
+ylims = [-5,15]
+xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
+h = []
+for aa in range(4):
+    h.append(plt.plot(layers2plot,aniso_vals[aa,]))
+
+plt.legend(['0','45','90','135'])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nDiscriminability at each orientation rel. to baseline\nAll SF, noise=%.2f' % (model_name_2plot, noise_levels[nn]))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
     
 #%% Plot a dissimilarity matrix based on the standardized euclidean distance, within one SF
  
@@ -427,139 +1129,3 @@ plt.ylabel('orientation 2')
 plt.xticks(np.arange(0,180,45),np.arange(0,180,45))
 plt.yticks(np.arange(0,180,45),np.arange(0,180,45))
         
-
-#%% plot anisotropy versus layers: plot each spatial frequency
-      
-plt.close('all')
-
-ww2 = 0;
-
-layers2plot = np.arange(0,nLayers,1)
-#layers2plot = [6, 12]
-sf = 2 # spat freq
-tt = 0
-nn = 0
-
-aniso_vals = np.zeros([4,np.size(layers2plot)])
-
-for ww1 in layers2plot:
-    
-   
-    w = allw[ww1][ww2]
-    
-    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
-    
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-     
-    disc = np.zeros([np.shape(un)[0],1])
-
-    for ii in np.arange(0,np.size(un)):
-        for ss in range(np.size(steps)):
-                
-            # find all gratings at the positions of interest
-            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
-            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
-            
-            dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
- 
-            disc[ii] = dist
-  
-    # take the bins of interest to get amplitude
-    b = np.arange(22.5,180,45)
-    baseline_discrim = [];
-    for ii in range(np.size(b)):        
-        inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
-        baseline_discrim.append(disc[inds])
-        
-    a = np.arange(0,180,45)
-    
-    for ii in range(np.size(a)):       
-        inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
-        aniso_vals[ii,ww1] = np.mean(disc[inds]) - np.mean(baseline_discrim)
-  
-    
-plt.figure()
-ylims = [-100,150]
-xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
-h = []
-for aa in range(4):
-    h.append(plt.plot(layers2plot,aniso_vals[aa,]))
-
-plt.legend(['0','45','90','135'])
-plt.plot(xlims, [0,0], 'k')
-plt.xlim(xlims)
-plt.ylim(ylims)
-plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nDiscriminability at each orientation rel. to baseline\nsf=%.2f, noise=%.2f' % (model_name_2plot, sf_vals[sf], noise_levels[nn]))
-plt.ylabel('Normalized Euclidean Distance difference')
-plt.xlabel('Layer number')
-
-#%% plot anisotropy versus layers: all SF, plot each noise level
-      
-plt.close('all')
-
-ww2 = 0;
-
-layers2plot = np.arange(0,nLayers,1)
-#layers2plot = [6, 12]
-#sf = 0 # spat freq
-tt = 0
-nn = 0
-
-aniso_vals = np.zeros([4,np.size(layers2plot)])
-
-for ww1 in layers2plot:
-    
-   
-    w = allw[ww1][ww2]
-    
-    myinds_bool = np.all([typelist==tt, noiselist==nn], axis=0)
-    
-    un,ia = np.unique(actual_labels, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==actual_labels)
-    
-     
-    disc = np.zeros([np.shape(un)[0],1])
-
-    for ii in np.arange(0,np.size(un)):
-        for ss in range(np.size(steps)):
-                
-            # find all gratings at the positions of interest
-            inds_left = np.where(np.logical_and(actual_labels==np.mod(un[ii], 180), myinds_bool))[0]        
-            inds_right = np.where(np.logical_and(actual_labels==np.mod(un[ii]+1, 180), myinds_bool))[0]
-            
-            dist = classifiers.get_norm_euc_dist(w[inds_right,:],w[inds_left,:])
- 
-            disc[ii] = dist
-  
-    # take the bins of interest to get amplitude
-    b = np.arange(22.5,180,45)
-    baseline_discrim = [];
-    for ii in range(np.size(b)):        
-        inds = np.where(np.abs(un+0.5-b[ii])<4)[0]        
-        baseline_discrim.append(disc[inds])
-        
-    a = np.arange(0,180,45)
-    
-    for ii in range(np.size(a)):       
-        inds = np.where(np.abs(un+0.5-a[ii])<1)[0]
-        aniso_vals[ii,ww1] = np.mean(disc[inds]) - np.mean(baseline_discrim)
-  
-    
-plt.figure()
-ylims = [-5,15]
-xlims = [np.min(layers2plot)-1, np.max(layers2plot)+2]
-h = []
-for aa in range(4):
-    h.append(plt.plot(layers2plot,aniso_vals[aa,]))
-
-plt.legend(['0','45','90','135'])
-plt.plot(xlims, [0,0], 'k')
-plt.xlim(xlims)
-plt.ylim(ylims)
-plt.xticks(layers2plot,[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nDiscriminability at each orientation rel. to baseline\nAll SF, noise=%.2f' % (model_name_2plot, noise_levels[nn]))
-plt.ylabel('Normalized Euclidean Distance difference')
-plt.xlabel('Layer number')

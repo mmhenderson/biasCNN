@@ -16,7 +16,7 @@ from matplotlib import cm
 #%% get the data ready to go...then can run any below cells independently.
 
 #model_str = 'inception_oriTst2a';
-model_str = 'vgg16_oriTst2a';
+model_str = 'vgg16_oriTst8a';
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 import os
@@ -39,11 +39,15 @@ sf_vals = info['sf_vals']
 noise_levels = info['noise_levels']
 timepoint_labels = info['timepoint_labels']
 stim_types = info['stim_types']
-
+if 'phase_vals' in info.keys():
+    phase_vals = info['phase_vals']
+else:
+    phase_vals = []    
 nLayers = info['nLayers']
 nPhase = info['nPhase']
 nSF = info['nSF']
 nType = info['nType']
+
 nTimePts = info['nTimePts']
 nNoiseLevels = info['nNoiseLevels']
 
@@ -113,9 +117,10 @@ for ww1 in layers2plot:
             
 #%% PCA , plotting pts by orientation
 plt.close('all')
-layers2plot = np.arange(0,10,1)
+#layers2plot = np.arange(0,10,1)
+layers2plot = [1,4]
 timepts2plot = np.arange(0,1)
-noiselevels2plot = [0]
+noiselevels2plot = [0,1,2]
 
 #clist = cm.plasma(np.linspace(0,1,12))
 c_map = cm.get_cmap('plasma')
@@ -138,7 +143,8 @@ for ww1 in layers2plot:
                 
             plt.figure()
             for sf in range(nSF):
-                myinds = np.where(np.logical_and(phaselist==1,np.logical_and(sflist==sf, noiselist==nn)))[0]
+#                myinds = np.where(np.logical_and(phaselist==1,np.logical_and(sflist==sf, noiselist==nn)))[0]
+                myinds = np.where(np.logical_and(sflist==sf, noiselist==nn))[0]
              
                 sc = plt.scatter(weights_reduced[myinds,0], weights_reduced[myinds,1],
                                  c=actual_labels[myinds,0],
@@ -179,10 +185,11 @@ for ww1 in layers2plot:
 #                             box.width*0.80, box.height])
 #            
 #%% PCA , plotting pts by orientation - just a subset of orientations
-plt.close('all')
-layers2plot = np.arange(10,20,2)
+#plt.close('all')
+layers2plot= np.arange(14,20,10)
+#layers2plot = np.arange(10,20,2)
 timepts2plot = np.arange(0,1)
-noiselevels2plot = [0]
+noiselevels2plot = [2]
 ori2plot = np.arange(80,101,1)
 #ori2plot = np.arange(35,56,1)
 
@@ -190,9 +197,8 @@ ori2plot = np.arange(80,101,1)
 clist = cm.plasma(np.linspace(0,1,np.size(ori2plot)))
 
 markers = ['^','+','o','x']
-sf = 2
-
-pc2plot = [1,2]
+sf = 0
+pc2plot = [0,1]
 
 for ww1 in layers2plot:
     for ww2 in timepts2plot:
@@ -264,7 +270,70 @@ for ww1 in layers2plot:
 #            ax.set_position([box.x0 , box.y0,
 #                             box.width*0.80, box.height])
 #            
+#%% PCA , plotting pts by orientation and phase
+            
+plt.close('all')
+#layers2plot = np.arange(10,20,2)
+layers2plot = [1]
+timepts2plot = np.arange(0,1)
+noiselevels2plot = [0,1,2]
+ori2plot = np.arange(0,180,1)
+#ori2plot = np.arange(85,96,1)
+#ori2plot = np.arange(80,101,1)
+#ori2plot = np.arange(35,56,1)
 
+#clist = cm.plasma(np.linspace(0,1,12))
+clist = cm.plasma(np.linspace(0,1,np.size(ori2plot)))
+c_map = cm.get_cmap('plasma')
+markers = ['^','+','o','x']
+sf = 0
+pc2plot = [0,1]
+
+for ww1 in layers2plot:
+    for ww2 in timepts2plot:
+        for nn in noiselevels2plot:
+            
+#            pca = decomposition.PCA(n_components = 4)
+#            
+#            weights_reduced = pca.fit_transform(allw[ww1][ww2])
+            
+            weights_reduced = allw[ww1][ww2]
+#            nBins = int(12)
+#            nPerBin = int(180/nBins)
+#            binned_labs = np.reshape(np.arange(0,180,1), [nBins,nPerBin])
+#            
+#            legend_labs = [];
+            myinds = np.where(noiselist==nn)[0]
+             
+            #% now color code by phase
+            plt.figure()
+            allpts = np.zeros([np.size(ori2plot), 2])
+            h = [];
+            for oo in range(np.size(ori2plot)):
+                
+                myinds = np.where(np.logical_and(orilist==ori2plot[oo],np.logical_and(sflist==sf, noiselist==nn)))[0]
+                colors = phase_vals[np.squeeze(phaselist[myinds].astype('int'))]
+                if ori2plot[oo]==90:
+                    mark = markers[0]
+                else:
+                    mark = markers[3]
+                sc = plt.scatter(weights_reduced[myinds,pc2plot[0]], weights_reduced[myinds,pc2plot[1]],
+                                 c=colors,
+                                 vmin = 0,vmax=180, cmap=c_map,marker=mark)
+#                sc = plt.scatter(np.mean(weights_reduced[myinds,pc2plot[0]],0), np.mean(weights_reduced[myinds,pc2plot[1]],0), 
+#                                c=[clist[oo,:],],marker=mark)
+                h.append(sc)
+                allpts[oo,:] = [np.mean(weights_reduced[myinds,pc2plot[0]],0), np.mean(weights_reduced[myinds,pc2plot[1]],0)]
+                
+#            plt.figure(1)
+            ax = plt.gca()               
+            plt.title('PC %d versus %d, %s-%s, noise=%.2f, sf=%.2f' % (pc2plot[0],pc2plot[1],layer_labels[ww1], timepoint_labels[ww2], noise_levels[nn], sf_vals[sf]))
+            plt.xlabel('PC%d' %pc2plot[0])
+            plt.ylabel('PC%d' % pc2plot[1])
+#            plt.figlegend(h, ori2plot,bbox_to_anchor=(0.98,1.02))
+            plt.plot(allpts[:,0],allpts[:,1],'k')
+#            plt.colorbar(ticks =[0,90,180,270,360])
+            
 #%% PCA , plotting pts by spatial freq
 plt.close('all')
 layers2plot = [4]
