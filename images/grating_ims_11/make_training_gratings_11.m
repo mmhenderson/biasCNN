@@ -3,10 +3,10 @@
 clear
 close all
 
-rndseed = 567671;
+rndseed = 678671;
 rng(rndseed)
 
-root_save = '/usr/local/serenceslab/maggie/biasCNN/images/grating_ims_10a/';
+root_save = '/usr/local/serenceslab/maggie/biasCNN/images/grating_ims_11/';
 if ~isdir(root_save)
     mkdir(root_save)
 end
@@ -22,7 +22,9 @@ noise_levels = [0.01];
 contrast_levels = [0.8];
 
 % how many random phases do you want to make? 4 
-numInstances = 2;
+numInstances = 1;
+
+phase_levels = [0,180];
 
 %% specify parameters that are the same for all grating images
 
@@ -62,40 +64,43 @@ for ff = 1:length(freq_levels_cpd)
 
     for oo=1:length(orient_vals)
         
-        phase_vals = datasample(0:359,1)*ones(numInstances,1)*pi/180;
-%             phase_vals = zeros(numInstances,1);
+        for pp=1:length(phase_levels)
 
-        for pp = 1:numInstances
+            phase_vals = zeros(numInstances,1);
 
-            %% make the full field grating
-            % range is [-1,1] to start
-            sine = (sin(this_freq_cpp*2*pi*(y.*sin(orient_vals(oo)*pi/180)+x.*cos(orient_vals(oo)*pi/180))-phase_vals(pp)));
+            for ii = 1:numInstances
 
-           % make the values range from 1 +/-noise to
-            % -1 +/-noise
-            sine = sine+ randn(size(sine))*noise_levels(nn);
+                %% make the full field grating
+                % range is [-1,1] to start
+                sine = (sin(this_freq_cpp*2*pi*(y.*sin(orient_vals(oo)*pi/180)+x.*cos(orient_vals(oo)*pi/180))-phase_vals(ii)));
 
-            % now scale it down (note the noise also gets scaled)
-            sine = sine*contrast_levels(cc);
-            
-            % shouldnt ever go outside the range [-1,1] so values won't
-            % get cut off (requires that noise is low if contrast is
-            % high)
-            assert(max(sine(:))<=1 && min(sine(:))>=-1)
+               % make the values range from 1 +/-noise to
+                % -1 +/-noise
+                sine = sine+ randn(size(sine))*noise_levels(nn);
 
-            %% now multiply it by the donut (circle) to get gaussian envelope
-            stim = sine.*donut;
+                % now scale it down (note the noise also gets scaled)
+                sine = sine*contrast_levels(cc);
 
-            % now reset the range from [-1, 1] to [0, 1].
-            % note the actual values don't have to span that whole
-            % range, but they will be centered at 0.5.
-            stim_scaled = (stim+1)./2;
+                % shouldnt ever go outside the range [-1,1] so values won't
+                % get cut off (requires that noise is low if contrast is
+                % high)
+                assert(max(sine(:))<=1 && min(sine(:))>=-1)
 
-            assert(stim_scaled(1,1)==0.5)
+                %% now multiply it by the donut (circle) to get gaussian envelope
+                stim = sine.*donut;
 
-            fn2save = [thisdir, 'Gaussian_fixedphase' num2str(pp) '_' sprintf('%d', orient_vals(oo)) 'deg.png'];
-            imwrite(stim_scaled, fn2save)
-            fprintf('saving to %s...\n', fn2save)
+                % now reset the range from [-1, 1] to [0, 1].
+                % note the actual values don't have to span that whole
+                % range, but they will be centered at 0.5.
+                stim_scaled = (stim+1)./2;
+
+                assert(stim_scaled(1,1)==0.5)
+                
+                fn2save = fullfile(thisdir,sprintf('Gaussian_phase%d_ex%d_%ddeg.png',phase_levels(pp),ii,orient_vals(oo)));
+
+                imwrite(stim_scaled, fn2save)
+                fprintf('saving to %s...\n', fn2save)
+            end
         end
     end
 end
