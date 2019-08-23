@@ -164,6 +164,35 @@ def get_euc_dist(dat1,dat2):
 
     return eucDist
 
+def get_discrim_func(data, ori_labs):
+    
+    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
+    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
+    """
+    
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    disc = np.zeros([np.size(ori_axis),1])
+    max_ori = np.max(ori_axis)+1
+    
+    for ii in np.arange(0,np.size(ori_axis)):
+        
+        # find gratings at the orientations of interest
+        inds_left = np.where(ori_labs==np.mod(ori_axis[ii], max_ori))[0]
+        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+1, max_ori))[0]
+        
+        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+        
+        if np.size(inds_left)==1:
+            dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
+        else:
+            dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
+
+        disc[ii] = dist
+
+    ori_axis = np.mod(ori_axis+0.5, max_ori)
+    return ori_axis, disc
+
 def circ_encoder(trndat,trnlabs,tstdat,tstlabs):
     
     """Use encoding model with sin(theta) and cos(theta) as channels

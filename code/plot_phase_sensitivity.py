@@ -207,7 +207,7 @@ for ww1 in layers2plot:
     
     
 plt.close('all')
-nn=2
+nn=0
 ww2 = 0;
 
 layers2plot = np.arange(0,nLayers,1)
@@ -271,3 +271,147 @@ for ww1 in layers2plot:
              
     xx=xx+1
     
+    
+       
+        
+#%% plot the phase discriminabiltiy matrix for a few layers, within an orientation
+    
+    
+plt.close('all')
+nn=0
+ww2 = 0;
+
+#layers2plot = np.arange(0,nLayers,1)
+layers2plot = [2,8]
+ori2plot = [0,22,45,67,90,112,135,147,179]
+#layers2plot = []
+sf = 0 # spat freq
+tt = 0
+
+for ww1 in layers2plot:
+    plt.figure()
+    xx=1
+    w = allw[ww1][ww2]
+
+    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+
+    un,ia = np.unique(actual_labels, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==actual_labels)
+    
+    for oo in ori2plot:
+        
+        inds = np.where(np.logical_and(actual_labels==un[oo], myinds_bool))[0]    
+        
+        dist_mat = scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(w[inds,:]))
+        
+        plt.subplot(3,3,xx)
+        plt.pcolormesh(dist_mat)
+        plt.colorbar()
+        plt.axis('equal')
+        
+        plt.title('%d deg'%oo)
+           
+        if xx==9:
+            plt.xlabel('phase 1')
+            plt.ylabel('phase 2')
+        plt.xticks(np.arange(0,48,8),['%d'%phase_vals[pp] for pp in np.arange(0,48,8)])
+        plt.yticks(np.arange(0,48,8),['%d'%phase_vals[pp] for pp in np.arange(0,48,8)])
+#        plt.xticks(np.arange(0,180,45),np.arange(0,180,45))
+#        plt.yticks(np.arange(0,180,45),np.arange(0,180,45))
+#                
+        xx=xx+1
+        
+        plt.suptitle('%s-%s\nEuclidean distance between phases,\nnoise=%.2f, sf=%.2f' % (model_str,layer_labels[ww1],noise_levels[nn],sf_vals[sf]))
+        
+#%% plot the mean phase discriminability at each point in orient. space
+    
+    
+plt.close('all')
+nn=0
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [8]
+#ori2plot = [0,22,45,67,90,112,135,147,179]
+#layers2plot = []
+sf = 0 # spat freq
+tt = 0
+xx=1
+plt.figure()
+
+for ww1 in layers2plot:
+    
+    w = allw[ww1][ww2]
+
+    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+
+    un,ia = np.unique(actual_labels, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==actual_labels)
+    
+    dist = np.zeros(np.shape(un))
+    
+    for uu in range(np.size(un)):
+        
+        inds = np.where(np.logical_and(actual_labels==un[uu], myinds_bool))[0]    
+        
+        dist_list = scipy.spatial.distance.pdist(w[inds,:])
+        
+        dist[uu] = np.mean(dist_list)
+        
+ 
+    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx) ;
+    plt.plot(un,dist)
+                 
+    plt.title('%s' % (layer_labels[ww1]))
+
+    xx=xx+1
+    
+plt.suptitle('%s\nMean Euclidean distance between phases,\nnoise=%.2f, sf=%.2f' %(model_str,noise_levels[nn],sf_vals[sf]))
+
+
+#%% plot the mean orient discriminability at each point in phase space
+    
+    
+plt.close('all')
+nn=0
+ww2 = 0;
+
+layers2plot = np.arange(0,nLayers,1)
+#layers2plot = [8]
+#ori2plot = [0,22,45,67,90,112,135,147,179]
+#layers2plot = []
+sf = 0 # spat freq
+tt = 0
+xx=1
+plt.figure()
+
+for ww1 in layers2plot:
+    
+    w = allw[ww1][ww2]
+
+    myinds_bool = np.all([sflist==sf,   typelist==tt, noiselist==nn], axis=0)
+
+    un,ia = np.unique(phaselist, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==phaselist)
+    
+    dist = np.zeros(np.shape(un))
+    
+    for uu in range(np.size(un)):
+        
+        inds = np.where(np.logical_and(phaselist==un[uu], myinds_bool))[0]    
+        
+        dist_list = scipy.spatial.distance.pdist(w[inds,:])
+        
+        dist[uu] = np.mean(dist_list)
+        
+ 
+    plt.subplot(np.ceil(len(layers2plot)/4), 4, xx) ;
+    plt.plot(un,dist)
+                 
+    plt.title('%s' % (layer_labels[ww1]))
+
+    plt.xticks(np.arange(0,48,8),['%d'%phase_vals[pp] for pp in np.arange(0,48,8)])
+    plt.xlabel('phase')
+    xx=xx+1
+    
+plt.suptitle('%s\nMean Euclidean distance between orientations,\nnoise=%.2f, sf=%.2f' %(model_str,noise_levels[nn],sf_vals[sf]))
