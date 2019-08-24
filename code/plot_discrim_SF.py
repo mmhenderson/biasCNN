@@ -14,9 +14,15 @@ import numpy as np
 
 from copy import deepcopy
 
+from matplotlib import cm
+
+cols1 = np.reshape(cm.tab20b(np.arange(0,20,1)), [5, 4, 4])
+cols2 = np.reshape(cm.tab20c(np.arange(0,20,1)), [5, 4, 4])
+cols_all = np.concatenate((cols1,cols2),axis=0)
+cols_all = cols_all[[4, 6, 2, 7, 5, 0],:,:]
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'vgg16_oriTst11'
+model_str = 'vgg16_oriTst12'
 model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -82,22 +88,80 @@ for ww1 in layers2plot:
        
         plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
     
-        plt.plot(ori_axis,disc)
+        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2]), axis=1))
 
     plt.title('%s' % (layer_labels[ww1]))
     if ww1==layers2plot[-1]:
         plt.xlabel('actual orientation of grating')
         plt.ylabel('discriminability (std. euc dist)')
         plt.legend(legendlabs)
-        plt.xticks(np.arange(0,360,45))
+        plt.xticks(np.arange(0,181,45))
     else:
         plt.xticks([])
-   
+    for ll in np.arange(0,181,45):
+        plt.axvline(ll,color='k')
    
     plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_str))
              
     xx=xx+1
+  
+#%%  Plot the standardized euclidean distance, in 0-360 space
+# Overlay SF
+# plot just one layer, save a figure
+assert 'oriTst11' in model_str
+ 
+plt.rcParams['pdf.fonttype']=42
+plt.rcParams['ps.fonttype']=42    
+
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+ 
+plt.close('all')
+
+from matplotlib import cm
+
+
+layers2plot = [5]
+sf2plot = np.arange(0,6,1)
+#sf2plot = [3]
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+colors = cm.tab20b(np.linspace(0,1,np.size(sf2plot)))
+#colors = [cm.Greens(0.5),cm.Purples(0.5),cm.Reds(0.5),cm.Blues(0.5),cm.PuRd(0.5),cm.Oranges(0.5)]
+
+for ww1 in layers2plot:
+    plt.figure()
     
+    w = allw[ww1][0]
+    
+    for sf in range(np.size(sf2plot)):
+        
+        inds = np.where(sflist==sf2plot[sf])[0]
+        
+        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+       
+        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2]), axis=1),color = cols_all[sf,1,:])
+
+    plt.title('Layer %d of %d\n%s' % (ww1+1,nLayers,layer_labels[ww1]))
+    
+    if ww1==layers2plot[-1]:
+        plt.xlabel('Grating Orientation')
+        plt.ylabel('Discriminability')
+        plt.legend(legendlabs)
+        plt.xticks(np.arange(0,181,45))
+        plt.yticks(np.linspace(round(plt.gca().get_ylim()[0],-2),round(plt.gca().get_ylim()[1],-2), 3))
+    else:
+        plt.xticks([])
+    for ll in np.arange(0,181,45):
+        plt.axvline(ll,color=[0.8,0.8,0.8,1])
+   
+    plt.xlim([0,180])
+    
+#    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_str))
+    
+    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim.pdf' % (model_str,layer_labels[ww1]))
+    plt.savefig(figname, format='pdf',transparent=True)
+     
 
 #%% plot Cardinal anisotropy in 0-360 space, overlay SF
 assert 'oriTst11' in model_str
@@ -141,10 +205,10 @@ for sf in sf2plot:
       
     vals = np.mean(aniso_vals,0)
  
-    plt.plot(np.arange(0,np.size(layers2plot),1),vals)
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_all[sf,1,:])
 
-ylims = [-1,1]
-xlims = [-1, np.size(layers2plot)+2]
+ylims = [-.2,1]
+xlims = [-1, np.size(layers2plot)+1]
 
 plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
 plt.plot(xlims, [0,0], 'k')
@@ -155,6 +219,9 @@ plt.title('%s\nCardinal anisotropy' % (model_str))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
+figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_str))
+plt.savefig(figname, format='pdf',transparent=True)
+     
 #%% plot Mean Discrim in 0-360 space, overlay SF
 assert 'oriTst11' in model_str
 orilist_adj = deepcopy(orilist)
@@ -181,16 +248,20 @@ for sf in sf2plot:
      
         vals[ww1] = np.mean(disc)
  
-    plt.plot(np.arange(0,np.size(layers2plot),1),vals)
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_all[sf,1,:])
 
 #ylims = [-1,1]
-xlims = [-1, np.size(layers2plot)+2]
+xlims = [-1, np.size(layers2plot)+1]
 
-plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+#plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
 plt.title('%s\nMean Discriminability' % (model_str))
-plt.ylabel('Normalized Euclidean Distance difference')
-plt.xlabel('Layer number')
+plt.ylabel('d''')
+#plt.xlabel('Layer number')
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
 
+figname = os.path.join(figfolder, 'SpatFreq','%s_MeanDiscSF.pdf' % (model_str))
+plt.savefig(figname, format='pdf',transparent=True)
+ 
 #%%  Plot the standardized euclidean distance, in 0-180 space
 # Overlay spatial frequencies 
 plt.close('all')

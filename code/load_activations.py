@@ -84,8 +84,8 @@ def load_activ(model_str):
               'oriTst5','oriTst5a','oriTst6','oriTst6a','oriTst7','oriTst7a',
               'oriTst8','oriTst8a','oriTst8b','oriTst9',
               'oriTst10','oriTst10a'];
-    group2 = ['oriTst9a']
-    group3 = ['oriTst11','oriTst12']
+    group2 = ['oriTst9a','oriTst9b']
+    group3 = ['oriTst11','oriTst12','oriTst12a','oriTst12b']
     
     if dataset in group1:    
         [u,noiselist] = np.unique(featureMat_orig[:,0],return_inverse=True)
@@ -299,6 +299,15 @@ def load_activ(model_str):
         info['phase_vals'] = [0,180]
         nEx = 1
         
+    elif 'oriTst9b'==dataset:       
+        info['timepoint_labels'] = ['before retraining']
+        info['noise_levels'] = [0.01]
+        info['sf_vals'] = [1.21] 
+        info['contrast_levels'] = np.logspace(np.log10(0.01),np.log10(0.95),6)
+        nPhase=2
+        info['phase_vals'] = [0,180]
+        nEx = 4
+        
     elif 'oriTst10'==dataset:
                 
         info['timepoint_labels'] = ['before retraining']
@@ -338,6 +347,26 @@ def load_activ(model_str):
         info['timepoint_labels'] = ['before retraining']
         info['noise_levels'] = [0.01, 0.10, 0.25]
         info['sf_vals'] = [0.20, 1.21]  
+        info['contrast_levels'] = [0.8]
+        info['phase_vals'] = [0,180]
+        nPhase=2
+        nEx = 4
+        
+    elif 'oriTst12a'==dataset:             
+    
+        info['timepoint_labels'] = ['before retraining']
+        info['noise_levels'] = [0.01, 0.10, 0.25]
+        info['sf_vals'] = [0.66, 2.20]  
+        info['contrast_levels'] = [0.8]
+        info['phase_vals'] = [0,180]
+        nPhase=2
+        nEx = 4
+        
+    elif 'oriTst12b'==dataset:             
+    
+        info['timepoint_labels'] = ['before retraining']
+        info['noise_levels'] = [0.01, 0.10, 0.25]
+        info['sf_vals'] = [0.36, 4.00]  
         info['contrast_levels'] = [0.8]
         info['phase_vals'] = [0,180]
         nPhase=2
@@ -386,54 +415,36 @@ def load_activ(model_str):
     allw = []   
     
     for ll in range(np.size(layer_labels)):
-               
-        for nn in range(np.size(info['noise_levels'])):
 
-            file = os.path.join(weight_path_before, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
-            w1 = np.load(file)
-            
-            if info['nTimePts']>1:
-                file = os.path.join(weight_path_after, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
-                w2 = np.load(file)
-            else:
-                w2 = []
-                
-            if nn==0:
-                w1_all = w1
-                w2_all = w2
-            else:
-                w1_all = np.concatenate((w1_all, w1), axis=0)
-                w2_all = np.concatenate((w2_all, w2), axis=0)
-                
-        allw.append([w1_all,w2_all])
+        file = os.path.join(weight_path_before, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
+        w1 = np.load(file)
+
+        if info['nTimePts']>1:
+            file = os.path.join(weight_path_after, 'allStimsReducedWts_%s.npy' % layer_labels[ll])
+            w2 = np.load(file)
+        else:
+            w2 = []
+           
+           
+        allw.append([w1,w2])
        
     #% load the predicted orientation labels from the last layer
        
     all_labs = []
     
-    for nn in range(np.size(info['noise_levels'])):
-    
-        if 'inception' in model_str:   
-            file = os.path.join(weight_path_before, 'allStimsLabsPredicted_Logits.npy')   
-        else:             
-            file = os.path.join(weight_path_before, 'allStimsLabsPredicted_logits.npy')  
-        labs1 = np.load(file)
-          
-        if info['nTimePts']>1:
-            file = os.path.join(weight_path_after, 'allStimsLabsPredicted_logits.npy')    
-            labs2 = np.load(file)
-        else:
-            labs2 = []
-            
-        if nn==0:
-            labs1_all = labs1
-            labs2_all = labs2
-        else:
-            labs1_all = np.concatenate((labs1_all, labs1), axis=0)
-            labs2_all = np.concatenate((labs2_all, labs2), axis=0)
-            
-        
-    all_labs.append([labs1_all,labs2_all])
+    if 'inception' in model_str:   
+        file = os.path.join(weight_path_before, 'allStimsLabsPredicted_Logits.npy')   
+    else:             
+        file = os.path.join(weight_path_before, 'allStimsLabsPredicted_logits.npy')  
+    labs1 = np.load(file)
+      
+    if info['nTimePts']>1:
+        file = os.path.join(weight_path_after, 'allStimsLabsPredicted_logits.npy')    
+        labs2 = np.load(file)
+    else:
+        labs2 = []                
+         
+    all_labs.append([labs1,labs2])
         
     return allw, all_labs, info
 
