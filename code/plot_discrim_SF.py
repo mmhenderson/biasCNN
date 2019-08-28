@@ -22,7 +22,7 @@ cols_all = np.concatenate((cols1,cols2),axis=0)
 cols_all = cols_all[[4, 6, 2, 7, 5, 0],:,:]
 #%% get the data ready to go...then can run any below cells independently.
 
-model_str = 'vgg16_oriTst12'
+model_str = 'vgg16_oriTst11'
 model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -195,7 +195,7 @@ for sf in sf2plot:
         baseline_discrim = [];
         for ii in range(np.size(b)):        
             inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
-#            assert np.size(inds)==bin_size-1
+            assert np.size(inds)==bin_size-1
             baseline_discrim.append(disc[inds])
             
         for ii in range(np.size(a)):       

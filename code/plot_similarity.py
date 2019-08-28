@@ -59,6 +59,10 @@ nContrastLevels = info['nContrastLevels']
             
 #%% PCA , plotting pts by orientation, with spatial frequency markers
 
+plt.rcParams['pdf.fonttype']=42
+plt.rcParams['ps.fonttype']=42    
+plt.rcParams['figure.figsize']=[10,8]
+
 plt.close('all')
 
 #layers2plot = np.arange(0,8,1)
@@ -95,14 +99,14 @@ for ww1 in layers2plot:
                          c=orilist[myinds,0],
                          vmin = 0,vmax = 180, cmap=c_map,marker=markers[sf2plot[sf]])
              
-    plt.title('Layer %d of %d\n%s' % (ww1+1,nLayers,layer_labels_plot[ww1]))
+    plt.title('Layer %d of %d\n%s' % (ww1+1,nLayers,layer_labels[ww1]))
     plt.xlabel('PC1')
     plt.ylabel('PC2')
     plt.colorbar(sc,ticks=[0,45,90,135,180])
     plt.xticks([])
     plt.yticks([])
     figname = os.path.join(figfolder, 'PCA','%s_%s_allSF_PC1_vs_PC2.eps' % (model_str,layer_labels[ww1]))
-    plt.savefig(figname, format='eps')
+    plt.savefig(figname, format='pdf',transparent=True)
        
 #%% PCA , plotting pts by orientation - just a subset of orientations around zero
             

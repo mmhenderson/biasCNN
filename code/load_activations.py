@@ -84,9 +84,9 @@ def load_activ(model_str):
               'oriTst5','oriTst5a','oriTst6','oriTst6a','oriTst7','oriTst7a',
               'oriTst8','oriTst8a','oriTst8b','oriTst9',
               'oriTst10','oriTst10a'];
-    group2 = ['oriTst9a','oriTst9b']
+    group2 = ['oriTst9a','oriTst9b','oriTst13a', 'oriTst13b','oriTst13c','oriTst13d', 'oriTst13e','oriTst13f']
     group3 = ['oriTst11','oriTst12','oriTst12a','oriTst12b']
-    
+
     if dataset in group1:    
         [u,noiselist] = np.unique(featureMat_orig[:,0],return_inverse=True)
         noiselist = np.expand_dims(noiselist,1)       
@@ -130,6 +130,7 @@ def load_activ(model_str):
         [u,phaselist] = np.unique(featureMat_orig[:,5],return_inverse=True)
         phaselist = np.expand_dims(phaselist,1)
         contrastlist = np.zeros(np.shape(phaselist))
+
         
     if 'oriTst1'==dataset:
        
@@ -371,6 +372,28 @@ def load_activ(model_str):
         info['phase_vals'] = [0,180]
         nPhase=2
         nEx = 4
+        
+    elif 'oriTst13' in dataset:             
+    
+        info['timepoint_labels'] = ['before retraining']
+        info['noise_levels'] = [0.01]       
+        info['contrast_levels'] = np.logspace(np.log10(0.01),np.log10(0.95),6)
+        info['phase_vals'] = [0,180]
+        nPhase=2
+        nEx = 4
+        
+        if 'oriTst13a'==dataset:
+            info['sf_vals'] = [0.20]  
+        elif 'oriTst13b'==dataset:
+            info['sf_vals'] = [0.36] 
+        elif 'oriTst13c'==dataset:
+            info['sf_vals'] = [0.66]
+        elif 'oriTst13d'==dataset:
+            info['sf_vals'] = [1.21]
+        elif 'oriTst13e'==dataset:
+            info['sf_vals'] = [2.20]
+        elif 'oriTst13f'==dataset:
+            info['sf_vals'] = [4.00]
 
     else:
         raise ValueError('model string not recognized')
