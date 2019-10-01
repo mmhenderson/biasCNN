@@ -9,7 +9,7 @@ Created on Sun Sep  9 15:30:56 2018
 import matplotlib.pyplot as plt
 import scipy
 import scipy.stats
-import classifiers    
+import circ_reg_tools  
 import numpy as np
 
 #%% get the data ready to go...then can run any below cells independently.
@@ -20,7 +20,7 @@ import numpy as np
 #model_str = 'nasnet_oriTst4a'
 #model_name_2plot = 'NASnet'
 
-model_str = 'vgg16_oriTst6'
+model_str = 'vgg16_oriTst11'
 model_name_2plot = 'VGG-16'
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -59,7 +59,7 @@ actual_labels = orilist
 
 plt.close('all')
 
-nn = 2
+nn = 0
 sf = 0
 ww2 = 0
 layers2plot = np.arange(0,nLayers,1)
@@ -90,7 +90,7 @@ for ww1 in layers2plot:
         trninds = np.where(phase!=pp)[0]
         tstinds = np.where(phase==pp)[0]
         
-        predlabs, corr = classifiers.circ_regression2(all_dat[trninds,:],real_ori[trninds], all_dat[tstinds,:], real_ori[tstinds])
+        predlabs, corr = circ_reg_tools.circ_regression(all_dat[trninds,:],real_ori[trninds], all_dat[tstinds,:], real_ori[tstinds])
 #        c[ww1,pp] = corr
         pred_ori[tstinds] = predlabs
         

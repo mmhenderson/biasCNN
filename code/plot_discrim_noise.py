@@ -28,7 +28,19 @@ figfolder = os.path.join(root, 'figures')
 
 import load_activations
 #allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
+nSF = 6
+nContrastLevels = 6
 
+cols1 = np.reshape(cm.tab20b(np.arange(0,20,1)), [5, 4, 4])
+cols2 = np.reshape(cm.tab20c(np.arange(0,20,1)), [5, 4, 4])
+cols_all = np.concatenate((cols1,cols2),axis=0)
+cols_all = cols_all[[4, 6, 2, 7, 5, 0],:,:]
+cols_all_interp = np.zeros([nSF,nContrastLevels,4])
+for ii in range(nSF):
+    for jj in range(4):
+        cols_all_interp[ii,:,jj] = np.interp([0,1,2,3,4,5],[0,2,4,6],cols_all[ii,:,jj])
+        
+cols_sf_noise = cols_all_interp
 #%% load multiple datasets or just one
 
 model_str = ['vgg16_oriTst12', 'vgg16_oriTst12a','vgg16_oriTst12b']
@@ -95,8 +107,23 @@ for mm in range(np.size(model_str)):
         
         sf_vals = np.concatenate((sf_vals,this_info['sf_vals']))
         
-#%%  Plot the standardized euclidean distance, in 0-360 space
-# Overlay noise levels
+nSF = np.size(np.unique(sflist))
+
+if not np.all(np.char.find(model_str,'oriTst12')==-1):
+    sf_tmp = deepcopy(sflist)
+    sf_vals_tmp = deepcopy(sf_vals)
+    
+    sflist[sf_tmp==1] = 4
+    sflist[sf_tmp==3] = 1
+    sflist[sf_tmp==4] = 3
+    
+    sf_vals[1] = sf_vals_tmp[4]
+    sf_vals[3] = sf_vals_tmp[1]
+    sf_vals[4] = sf_vals_tmp[3]   
+
+assert np.all(sf_vals==np.sort(sf_vals,0))    
+#%%  Plot Discriminability Function, overlay noise levels, single SF
+# subplots for all layers
 assert phase_vals==[0,180]
  
 orilist_adj = deepcopy(orilist)
@@ -105,7 +132,7 @@ orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
 plt.close('all')
 plt.figure()
 xx=1
-sf=1
+sf=3
 
 layers2plot = np.arange(0,nLayers,1)
 noise2plot = np.arange(0,3,1)
@@ -123,7 +150,7 @@ for ww1 in layers2plot:
        
         plt.subplot(np.ceil(len(layers2plot)/4), 4, xx)
     
-        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2]), axis=1))
+        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2],order='F'), axis=1),color=cols_sf_noise[sf,nn,:])
 
     plt.title('%s' % (layer_labels[ww1]))
 
@@ -141,14 +168,14 @@ for ww1 in layers2plot:
     plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\nSF=%.2f' % (model_str, sf_vals[sf]))
              
     xx=xx+1
-
-    figname = os.path.join(figfolder, 'Noise','%s_SF=%.2f_discrim.eps' % (model_str,sf_vals[sf]))
-    plt.savefig(figname, format='eps')
       
-#%%  Plot the standardized euclidean distance, in 0-360 space
+#%%  Plot Discriminability Function, overlay noise levels, single SF
 # Overlay noise levels
 # plot just one layer and save the figure
- 
+plt.rcParams['pdf.fonttype']=42
+plt.rcParams['ps.fonttype']=42    
+plt.rcParams['figure.figsize']=[8,5]
+
 plt.figure()
 
 assert phase_vals==[0,180]
@@ -158,11 +185,14 @@ orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
  
 plt.close('all')
 
-sf=1
+sf=4
 
-layers2plot = [15]
+layers2plot = [6]
 noise2plot = np.arange(0,3,1)
 legendlabs = ['noise=%.2f'%(noise_levels[nn]) for nn in noise2plot]
+
+cols_noise = cm.Greys(np.linspace(1,0,5))
+#colors = colors[[2,3,4],:]
 
 for ww1 in layers2plot:
 
@@ -176,27 +206,31 @@ for ww1 in layers2plot:
         
         ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
        
-        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2]), axis=1))
+        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2],order='F'), axis=1),color=cols_noise[nn,:])
 
     plt.title('%s\nSF=%.2fcpd' % (layer_labels[ww1], sf_vals[sf]))
 
     if ww1==layers2plot[-1]:
-        plt.xlabel('Grating Orientation')
-        plt.ylabel('Discriminability')
+        plt.xlabel('Stimulus Orientation')
+        plt.ylabel('Discriminability (a.u.)')
         plt.legend(legendlabs)
         plt.xticks(np.arange(0,181,45))
     else:
         plt.xticks([])
     for ll in np.arange(0,181,45):
-       plt.axvline(ll,color='k')
+       plt.axvline(ll,color=[0.8,0.8,0.8,1])
 
-    xx=xx+1
+    plt.xlim([0,180])
+    
+#    xx=xx+1
 
-    figname = os.path.join(figfolder, 'Noise','%s_%s_SF=%.2f_discrim.pdf' % (model_str,layer_labels[ww1],sf_vals[sf]))
+    figname = os.path.join(figfolder, 'Noise','VGG16_%s_SF=%.2f_discrim.pdf' % (model_str,layer_labels[ww1],sf_vals[sf]))
     plt.savefig(figname, format='pdf',transparent=True)
-      
+
 #%% plot Cardinal anisotropy, overlay Noise levels
 # plotting one SF at a time.
+
+cols_noise = cm.Greys(np.linspace(1,0,5))
 assert phase_vals==[0,180]
  
 orilist_adj = deepcopy(orilist)
@@ -212,7 +246,7 @@ legendlabs = ['noise=%.2f'%(noise_levels[nn]) for nn in noise2plot]
 b = np.arange(22.5,360,45)
 a = np.arange(0,360,90)
 bin_size = 4
-sf=1
+sf=4
 
 for nn in noise2plot:
     
@@ -240,10 +274,10 @@ for nn in noise2plot:
       
     vals = np.mean(aniso_vals,0)
  
-    plt.plot(np.arange(0,np.size(layers2plot),1),vals)
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_noise[nn,:])
 
 ylims = [-0.2,1]
-xlims = [-1, np.size(layers2plot)+2]
+xlims = [-1, np.size(layers2plot)]
 
 plt.legend(legendlabs)
 plt.plot(xlims, [0,0], 'k')
@@ -254,8 +288,73 @@ plt.title('%s\nCardinal anisotropy\nSF=%.2f' % (model_str, sf_vals[sf]))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
+figname = os.path.join(figfolder, 'Noise','VGG16_noise_SF%.2f_aniso.pdf' % (sf_vals[sf]))
+plt.savefig(figname, format='pdf',transparent=True)
 
-  
+ #%% plot overall discriminability, overlay noise levels
+# just one  SF
+cols_noise = cm.Greys(np.linspace(1,0,5))
+assert phase_vals==[0,180]
+ 
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+     
+plt.close('all')
+plt.figure()
+#xx=0
+layers2plot = np.arange(0,nLayers,1)
+noise2plot = np.arange(0,3,1)
+sf2plot = [4]
+
+legendlabs =[]
+#for sf in sf2plot: 
+for nn in noise2plot:           
+    legendlabs.append('Noise=%.2f'%(noise_levels[nn]))
+    
+b = np.arange(22.5,360,45)
+a = np.arange(0,360,90)
+bin_size = 4
+
+for sf in range(np.size(sf2plot)):
+    
+#    xx=xx+1
+#    plt.subplot(np.size(sf2plot)/2,2,xx)
+    
+    for nn in noise2plot:
+    
+        inds1 = np.where(np.all([sflist==sf2plot[sf], noiselist==noise2plot[nn]],axis=0))[0]
+#        print(np.size(inds1))
+        vals = np.zeros([np.size(layers2plot),1])
+        
+        for ww1 in range(np.size(layers2plot)):
+                   
+            w = allw[layers2plot[ww1]][0]
+                   
+            ori_axis, disc = classifiers.get_discrim_func(w[inds1,:],orilist_adj[inds1])
+
+            vals[ww1] = np.mean(disc)
+     
+        plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_noise[nn,:])
+
+    ylims = [-0.2,1]
+    xlims = [-1, np.size(layers2plot)]
+    
+#    plt.legend(legendlabs)
+    plt.plot(xlims, [0,0], 'k')
+    plt.xlim(xlims)
+#    plt.ylim(ylims)
+    plt.title('SF=%.2fcpd'%sf_vals[sf2plot[sf]])
+    if sf==np.size(sf2plot)-1:
+        plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+    else:
+        plt.xticks(np.arange(0,np.size(layers2plot),1),[])
+    plt.ylabel('d-prime')
+    
+#plt.suptitle('%s\nCardinal anisotropy' % (model_str))
+
+figname = os.path.join(figfolder, 'Noise','VGG16_noise_SF%.2f_meandiscrim.pdf' % (sf_vals[sf2plot[sf]]))
+plt.savefig(figname, format='pdf',transparent=True)
+ 
 #%% plot overall discriminability, overlay noise levels
 # separate subplot for each SF
 
@@ -269,7 +368,7 @@ plt.figure()
 xx=0
 layers2plot = np.arange(0,nLayers,1)
 noise2plot = np.arange(0,3,1)
-sf2plot = [0,4,2,1,3,5]
+sf2plot = np.arange(0,6,1)
 
 legendlabs =[]
 #for sf in sf2plot: 
@@ -299,7 +398,7 @@ for sf in range(np.size(sf2plot)):
 
             vals[ww1] = np.mean(disc)
      
-        plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_all[sf,nn,:])
+        plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_sf_noise[sf,nn,:])
 
     ylims = [-0.2,1]
     xlims = [-1, np.size(layers2plot)]
@@ -314,19 +413,10 @@ for sf in range(np.size(sf2plot)):
     else:
         plt.xticks(np.arange(0,np.size(layers2plot),1),[])
     plt.ylabel('d-prime')
-    
-#plt.suptitle('%s\nCardinal anisotropy' % (model_str))
-
-figname = os.path.join(figfolder, 'Noise','VGG16_noise_vs_SF_subplots_discrim.pdf' % (model_str))
-plt.savefig(figname, format='pdf',transparent=True)
-  
+     
 #%% plot anisotropy, overlay noise levels
 # separate subplot for each SF
 
-cols1 = np.reshape(cm.tab20b(np.arange(0,20,1)), [5, 4, 4])
-cols2 = np.reshape(cm.tab20c(np.arange(0,20,1)), [5, 4, 4])
-cols_all = np.concatenate((cols1,cols2),axis=0)
-cols_all = cols_all[[4, 6, 2, 7, 5, 0],:,:]
 
 plt.rcParams['pdf.fonttype']=42
 plt.rcParams['ps.fonttype']=42    
@@ -342,7 +432,7 @@ plt.figure()
 xx=0
 layers2plot = np.arange(0,nLayers,1)
 noise2plot = np.arange(0,3,1)
-sf2plot = [0,4,2,1,3,5]
+sf2plot = np.arange(0,6,1)
 
 legendlabs =[]
 #for sf in sf2plot: 
@@ -384,7 +474,7 @@ for sf in range(np.size(sf2plot)):
           
         vals = np.mean(aniso_vals,0)
      
-        plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_all[sf,nn,:])
+        plt.plot(np.arange(0,np.size(layers2plot),1),vals,color=cols_sf_noise[sf,nn,:])
 
     ylims = [-0.2,1]
     xlims = [-1, np.size(layers2plot)]
@@ -399,12 +489,7 @@ for sf in range(np.size(sf2plot)):
     else:
         plt.xticks(np.arange(0,np.size(layers2plot),1),[])
     plt.ylabel('Anisotropy')
-    
-#plt.suptitle('%s\nCardinal anisotropy' % (model_str))
 
-figname = os.path.join(figfolder, 'Noise','VGG16_noise_vs_SF_subplots_anisotropy.pdf' % (model_str))
-plt.savefig(figname, format='pdf',transparent=True)
-  
 #%%  Plot the standardized euclidean distance, in 0-180 space
 # Overlay noise levels
 plt.close('all')
