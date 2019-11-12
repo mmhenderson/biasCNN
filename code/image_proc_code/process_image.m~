@@ -1,0 +1,69 @@
+function image_stats =process_image(image); 
+
+
+% subtract the background color (this is the color at a corner
+            % pixel)
+            image = image-uint8(permute(repmat([R_MEAN;G_MEAN;B_MEAN],1, size(image,1),size(image,2)), [2,3,1]));
+%             assert(all(image(1,1,:)==0))    % make sure we have a zero here
+            fprintf('image %d: value %d\n',ii,image(50,50,1))
+            
+            % make it grayscale
+            if size(image,3)==3
+                image=rgb2gray(image);
+            end
+%             if image(1,1)~=0    % make sure we have a zero here
+%                 error('bad value in corner of image')
+%             end
+            
+            image = im2double(image);
+           
+            orig_size = size(image);
+    
+            % no need to resize, but make sure it's teh size we expect
+            assert(orig_size(1)==process_at_size && orig_size(2)==process_at_size)
+
+            % pad it so we can apply the filters at the correct size
+            pad_by = (size_after_pad - size(image))./2;        
+            n2pad = [floor(pad_by'), ceil(pad_by')];        
+
+            % Zero-pad the image for filtering
+            image_padded = [repmat(zeros(size(image(:,1))), 1, n2pad(2,1)), image, repmat(zeros(size(image(:,end))), 1, n2pad(2,2))];
+            image_padded = [repmat(zeros(size(image_padded(1,:))), n2pad(1,1), 1); image_padded; repmat(zeros(size(image_padded(end,:))), n2pad(1,2),1)];
+
+            padded_size = size(image_padded);
+            assert(all(padded_size==size_after_pad));
+
+            %% Filtering
+
+            % fft into frequency domain
+            image_fft = fft2(image_padded);
+
+            % Apply all my filters all at once
+            filtered_freq_domain = image_fft.*filters_freq;
+
+            % get back to the spatial domain
+            out_full = ifft2(filtered_freq_domain);
+
+            % un-pad the image (back to its down-sampled size)
+            out = out_full(n2pad(1,1)+1:n2pad(1,1)+process_at_size, n2pad(2,1)+1:n2pad(2,1)+process_at_size,:);
+            assert(size(out,1)==process_at_size && size(out,2)==process_at_size);
+
+            mag = abs(out);
+            phase = angle(out);
+            
+%             mean_mag = reshape(squeeze(mean(mean(mag,2),1)), length(freq_list),length(ori_list));
+            
+%             mag_by_ori(rr,ii,:) = mean(mean_mag,1);
+
+            %%  add all this info to my structure
+
+            image_stats(ii).mean_phase = squeeze(mean(mean(phase,2),1));
+
+            image_stats(ii).mean_mag = squeeze(mean(mean(mag,2),1));
+            image_stats(ii).ori_list = ori_list;
+            image_stats(ii).wavelength_list = wavelength_list;
+            image_stats(ii).orig_size = orig_size;
+
+            image_stats(ii).padded_size = padded_size;
+
+return image_stats
