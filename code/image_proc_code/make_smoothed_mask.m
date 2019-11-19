@@ -5,8 +5,7 @@ close all
 root = pwd;
 filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-1));
-save_path = fullfile(root, '/tensorflow/models/research/slim/datasets/');
-save_path2 = fullfile(root, 'biasCNN/image_stat_analyses/');
+save_path = fullfile(root, 'code','image_proc_code');
 % this is the height and width of the final images
 image_size = 224;
 
@@ -35,7 +34,3 @@ fn2save = fullfile(save_path,sprintf('Smoothed_mask.png'));
 
 imwrite(mask, fn2save)
 
-fn2save = fullfile(save_path2,sprintf('Smoothed_mask.png'));
-
-imwrite(mask, fn2save)
-                  

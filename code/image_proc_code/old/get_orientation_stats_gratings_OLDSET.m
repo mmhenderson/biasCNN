@@ -9,19 +9,20 @@ root = pwd;
 filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-1));
 
-image_path = fullfile(root, 'images','gratings','SpatFreqGratings');
-save_path = fullfile(root, 'image_stats','gratings','SpatFreqGratings');
+image_path = fullfile(root, 'images','gratings','grating_ims_11');
+save_path = fullfile(root, 'image_stats','gratings','grating_ims_11');
 
 if ~isfolder(save_path)
     mkdir(save_path)
 end
 
 % list the ground truth spat freq for gratings
-true_sflist = round([0.0125    0.0228    0.0414    0.0754    0.1373    0.2500],2);
+true_sflist = round(logspace(log10(0.02), log10(.4),6),3);
 
 % how big are the images when we do our analysis? this is the same
 % as the size that VGG-16 preprocesing resizes them to, after crop.
-process_at_size = 224;
+% note here these image are smaller than 224
+process_at_size = 140;
 
 % set an amount of downsampling, for speed of processing
 resize_factor = 1;  % if one then using actual size
@@ -72,7 +73,7 @@ total_time = zeros(length(true_sflist),6);
 for ff = 1:length(true_sflist)
     
     % find all the folders in this directory
-    image_folder = dir(fullfile(image_path, sprintf('*%.2f*',true_sflist(ff))));
+    image_folder = dir(fullfile(image_path, sprintf('*%.2f_Contrast_0.80',10*true_sflist(ff))));
     
     fn2save = fullfile(save_path, sprintf('%s_allstats_highdensity.mat',image_folder.name));
   
@@ -80,7 +81,7 @@ for ff = 1:length(true_sflist)
    
     fprintf('processing folder %d of %d\n',ff,length(true_sflist));
         
-    imlist = dir(fullfile(image_folder.folder, image_folder.name, '*.jpeg'));
+    imlist = dir(fullfile(image_folder.folder, image_folder.name, '*.png'));
 
     fprintf('found %d images in folder\n',length(imlist));
 
@@ -127,14 +128,13 @@ for ff = 1:length(true_sflist)
  
         params.ori_list = ori_list;
         params.wavelength_list = wavelength_list;
-                
+        
+        
         %% do the processing in a separate function
-        out = process_image(image, params);
+        out = process_image_new(image, params);
         out.true_ori = true_ori;
         out.true_sf = true_sflist(ff);
-        out.mag = [];
-        out.phase = [];
-        
+
         image_stats(ii) = out;
         
     end

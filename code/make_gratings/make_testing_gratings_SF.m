@@ -33,11 +33,22 @@ B_MEAN = 104;
 
 mask_to_add = cat(3, R_MEAN*ones(224,224,1),G_MEAN*ones(224,224,1),B_MEAN*ones(224,224,1));
 mask_to_add = mask_to_add.*(1-mask_image);
+
+% this is the height and width of the final images
+image_size = 224;
+
 %% enter parameters here
 
 % what spatial frequencies do you want? these will each be in a separate
 % folder. Units are cycles per pixel.
-freq_levels_cpp = logspace(log10(0.02),log10(0.4),6);
+freq_levels_cpp_orig = logspace(log10(0.02),log10(0.4),6);
+% adjusting these so that they'll be directly comparable with an older
+% version of the experiment (in which we had smaller 140x140 images)
+freq_levels_cycles_per_image = freq_levels_cpp_orig*140;
+
+% these are the actual cycles-per-pixel that we want, so that we end up
+% with the same number of cycles per image as we had in the older version.
+freq_levels_cpp = freq_levels_cycles_per_image/image_size;
 
 % specify different amounts of noise
 noise_levels = [0.01];
@@ -51,8 +62,6 @@ numInstances = 4;
 % two opposite phases
 phase_levels = [0,180];
 
-% this is the height and width of the final images
-image_size = 224;
 
 % start with a meshgrid
 X=-0.5*image_size+.5:1:.5*image_size-.5; Y=-0.5*image_size+.5:1:.5*image_size-.5;

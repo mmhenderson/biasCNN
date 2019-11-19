@@ -79,8 +79,12 @@ def load_activ(model_str):
         
     
      
+    if 'ori' in dataset:
+        dataset_path = os.path.join(root, 'datasets','gratings','gratings_version1',dataset,'featureMat.npy')
+    else:
+        dataset_path = os.path.join(root, 'datasets','gratings',dataset,'featureMat.npy')
     
-    featureMat_orig = np.load(os.path.join(root, 'datasets','gratings',dataset,'featureMat.npy'))
+    featureMat_orig = np.load(dataset_path)
     #%% list all the parameters of the image set that was used for this round of evaluation
 
     weight_path_before = os.path.join(root,  'activations', model_str_short,  model_str + '_short_reduced')
@@ -343,7 +347,7 @@ def load_activ(model_str):
     
         info['timepoint_labels'] = ['before retraining']
         info['noise_levels'] = [0.01]
-        info['sf_vals'] = np.logspace(np.log10(0.2),np.log10(4),6)   
+        info['sf_vals'] = np.logspace(np.log10(0.02),np.log10(.4),6)   
         info['contrast_levels'] = [0.8]
         info['phase_vals'] = [0,180]
         nPhase=2

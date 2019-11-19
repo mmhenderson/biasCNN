@@ -25,6 +25,11 @@ resize_factor = 1;  % if one then using actual size
 % which sets should we look at now? don't do all of them yet, because it'll
 % take too long.
 sets2do = [1:100];
+
+% set up parallel pool w 8 cores
+if isempty(gcp('nocreate'))
+    parpool(8);
+end
 %% specify the spatial frequencies and orientations to filter at
 
 freq_list = logspace(log10(0.02), log10(.2),4);
@@ -117,7 +122,13 @@ for ff=[sets2do]
             end
           
             %% do the processing in a separate function
-            image_stats(ii) = process_image(image, params);
+            out = process_image(image, params);
+            % take out these bigger fields here because it will take up too
+            % much memory to save, instead just saving average
+            out = rmfield(out,'mag');
+            out = rmfield(out,'phase');
+            
+            image_stats(ii) = out;
             
         end
 

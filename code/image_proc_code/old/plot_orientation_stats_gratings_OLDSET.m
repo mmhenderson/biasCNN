@@ -5,19 +5,21 @@ close all
 
 
 % list the ground truth spat freq for gratings
-true_sflist = round([0.0125    0.0228    0.0414    0.0754    0.1373    0.2500],2);
+true_sflist = round(logspace(log10(0.02), log10(.4),6),3);
+
+
 
 curr_folder = pwd;
 filesepinds=find(curr_folder==filesep);
 root = curr_folder(1:filesepinds(end-1));
-im_path = fullfile(root, 'image_stats','gratings','SpatFreqGratings');
+im_path = fullfile(root, 'image_stats','gratings','grating_ims_11');
 
 nIms = 180;
 nOriMeas = 36;
 
 % which of the true spatial frequencies do i want to make detailed plots
 % of?
-truesf2plot = [2];
+truesf2plot = [4];
 
 trueori2plotimagesc = [1];
 
@@ -26,7 +28,8 @@ plot1d = 1;
 
 for ff=truesf2plot
      % find all the folders in this directory
-    image_file = dir(fullfile(im_path, sprintf('*%.2f*',true_sflist(ff))));
+    image_file = dir(fullfile(im_path, sprintf('*%.2f_Contrast_0.80*',10*true_sflist(ff))));
+    
     fn2save = fullfile(image_file.folder, image_file.name);
      % find all the folders in this directory
 %     folder2save = fullfile(curr_folder, 'image_stats', sprintf('SpatFreqGratings'));
@@ -140,7 +143,7 @@ for ff=truesf2plot
     title(sprintf('SF content, all images with TRUE SF=%.2f',true_sflist(ff)));
     xlabel('SF (cpp)');
     ylabel('average magnitude')
-%     ylim([-2, 2])
+    ylim([-2, 2])
     xlim([0,0.50])
 
     plot(sf_list,mean(sf_mag_list,1),'Color',cols(ff,:),'LineStyle','-')

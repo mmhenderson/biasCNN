@@ -53,7 +53,8 @@ _RANDOM_SEED = 0
 _NUM_SHARDS = 10
 
 # information about the stimuli. 
-sf_vals = np.logspace(np.log10(0.02),np.log10(0.4),6)
+sf_vals = np.logspace(np.log10(0.0125),np.log10(0.250),6)
+
 stim_types = ['Gaussian']
 nOri=180
 nSF=6

@@ -24,7 +24,7 @@ resize_factor = 1;  % if one then using actual size
 
 % which sets should we look at now? don't do all of them yet, because it'll
 % take too long.
-sets2do = 1:50;
+sets2do = [1:100];
 %% specify the spatial frequencies and orientations to filter at
 
 freq_list = logspace(log10(0.02), log10(.2),4);
@@ -83,9 +83,8 @@ for ff=[sets2do]
         if ~isfolder(folder2save)
             mkdir(folder2save)
         end
-    
-    
-        fn2save = fullfile(folder2save,sprintf('%s_allstats_highdensity_TEST.mat',set_folders{ff}));  
+        
+        fn2save = fullfile(folder2save,sprintf('%s_allstats_highdensity.mat',set_folders{ff}));  
       
         imlist = dir(fullfile(image_dir_this_rot, set_folders{ff}, '*.jpeg'));
 
@@ -103,7 +102,7 @@ for ff=[sets2do]
         
         %% loop over images and process
         clear image_stats
-        parfor ii = 1:length(imlist)
+        for ii = 1:length(imlist)
 %         parfor ii =1:10
             
             im_file = fullfile(imlist(ii).folder, imlist(ii).name);
@@ -118,7 +117,12 @@ for ff=[sets2do]
             end
           
             %% do the processing in a separate function
-            image_stats(ii) = process_image(image, params);
+             = process_image(image, params);
+            % take out these bigger fields here because it will take up too
+            % much memory to save, instead just saving average
+%             image_stats(ii).mag = [];
+%             image_stats(ii).phase  [];
+        image_stats(ii)
             
         end
 

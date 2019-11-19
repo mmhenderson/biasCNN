@@ -1,9 +1,9 @@
 function image_stats = process_image(image, params)
-% analyze the orientation content of an image, using a predefined set of
+% analyse the orientation content of an image, using a predefined set of
 % filters and preprocessing parameters  
-% MMH 11/19/2019
-    %% extract the parameters of interest
-     
+
+%% extract the parameters of interest
+    
     R_MEAN = params.R_MEAN;
     G_MEAN = params.G_MEAN;
     B_MEAN = params.B_MEAN;
@@ -16,27 +16,20 @@ function image_stats = process_image(image, params)
     
     % subtract the background color (this is the color at a corner
     % pixel), so edges go to zero
-    % at this point - all image values are in the range 0-255. When we
-    % subtract the mean, some values will go negative. 
-    %   IMPORTANT: CONVERT THE IMAGE TO FLOAT FIRST, NOT INTEGER -
-    %   OTHERWISE THE NEGATIVE VALUES WILL ALL BE STUCK AT ZERO
-    image = double(image) - permute(repmat([R_MEAN;G_MEAN;B_MEAN],1, size(image,1),size(image,2)), [2,3,1]);
-    
+    image = image-uint8(permute(repmat([R_MEAN;G_MEAN;B_MEAN],1, size(image,1),size(image,2)), [2,3,1]));
+
     % make it grayscale
     if size(image,3)==3
-        grey_image = round(mean(image,3),0);
+        image=rgb2gray(image);
     end
 
-    image = grey_image;
+    image = im2double(image);
 
     orig_size = size(image);
 
     % no need to resize, but make sure it's the size we expect
     assert(orig_size(1)==process_at_size && orig_size(2)==process_at_size)
-    if image(1,1)~=0
-        warning('corner pixel value is not zero (%d) after background subtraction', image(1,1))
-    end
-    
+
     % pad it so we can apply the filters at the correct size
     pad_by = (size_after_pad - size(image))./2;        
     n2pad = [floor(pad_by'), ceil(pad_by')];        
@@ -67,9 +60,6 @@ function image_stats = process_image(image, params)
     phase = angle(out);
 
     %%  add all this info to my structure
-    
-    image_stats.phase = phase;
-    image_stats.mag = mag;
     image_stats.mean_phase = squeeze(mean(mean(phase,2),1));
     image_stats.mean_mag = squeeze(mean(mean(mag,2),1));
     image_stats.ori_list = params.ori_list;
