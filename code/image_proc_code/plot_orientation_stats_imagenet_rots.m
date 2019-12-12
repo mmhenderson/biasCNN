@@ -13,7 +13,7 @@ root = root(1:filesepinds(end-1));
 image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
 save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [1:57];
+sets2do = [1:163];
 nSets = length(sets2do);
 %% find the names of all image sets (these are identical across rotations)
 % want to make sure we grab the same ones in the same order across all
@@ -121,16 +121,16 @@ for rr=1:length(rot_list)
     line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
 
     %% plot SF distribution
-%     figure ;hold all;
-% 
-%     wave_hist = squeeze(mean(mean(mean_mag,1),3));
-%     [~,peak] = max(wave_hist);
-%     plot(freq_list, wave_hist,'Color','k')
-%     % line([freq_list(peak),freq_list(peak)],get(gca,'YLim'),'Color','r')
-%     title('spatial frequency content');
-%     xlabel('frequency (cycles/pix)');
-%     ylabel('average magnitude')
-%     xlim([min(freq_list),max(freq_list)])
-    % suptitle(sprintf('all images (%d)',nImsTotal))
+    figure ;hold all;
+
+    wave_hist = squeeze(mean(mean(mean_mag,1),3));
+    [~,peak] = max(wave_hist);
+    plot(freq_list, wave_hist,'Color','k')
+    % line([freq_list(peak),freq_list(peak)],get(gca,'YLim'),'Color','r')
+    title(sprintf('Spatial frequency content: ims rotated %d deg', rot_list(rr)));
+    xlabel('frequency (cycles/pix)');
+    ylabel('average magnitude')
+    xlim([min(freq_list),max(freq_list)])
+    suptitle(sprintf('all images (%d)',nImsTotal))
 
 end

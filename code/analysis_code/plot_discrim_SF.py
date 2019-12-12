@@ -22,12 +22,15 @@ cols_sf = cols_sf[np.arange(2,8,1),:,:]
 
 #%% get the data ready to go...then can run any below cells independently.
 
-#model_str = ['scratch_vgg16_imagenet_rot_0_SpatFreqGratings']
-model_str = ['pretrained_vgg16_SpatFreqGratings']
-#model_str = ['vgg16_oriTst11']
+dataset = 'SpatFreqGratings'
+model='vgg16'
+training_str='scratch_imagenet_rot_45'
+param_str='params1'
+#ckpt_num='694497'
+ckpt_num='689830'
+#ckpt_num='685119'
 
-model_name_2plot = 'VGG-16-PRETRAINED'
-#model_name_2plot = 'VGG-16-TRAIN-ROT-0'
+model_name_2plot = model + '_' + training_str + '_' + param_str + '_ckpt-' + ckpt_num
 
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
@@ -41,86 +44,45 @@ import load_activations
 import classifiers_custom as classifiers    
 
 
-for mm in range(np.size(model_str)):
-    
-    this_allw, this_all_labs, this_info = load_activations.load_activ(model_str[mm])
+allw, all_labs, info = load_activations.load_activ(model, dataset, training_str, param_str, ckpt_num)
 
-    if mm==0:
-        
-        allw = this_allw
-        
-        # extract some fields that will help us process the data
-        orilist = this_info['orilist']
-        phaselist=  this_info['phaselist']
-        sflist = this_info['sflist']
-        typelist = this_info['typelist']
-        noiselist = this_info['noiselist']
-        exlist = this_info['exlist']
-        contrastlist = this_info['contrastlist']
-        
-        nLayers = this_info['nLayers']
-        nPhase = this_info['nPhase']
-        nSF = this_info['nSF']
-        nType = this_info['nType']
-        nTimePts = this_info['nTimePts']
-        nNoiseLevels = this_info['nNoiseLevels']
-        nEx = this_info['nEx']
-        nContrastLevels = this_info['nContrastLevels']
-        
-        layer_labels = this_info['layer_labels']
-        timepoint_labels = this_info['timepoint_labels']
-        noise_levels = this_info['noise_levels']    
-        stim_types = this_info['stim_types']
-        phase_vals = this_info['phase_vals']
-        contrast_levels = this_info['contrast_levels']
-        
-        sf_vals = this_info['sf_vals']
-    
-        
-    else:
-        
-        for ll in range(nLayers):
-            for tt in range(nTimePts):
-                allw[ll][tt] = np.concatenate((allw[ll][tt], this_allw[ll][tt]))
-                
-        orilist = np.concatenate((orilist,this_info['orilist']))
-        phaselist=  np.concatenate((phaselist,this_info['phaselist']))
-        sflist = np.concatenate((sflist, this_info['sflist']+np.max(sflist)+1))
-        typelist = np.concatenate((typelist,this_info['typelist']))
-        noiselist = np.concatenate((noiselist, this_info['noiselist']))
-        exlist = np.concatenate((exlist,this_info['exlist']))
-        contrastlist = np.concatenate((contrastlist, this_info['contrastlist']))
-        
-        
-        assert nLayers == this_info['nLayers']
-        assert nPhase == this_info['nPhase']
-        assert nSF == this_info['nSF']
-        assert nType == this_info['nType']
-        assert nTimePts == this_info['nTimePts']
-        assert nNoiseLevels == this_info['nNoiseLevels']
-        assert nEx == this_info['nEx']
-        assert nContrastLevels == this_info['nContrastLevels']
-        
-        sf_vals = np.concatenate((sf_vals,this_info['sf_vals']))
-        
-nSF=np.size(np.unique(sflist))
+# extract some fields that will help us process the data
+orilist = info['orilist']
+phaselist=  info['phaselist']
+sflist = info['sflist']
+typelist = info['typelist']
+noiselist = info['noiselist']
+exlist = info['exlist']
+contrastlist = info['contrastlist']
 
-if not np.all(np.char.find(model_str,'oriTst12')==-1):
-    sf_tmp = deepcopy(sflist)
-    sf_vals_tmp = deepcopy(sf_vals)
-    
-    sflist[sf_tmp==1] = 4
-    sflist[sf_tmp==3] = 1
-    sflist[sf_tmp==4] = 3
-    
-    sf_vals[1] = sf_vals_tmp[4]
-    sf_vals[3] = sf_vals_tmp[1]
-    sf_vals[4] = sf_vals_tmp[3]
-    
-assert np.all(sf_vals==np.sort(sf_vals,0))
+nLayers = info['nLayers']
+nPhase = info['nPhase']
+nSF = info['nSF']
+nType = info['nType']
+nTimePts = info['nTimePts']
+nNoiseLevels = info['nNoiseLevels']
+nEx = info['nEx']
+nContrastLevels = info['nContrastLevels']
+
+layer_labels = info['layer_labels']
+timepoint_labels = info['timepoint_labels']
+noise_levels = info['noise_levels']    
+stim_types = info['stim_types']
+phase_vals = info['phase_vals']
+contrast_levels = info['contrast_levels']      
+sf_vals = info['sf_vals']
+
+assert nLayers == info['nLayers']
+assert nPhase == info['nPhase']
+assert nSF == info['nSF']
+assert nType == info['nType']
+assert nTimePts == info['nTimePts']
+assert nNoiseLevels == info['nNoiseLevels']
+assert nEx == info['nEx']
+assert nContrastLevels == info['nContrastLevels']
+
 #%% plot discriminability across 0-360 space, overlay spatial frequencies
-    
-#assert 'oriTst11' in model_str
+
 assert phase_vals==[0,180]
   
 orilist_adj = deepcopy(orilist)
@@ -162,7 +124,7 @@ for ww1 in layers2plot:
     for ll in np.arange(0,181,45):
         plt.axvline(ll,color='k')
    
-    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\nContrast %.2f Noise %.2f' % (model_str,contrast_levels[cc],noise_levels[nn]))
+    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\nContrast %.2f Noise %.2f' % (model_name_2plot,contrast_levels[cc],noise_levels[nn]))
              
     xx=xx+1
   
@@ -218,9 +180,9 @@ for ww1 in layers2plot:
    
     plt.xlim([0,180])
     
-#    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_str))
+#    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_name_2plot))
     
-    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim.pdf' % (model_str,layer_labels[ww1]))
+    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim.pdf' % (model_name_2plot,layer_labels[ww1]))
 #    plt.savefig(figname, format='pdf',transparent=True)
      
 #%%  Plot the standardized euclidean distance, in 0-360 space
@@ -281,7 +243,7 @@ for ww1 in layers2plot:
         plt.xlim([0,180])
     
 
-    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim_subplots.pdf' % (model_str,layer_labels[ww1]))
+    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim_subplots.pdf' % (model_name_2plot,layer_labels[ww1]))
     plt.savefig(figname, format='pdf',transparent=True)
 
 #%% plot HORIZONTAL anisotropy in 0-360 space, overlay SF
@@ -339,11 +301,11 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nHORIZONTAL anisotropy' % (model_str))
+plt.title('%s\nHORIZONTAL anisotropy' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_HorizontalAnisotropySF.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_HorizontalAnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
      
 #%% plot VERTICAL anisotropy in 0-360 space, overlay SF
@@ -401,11 +363,11 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nVERTICAL anisotropy' % (model_str))
+plt.title('%s\nVERTICAL anisotropy' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_VerticalAnisotropySF.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_VerticalAnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
 
     
@@ -464,14 +426,132 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinal anisotropy' % (model_str))
+plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
+#%% plot OBLIQUE (45 only) anisotropy in 0-360 space, overlay SF
+assert phase_vals==[0,180]
  
-#%% plot OBLIQUE anisotropy in 0-360 space, overlay SF
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
+plt.close('all')
+plt.figure()
+
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+b = np.arange(22.5,360,45)
+a = np.arange(45,360,180)
+bin_size = 6
+      
+for sf in sf2plot:
+    
+    inds1 = np.where(sflist==sf2plot[sf])[0]
+        
+    aniso_vals = np.zeros([4,np.size(layers2plot)])
+    
+    for ww1 in range(np.size(layers2plot)):
+               
+        w = allw[layers2plot[ww1]][0]
+               
+        ori_axis, disc = classifiers.get_discrim_func(w[inds1,:],orilist_adj[inds1])
+       
+        # take the bins of interest to get amplitude       
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+            assert np.size(inds)==bin_size-1
+            baseline_discrim.append(disc[inds])
+            
+        for ii in range(np.size(a)):       
+            inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+            assert np.size(inds)==bin_size
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
+
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nOblique (45 only) anisotropy' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+figname = os.path.join(figfolder, 'SpatFreq','%s_ObliqueAnisotropySF.pdf' % (model_name_2plot))
+plt.savefig(figname, format='pdf',transparent=True)
+ #%% plot OBLIQUE (135 only) anisotropy in 0-360 space, overlay SF
+assert phase_vals==[0,180]
+ 
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
+plt.close('all')
+plt.figure()
+
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+b = np.arange(22.5,360,45)
+a = np.arange(135,360,180)
+bin_size = 6
+      
+for sf in sf2plot:
+    
+    inds1 = np.where(sflist==sf2plot[sf])[0]
+        
+    aniso_vals = np.zeros([4,np.size(layers2plot)])
+    
+    for ww1 in range(np.size(layers2plot)):
+               
+        w = allw[layers2plot[ww1]][0]
+               
+        ori_axis, disc = classifiers.get_discrim_func(w[inds1,:],orilist_adj[inds1])
+       
+        # take the bins of interest to get amplitude       
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+            assert np.size(inds)==bin_size-1
+            baseline_discrim.append(disc[inds])
+            
+        for ii in range(np.size(a)):       
+            inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+            assert np.size(inds)==bin_size
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
+
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nOblique (135 only) anisotropy' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+figname = os.path.join(figfolder, 'SpatFreq','%s_ObliqueAnisotropySF.pdf' % (model_name_2plot))
+plt.savefig(figname, format='pdf',transparent=True)
+
+#%% plot OBLIQUE (45 + 135) anisotropy in 0-360 space, overlay SF
 assert phase_vals==[0,180]
  
 orilist_adj = deepcopy(orilist)
@@ -524,11 +604,11 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nOblique anisotropy' % (model_str))
+plt.title('%s\nOblique anisotropy' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_ObliqueAnisotropySF.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_ObliqueAnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
      
 #%% plot Mean Discrim in 0-360 space, overlay SF
@@ -564,12 +644,12 @@ for sf in sf2plot:
 xlims = [-1, np.size(layers2plot)+1]
 
 #plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
-plt.title('%s\nMean Discriminability' % (model_str))
+plt.title('%s\nMean Discriminability' % (model_name_2plot))
 plt.ylabel('d''')
 #plt.xlabel('Layer number')
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_MeanDiscSF.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_MeanDiscSF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
  
 
@@ -628,11 +708,11 @@ plt.plot(xlims, [0,0], 'k')
 #plt.xlim(xlims)
 #plt.ylim(ylims)
 #plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinal anisotropy' % (model_str))
+plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
 plt.ylabel('Anisotropy')
 plt.xlabel('Mean discrim')
 
-figname = os.path.join(figfolder, 'SpatFreq','%s_Scatter.pdf' % (model_str))
+figname = os.path.join(figfolder, 'SpatFreq','%s_Scatter.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
 
 #%% plot mean discrim versus SF, overlay layers
@@ -673,13 +753,13 @@ for ww1 in range(np.size(layers2plot)):
 
 plt.figlegend(legendlabs,loc='right')
 
-plt.title('%s\nMean Discriminability' % (model_str))
+plt.title('%s\nMean Discriminability' % (model_name_2plot))
 plt.ylabel('z-score')
 plt.xlabel('Spatial Frequency')
 plt.xscale('log')
 #plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
 
-#figname = os.path.join(figfolder, 'SpatFreq','%s_MeanDiscSF.pdf' % (model_str))
+#figname = os.path.join(figfolder, 'SpatFreq','%s_MeanDiscSF.pdf' % (model_name_2plot))
 #plt.savefig(figname, format='pdf',transparent=True)
  
 #%% plot mean discrim versus SF, overlay layers
@@ -718,7 +798,7 @@ for ww1 in range(np.size(layers2plot)):
 #xlims = [-1, np.size(layers2plot)+1]
 
 plt.figlegend(legendlabs,loc='right')
-plt.title('%s\nMean Signal' % (model_str))
+plt.title('%s\nMean Signal' % (model_name_2plot))
 plt.ylabel('z-score')
 plt.xlabel('Spatial Frequency')
 #%%  Plot the standardized euclidean distance, in 0-180 space
@@ -755,7 +835,7 @@ for ww1 in layers2plot:
         plt.xticks([])
    
    
-    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_str))
+    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_name_2plot))
              
     xx=xx+1
 
@@ -809,7 +889,7 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinal anisotropy' % (model_str))
+plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
@@ -847,7 +927,7 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 #plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nMean Orientation Discriminability' % (model_str))
+plt.title('%s\nMean Orientation Discriminability' % (model_name_2plot))
 plt.ylabel('Normalized Euclidean Distance')
 plt.xlabel('Layer number')
 

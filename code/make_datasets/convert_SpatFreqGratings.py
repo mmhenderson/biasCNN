@@ -36,10 +36,7 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
 slimpath = os.path.join(root, 'tensorflow/models/research/slim/')
 os.chdir(slimpath)
 
-dataset_name = 'SpatFreqGratings'
-
-dataset_dir = os.path.join(root, 'biasCNN/datasets/gratings/',dataset_name)
-image_dir = os.path.join(root, 'biasCNN/images/gratings/',dataset_name)
+nSets = 4
 
 #%% set up some useful constants and parameters
 
@@ -144,13 +141,13 @@ def _get_filenames_and_classes(image_dir):
       
   return all_filenames, all_labels, class_names
 
-def _get_dataset_filename(dataset_dir, split_name, num_shards, shard_id):
+def _get_dataset_filename(dataset_name, dataset_dir, split_name, num_shards, shard_id):
   output_filename = '%s_%s_%05d-of-%05d.tfrecord' % (
       dataset_name, split_name, shard_id, num_shards)
   return os.path.join(dataset_dir, output_filename)
 
 
-def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shards):
+def _convert_dataset(dataset_name, split_name, filenames, class_labels, dataset_dir, num_shards):
   """Converts the given filenames to a TFRecord dataset.
 
   Args:
@@ -174,7 +171,7 @@ def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shard
 
       for shard_id in range(num_shards):
         output_filename = _get_dataset_filename(
-            dataset_dir, split_name, num_shards, shard_id)
+            dataset_name, dataset_dir, split_name, num_shards, shard_id)
 
         with tf.python_io.TFRecordWriter(output_filename) as tfrecord_writer:
           start_ndx = shard_id * num_per_shard
@@ -210,56 +207,66 @@ def main(argv):
     dataset_dir: The dataset directory where the dataset is stored.
   """
 
-  # if the folder already exists, we'll automatically delete it and make it again.
-  if tf.gfile.Exists(dataset_dir):
-    print('deleting')
-#        tf.gfile.DeleteRecursively(FLAGS.log_dir)
-    shutil.rmtree(dataset_dir, ignore_errors = True)
-    tf.gfile.MakeDirs(dataset_dir)
-  else:
-    tf.gfile.MakeDirs(dataset_dir)
+  for ss in range(nSets):
 
- 
-#%% get the information for ALL my images (all categories, exemplars, rotations)
+    if ss==0:
+      dataset_name = 'SpatFreqGratings'
+    else:
+      dataset_name = 'SpatFreqGratings' + np.str(ss)
     
-  all_filenames, all_labels, class_names = _get_filenames_and_classes(image_dir)
- 
-# save out this list just as a double check that this original order is correct
-  np.save(os.path.join(dataset_dir, 'all_filenames.npy'), all_filenames)
-  np.save(os.path.join(dataset_dir, 'all_labels.npy'), all_labels)
-  np.save(os.path.join(dataset_dir,'featureMat.npy'), featureMat)
+    dataset_dir = os.path.join(root, 'biasCNN/datasets/gratings/',dataset_name)
+    image_dir = os.path.join(root, 'biasCNN/images/gratings/',dataset_name)
 
-  # Save the test set as a couple "batches" of images. 
-  # Doing this manually makes it easy to load them and get their weights later on. 
-  n_total_val = np.size(all_labels)
-  max_per_batch = int(90);
-  num_batches = np.ceil(n_total_val/max_per_batch)
+    # if the folder already exists, we'll automatically delete it and make it again.
+    if tf.gfile.Exists(dataset_dir):
+      print('deleting')
+  #        tf.gfile.DeleteRecursively(FLAGS.log_dir)
+      shutil.rmtree(dataset_dir, ignore_errors = True)
+      tf.gfile.MakeDirs(dataset_dir)
+    else:
+      tf.gfile.MakeDirs(dataset_dir)
   
-  for bb in np.arange(0,num_batches):
-     
-      bb=int(bb)
-      name = 'batch' + str(bb)
+   
+  #%% get the information for ALL my images (all categories, exemplars, rotations)
       
-      if (bb+1)*max_per_batch > np.size(all_filenames):
-          batch_filenames = all_filenames[bb*max_per_batch:-1]
-          batch_labels = all_labels[bb*max_per_batch:-1]
-      else:     
-          batch_filenames =all_filenames[bb*max_per_batch:(bb+1)*max_per_batch]
-          batch_labels = all_labels[bb*max_per_batch:(bb+1)*max_per_batch]
-
-          assert np.size(batch_labels)==max_per_batch
-
-      _convert_dataset(name, batch_filenames, batch_labels, dataset_dir,num_shards=1)
+    all_filenames, all_labels, class_names = _get_filenames_and_classes(image_dir)
+   
+  # save out this list just as a double check that this original order is correct
+    np.save(os.path.join(dataset_dir, 'all_filenames.npy'), all_filenames)
+    np.save(os.path.join(dataset_dir, 'all_labels.npy'), all_labels)
+    np.save(os.path.join(dataset_dir,'featureMat.npy'), featureMat)
   
-      np.save(os.path.join(dataset_dir, name + '_filenames.npy'), batch_filenames)
-      np.save(os.path.join(dataset_dir, name + '_labels.npy'), batch_labels)
+    # Save the test set as a couple "batches" of images. 
+    # Doing this manually makes it easy to load them and get their weights later on. 
+    n_total_val = np.size(all_labels)
+    max_per_batch = int(90);
+    num_batches = np.ceil(n_total_val/max_per_batch)
+    
+    for bb in np.arange(0,num_batches):
+       
+        bb=int(bb)
+        name = 'batch' + str(bb)
+        
+        if (bb+1)*max_per_batch > np.size(all_filenames):
+            batch_filenames = all_filenames[bb*max_per_batch:-1]
+            batch_labels = all_labels[bb*max_per_batch:-1]
+        else:     
+            batch_filenames =all_filenames[bb*max_per_batch:(bb+1)*max_per_batch]
+            batch_labels = all_labels[bb*max_per_batch:(bb+1)*max_per_batch]
+  
+            assert np.size(batch_labels)==max_per_batch
+  
+        _convert_dataset(dataset_name, name, batch_filenames, batch_labels, dataset_dir,num_shards=1)
+    
+        np.save(os.path.join(dataset_dir, name + '_filenames.npy'), batch_filenames)
+        np.save(os.path.join(dataset_dir, name + '_labels.npy'), batch_labels)
+  
+    # Finally, write the labels file:
+    labels_to_class_names = dict(zip(range(len(class_names)), class_names))
+    dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
+  
+    print('\nFinished converting the grating dataset, with orientation labels!')
 
-  # Finally, write the labels file:
-  labels_to_class_names = dict(zip(range(len(class_names)), class_names))
-  dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
-
-  print('\nFinished converting the grating dataset, with orientation labels!')
-
-
+    
 if __name__ == "__main__":
   tf.app.run()

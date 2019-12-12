@@ -5,5 +5,5 @@
 #SBATCH --mail-type=ALL
 
 source ~/anaconda3/bin/activate
-/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_vgg16_cluster.sh
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_vgg16_cluster_params1.sh
 

@@ -8,8 +8,6 @@ Created on Sun Sep  9 15:30:56 2018
 
 import matplotlib.pyplot as plt
 
-import classifiers    
-
 import numpy as np
 
 from copy import deepcopy
@@ -23,10 +21,12 @@ model_name_2plot = 'VGG-16'
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
 import os
-os.chdir(os.path.join(root, 'code'))
+os.chdir(os.path.join(root, 'code','analysis_code'))
 figfolder = os.path.join(root, 'figures')
 
-import load_activations
+import classifiers_custom as classifiers    
+
+import load_activations_old
 #allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
 nSF = 6
 nContrastLevels = 6
@@ -47,7 +47,7 @@ model_str = ['vgg16_oriTst12', 'vgg16_oriTst12a','vgg16_oriTst12b']
 
 for mm in range(np.size(model_str)):
     
-    this_allw, this_all_labs, this_info = load_activations.load_activ(model_str[mm])
+    this_allw, this_all_labs, this_info = load_activations_old.load_activ(model_str[mm])
 
     if mm==0:
         
@@ -132,7 +132,7 @@ orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
 plt.close('all')
 plt.figure()
 xx=1
-sf=3
+sf=4
 
 layers2plot = np.arange(0,nLayers,1)
 noise2plot = np.arange(0,3,1)

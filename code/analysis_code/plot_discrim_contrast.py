@@ -8,8 +8,6 @@ Created on Sun Sep  9 15:30:56 2018
 
 import matplotlib.pyplot as plt
 
-import classifiers    
-
 import numpy as np
 
 from copy import deepcopy
@@ -33,10 +31,11 @@ for ii in range(nSF):
 cols_sf_contrast = cols_all_interp
 
 import os
-os.chdir(os.path.join(root, 'code'))
+os.chdir(os.path.join(root, 'code','analysis_code'))
 figfolder = os.path.join(root, 'figures')
+import classifiers_custom as classifiers    
 
-import load_activations
+import load_activations_old
 #%% load multiple datasets or just one
 
 model_str = ['vgg16_oriTst13a', 'vgg16_oriTst13b','vgg16_oriTst13c','vgg16_oriTst13d', 'vgg16_oriTst13e','vgg16_oriTst13f']
@@ -44,7 +43,7 @@ model_name_2plot = 'VGG-16'
 
 for mm in range(np.size(model_str)):
     
-    this_allw, this_all_labs, this_info = load_activations.load_activ(model_str[mm])
+    this_allw, this_all_labs, this_info = load_activations_old.load_activ(model_str[mm])
 
     if mm==0:
         

@@ -15,17 +15,18 @@ import os
 #import matplotlib.pyplot as plt
 from PIL import Image
 #import shutil
-
 # find my root directory and define some paths here
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
 
 # mask file for my smoothed circular window
 mask_file = os.path.join(root,'biasCNN','code','image_proc_code','Smoothed_mask.png')
 
-# path to where all the images will get saved
-image_folder = os.path.join(root, 'biasCNN','images','gratings','SpatFreqGratings')
+#%% how many sets do i want to make? each one is a different random noise instantiation
+nSets = 4
+seeds=[746824,948249,289474,219374]
 
-# final size the images get saved at
+#%% parameters of the image set
+ # final size the images get saved at
 final_size = [224, 224]
 image_size = final_size[0]
 
@@ -44,8 +45,7 @@ _B_MEAN = 104
 mask_to_add = np.concatenate((_R_MEAN*np.ones([224,224,1]), _G_MEAN*np.ones([224,224,1]),_B_MEAN*np.ones([224,224,1])), axis=2)
 mask_to_add = mask_to_add*(1-mask_image)
 
-#%% enter parameters here
-
+#%% more parameters
 # what spatial frequencies do you want? these will each be in a separate
 #  folder. Units are cycles per pixel.
 freq_levels_cpp_orig = np.logspace(np.log10(0.02),np.log10(0.4),6);
@@ -75,70 +75,82 @@ X=np.arange(-0.5*image_size+.5, .5*image_size-.5+1, 1)
 Y=np.arange(-0.5*image_size+.5, .5*image_size-.5+1, 1)
 [x,y] = np.meshgrid(X,Y);
 
-#%% loop and make images
+#%% LOOP OVER SETS, MAKE NSETS FOLDERS
 
-
-for cc in range(np.size(contrast_levels)):
-        
-    for ff in range(np.size(freq_levels_cpp)):
-        
-        
-        thisdir = os.path.join(image_folder, 'SF_%.2f_Contrast_%.2f/'%(freq_levels_cpp[ff], contrast_levels[cc]));
-        if not os.path.isdir(thisdir):
-            os.mkdir(thisdir)        
-
-        this_freq_cpp = freq_levels_cpp[ff];
-
-        orient_vals = np.linspace(0,179,180);
-     
-        for oo in range(np.size(orient_vals)):
-
-            for pp in range(np.size(phase_levels)):
-                
-                phase_vals = np.ones([numInstances,1])*phase_levels[pp]*np.pi*180
-                
-                for ii in range(numInstances):
-                    
-                    #%% make the full field grating
-                    # range is [-1,1] to start
-                    sine = (np.sin(this_freq_cpp*2*np.pi*(y*np.sin(orient_vals[oo]*np.pi/180)+x*np.cos(orient_vals[oo]*np.pi/180))-phase_vals[ii]));
-
-                    # make the values range from 1 +/-noise to
-                    # -1 +/-noise
-                    sine = sine + np.random.normal(0,1,np.shape(sine))*noise_levels[nn];
-
-                    # now scale it down (note the noise also gets scaled)
-                    sine = sine*contrast_levels[cc];
-
-                    # shouldnt ever go outside the range [-1,1] so values won't
-                    # get cut off (requires that noise is low if contrast is
-                    # high)
-                    assert np.max(sine)<=np.float64(1) 
-                    assert np.min(sine)>=np.float64(-1)
-
-                    # change the scale from [-1, 1] to [0,1]
-                    # the center is exactly 0.5 - note the values may not
-                    # span the entire range [0,1] but will be centered at
-                    # 0.5.
-                    stim_scaled = (sine+1)/2;
-
-                    # convert from [0,1] to [0,255]
-                    stim_scaled = stim_scaled*255;
-            
-                    # double check my size
-                    assert np.shape(stim_scaled)[0]==image_size
-                    assert np.shape(stim_scaled)[1]==image_size
-                        
-                    stim_masked = np.tile(np.expand_dims(stim_scaled,axis=2),3)*mask_image
-                               
-                    stim_masked_adj = stim_masked+mask_to_add
-                    
-                    assert(np.all(np.squeeze(stim_masked_adj[0,0])==[_R_MEAN,_G_MEAN,_B_MEAN]))
-                    
-                    # put this new array in an image and save it
-                    image_final = Image.fromarray(stim_masked_adj.astype('uint8'))     
-                    
-                    fn2save = os.path.join(thisdir, 'Gaussian_phase%d_ex%d_%ddeg.jpeg'%(phase_levels[pp],ii+1,orient_vals[oo]))
-                    print('saving to %s... \n'%fn2save)
-                    image_final.save(fn2save,format='JPEG')
-               
+for ss in range(nSets):
+  
+  np.random.seed(seeds[ss])
+  
+  # path to where all the images will get saved
+  if ss==0:
+    image_folder = os.path.join(root, 'biasCNN','images','gratings','SpatFreqGratings')
+  else:
+    image_folder = os.path.join(root, 'biasCNN','images','gratings','SpatFreqGratings' + np.str(ss))
+  if not os.path.isdir(image_folder):
+    os.mkdir(image_folder)
+    
+  #%% loop and make images
+  for cc in range(np.size(contrast_levels)):
+          
+      for ff in range(np.size(freq_levels_cpp)):
+          
+          
+          thisdir = os.path.join(image_folder, 'SF_%.2f_Contrast_%.2f/'%(freq_levels_cpp[ff], contrast_levels[cc]));
+          if not os.path.isdir(thisdir):
+              os.mkdir(thisdir)        
+  
+          this_freq_cpp = freq_levels_cpp[ff];
+  
+          orient_vals = np.linspace(0,179,180);
+       
+          for oo in range(np.size(orient_vals)):
+  
+              for pp in range(np.size(phase_levels)):
+                  
+                  phase_vals = np.ones([numInstances,1])*phase_levels[pp]*np.pi*180
+                  
+                  for ii in range(numInstances):
+                      
+                      #%% make the full field grating
+                      # range is [-1,1] to start
+                      sine = (np.sin(this_freq_cpp*2*np.pi*(y*np.sin(orient_vals[oo]*np.pi/180)+x*np.cos(orient_vals[oo]*np.pi/180))-phase_vals[ii]));
+  
+                      # make the values range from 1 +/-noise to
+                      # -1 +/-noise
+                      sine = sine + np.random.normal(0,1,np.shape(sine))*noise_levels[nn];
+  
+                      # now scale it down (note the noise also gets scaled)
+                      sine = sine*contrast_levels[cc];
+  
+                      # shouldnt ever go outside the range [-1,1] so values won't
+                      # get cut off (requires that noise is low if contrast is
+                      # high)
+                      assert np.max(sine)<=np.float64(1) 
+                      assert np.min(sine)>=np.float64(-1)
+  
+                      # change the scale from [-1, 1] to [0,1]
+                      # the center is exactly 0.5 - note the values may not
+                      # span the entire range [0,1] but will be centered at
+                      # 0.5.
+                      stim_scaled = (sine+1)/2;
+  
+                      # convert from [0,1] to [0,255]
+                      stim_scaled = stim_scaled*255;
+              
+                      # double check my size
+                      assert np.shape(stim_scaled)[0]==image_size
+                      assert np.shape(stim_scaled)[1]==image_size
+                          
+                      stim_masked = np.tile(np.expand_dims(stim_scaled,axis=2),3)*mask_image
+                                 
+                      stim_masked_adj = stim_masked+mask_to_add
+                      
+                      assert(np.all(np.squeeze(stim_masked_adj[0,0])==[_R_MEAN,_G_MEAN,_B_MEAN]))
+                      
+                      # put this new array in an image and save it
+                      image_final = Image.fromarray(stim_masked_adj.astype('uint8'))     
+                      
+                      fn2save = os.path.join(thisdir, 'Gaussian_phase%d_ex%d_%ddeg.png'%(phase_levels[pp],ii+1,orient_vals[oo]))
+                      print('saving to %s... \n'%fn2save)
+                      image_final.save(fn2save,format='PNG')
+                 

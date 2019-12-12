@@ -1,9 +1,0 @@
-/var/lib/slurm-llnl/slurmd/job13643/slurm_script: line 7: /home/AD/mmhender/anaconda3/bin/activate: No such file or directory
-0
-saving to /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/scratch_vgg16_imagenet_rot_0/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/
-2000000
-python train_image_classifier_biasCNN.py --train_dir=/cube/neurocube/local/serenceslab/maggie/biasCNN/logs/scratch_vgg16_imagenet_rot_0/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/ --dataset_name=imagenet --dataset_split_name=train --dataset_dir=/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/ILSVRC2012/tfrecord_rot_0/ --model_name=vgg_16 --max_number_of_steps=2000000 --flipLR=False --random_scale=False --weight_decay=0.00005 --rmsprop_decay=0.90 --rmsprop_momentum=0.80 --learning_rate=0.005 --learning_rate_decay_factor=0.94 --max_checkpoints_to_keep=5 --keep_checkpoint_every_n_hours=0.5
-Traceback (most recent call last):
-  File "train_image_classifier_biasCNN.py", line 21, in <module>
-    import tensorflow as tf
-ImportError: No module named tensorflow
