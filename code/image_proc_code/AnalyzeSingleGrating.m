@@ -92,7 +92,7 @@ for true_ff = truesf2do
     for true_oo = trueori2do
     
         
-        imlist = dir(fullfile(image_folder, sprintf('*_%ddeg.jpeg',true_oo)));
+        imlist = dir(fullfile(image_folder, sprintf('*_%ddeg.png',true_oo)));
 
         im_file = fullfile(imlist(1).folder, imlist(1).name);
          
@@ -120,7 +120,7 @@ for true_ff = truesf2do
 
 
         %% do the processing in a separate function
-        out = process_image_new_plots(image, params);
+        out = process_image(image, params);
 
         mag = reshape(out.mag, size(image,1), size(image,2), length(freq_list), length(ori_list));
         phase = reshape(out.phase, size(image,1), size(image,2), length(freq_list), length(ori_list));
@@ -133,9 +133,10 @@ for true_ff = truesf2do
         set(gcf,'Color','w')
         hold all;kk=0;
         for filt_ff = length(freq_list):-1:1
+            axes = [];
             for filt_oo = 1:length(ori_list)
                 kk=kk+1;
-                subplot(length(freq_list),length(ori_list),kk);hold all;
+                axes = [axes, subplot(length(freq_list),length(ori_list),kk)];hold all;
                 imagesc(mag(:,:,filt_ff,filt_oo));
                 if filt_ff == length(freq_list)
                     title(sprintf('%.0f deg' ,ori_list(filt_oo)));
@@ -147,6 +148,7 @@ for true_ff = truesf2do
                 set(gca,'XTick',[]);
                 set(gca,'YTick',[]);
             end
+            match_clim(axes)
         end
         suptitle(sprintf('True SF=%.2f\nTrue Ori = %d deg',true_sflist(true_ff), true_oo));
         

@@ -80,7 +80,7 @@ def load_activ(model, dataset, training_str, param_str, ckpt_num):
     featureMat_orig = np.load(feat_path)
     #%% list all the parameters of the image set that was used for this round of evaluation
 
-    if dataset=='SpatFreqGratings':
+    if 'SpatFreqGratings' in dataset:
         [u,noiselist] = np.unique(featureMat_orig[:,0],return_inverse=True)
         noiselist = np.expand_dims(noiselist,1)      
         [u,exlist] = np.unique(featureMat_orig[:,1],return_inverse=True)

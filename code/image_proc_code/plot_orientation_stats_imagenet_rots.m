@@ -13,7 +13,7 @@ root = root(1:filesepinds(end-1));
 image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
 save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [1:163];
+sets2do = [170:180];
 nSets = length(sets2do);
 %% find the names of all image sets (these are identical across rotations)
 % want to make sure we grab the same ones in the same order across all
@@ -60,7 +60,7 @@ for rr=1:length(rot_list)
 
         ims_by_ori = permute(squeeze(mean(all_mag,1)),[2,1]);
         ims_by_ori = zscore(ims_by_ori,[],2);
-
+        
         % concatenate to a long list, nTotalIms x nOri
         ori_mag_list = [ori_mag_list; ims_by_ori];
         
@@ -94,6 +94,43 @@ for rr=1:length(rot_list)
 
     line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
     line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
+    %% one example image
+    % this plot should be shifted when the image is rotated
+    figure;
+    hold all;
+    set(gcf,'Color','w')
+
+    plot(ori_list,ori_mag_list(1,:),'Color',[0.5,0.5,0.5],'LineStyle','-')
+
+    title(sprintf('Orientation content: ims rotated %d deg\none example image', rot_list(rr)));
+    xlabel('degrees');
+    ylabel('average magnitude')
+    xlim([min(ori_list),max(ori_list)])
+    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
+
+    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
+    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
+
+    %% one example image - each SF separately
+    % this plot should be shifted when the image is rotated
+    figure;
+    hold all;
+    set(gcf,'Color','w')
+    cols = parula(nSF);
+    for sf = 1:nSF
+        vals = squeeze(all_mag(sf,:,1));       
+        vals = zscore(vals,[],2);
+        plot(ori_list,vals,'Color',cols(sf,:),'LineStyle','-')
+
+    end
+    title(sprintf('Orientation content: ims rotated %d deg\none example image', rot_list(rr)));
+    xlabel('degrees');
+    ylabel('average magnitude')
+    xlim([min(ori_list),max(ori_list)])
+    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
+    legend(legend_labs)
+    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
+    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
 
     %% plot the mean stats, separated by spatial frequency
 
@@ -104,19 +141,15 @@ for rr=1:length(rot_list)
     ori_lines = squeeze(mean(mean_mag,1));
     ori_lines = zscore(ori_lines,[],2);
     for sf = 1:nSF
-        plot(ori_list,ori_lines(sf,:),'Color',cols(sf,:),'LineStyle','--')
+        plot(ori_list,ori_lines(sf,:),'Color',cols(sf,:),'LineStyle','-')
     end
-    % ori_hist = squeeze(mean(mean(mean_mag,1),2));
-    % [~,peak] = max(ori_hist);
-    % plot(ori_list,ori_hist,'Color','k','LineWidth',2)
-    % line([ori_list(peak),ori_list(peak)],get(gca,'YLim'),'Color','r')
+    
     title(sprintf('Orientation content: ims rotated %d deg', rot_list(rr)));
     xlabel('degrees');
     ylabel('average magnitude')
     xlim([min(ori_list),max(ori_list)])
     set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
     legend(legend_labs)
-    % line([exp_ori_peak,exp_ori_peak],get(gca,'YLim'),'Color','k')
     line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
     line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
 

@@ -20,8 +20,8 @@
 # MMH 12/11/19
 
 # Specify the directory i am working in
-#ROOT=/usr/local/serenceslab/maggie/
-ROOT=/cube/neurocube/local/serenceslab/maggie/
+ROOT=/usr/local/serenceslab/maggie/
+#ROOT=/cube/neurocube/local/serenceslab/maggie/
 
 codepath=${ROOT}biasCNN/code/analysis_code/
 slimpath=${ROOT}tensorflow/models/research/slim/

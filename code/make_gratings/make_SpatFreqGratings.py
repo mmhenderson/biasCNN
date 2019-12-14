@@ -107,7 +107,7 @@ for ss in range(nSets):
   
               for pp in range(np.size(phase_levels)):
                   
-                  phase_vals = np.ones([numInstances,1])*phase_levels[pp]*np.pi*180
+                  phase_vals = np.ones([numInstances,1])*phase_levels[pp]*np.pi/180
                   
                   for ii in range(numInstances):
                       

@@ -22,12 +22,12 @@ cols_sf = cols_sf[np.arange(2,8,1),:,:]
 
 #%% get the data ready to go...then can run any below cells independently.
 
-dataset = 'SpatFreqGratings'
+dataset = 'SpatFreqGratings3'
 model='vgg16'
 training_str='scratch_imagenet_rot_45'
 param_str='params1'
-#ckpt_num='694497'
-ckpt_num='689830'
+ckpt_num='694497'
+#ckpt_num='689830'
 #ckpt_num='685119'
 
 model_name_2plot = model + '_' + training_str + '_' + param_str + '_ckpt-' + ckpt_num
@@ -127,125 +127,69 @@ for ww1 in layers2plot:
     plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\nContrast %.2f Noise %.2f' % (model_name_2plot,contrast_levels[cc],noise_levels[nn]))
              
     xx=xx+1
-  
-#%%  Plot the standardized euclidean distance, in 0-360 space
-# Overlay SF
-# plot just one layer, save a figure
-assert phase_vals==[0,180]
- 
-plt.rcParams['pdf.fonttype']=42
-plt.rcParams['ps.fonttype']=42    
 
+    
+#%% plot Cardinal (V+H) anisotropy in 0-360 space, overlay SF
+assert phase_vals==[0,180]
+
+cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
+cols_sf = cols_sf[np.arange(2,8,1),:,:]
 orilist_adj = deepcopy(orilist)
 orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
- 
+
 plt.close('all')
+plt.figure()
 
-from matplotlib import cm
-
-
-layers2plot = [12]
-sf2plot = np.arange(0,6,1)
-#sf2plot = [3]
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
 legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
 
-colors = cm.tab20b(np.linspace(0,1,np.size(sf2plot)))
-#colors = [cm.Greens(0.5),cm.Purples(0.5),cm.Reds(0.5),cm.Blues(0.5),cm.PuRd(0.5),cm.Oranges(0.5)]
-
-for ww1 in layers2plot:
-    plt.figure()
-    
-    w = allw[ww1][0]
-    
-    for sf in range(np.size(sf2plot)):
-        
-        inds = np.where(sflist==sf2plot[sf])[0]
-        
-        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-       
-        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2],order='F'), axis=1),color = cols_sf[sf,0,:])
-
-    plt.title('Layer %d of %d\n%s' % (ww1+1,nLayers,layer_labels[ww1]))
-    
-    if ww1==layers2plot[-1]:
-        plt.xlabel('Grating Orientation')
-        plt.ylabel('Discriminability')
-        plt.legend(legendlabs)
-        plt.xticks(np.arange(0,181,45))
-        plt.yticks(np.linspace(round(plt.gca().get_ylim()[0],-2),round(plt.gca().get_ylim()[1],-2), 3))
-    else:
-        plt.xticks([])
-    for ll in np.arange(0,181,45):
-        plt.axvline(ll,color=[0.8,0.8,0.8,1])
-   
-    plt.xlim([0,180])
-    
-#    plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (model_name_2plot))
-    
-    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim.pdf' % (model_name_2plot,layer_labels[ww1]))
-#    plt.savefig(figname, format='pdf',transparent=True)
-     
-#%%  Plot the standardized euclidean distance, in 0-360 space
-# plot subplots
-    
-assert phase_vals==[0,180]
- 
-plt.rcParams['pdf.fonttype']=42
-plt.rcParams['ps.fonttype']=42    
-plt.rcParams['figure.figsize']=[12,5]
-
-orilist_adj = deepcopy(orilist)
-orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
- 
-plt.close('all')
-
-from matplotlib import cm
-
-
-layers2plot = [12]
-sf2plot = np.arange(0,6,1)
-#sf2plot = [3]
-legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
-
-colors = cm.tab20b(np.linspace(0,1,np.size(sf2plot)))
-#colors = [cm.Greens(0.5),cm.Purples(0.5),cm.Reds(0.5),cm.Blues(0.5),cm.PuRd(0.5),cm.Oranges(0.5)]
-
-for ww1 in layers2plot:
-    plt.figure()
-    
-    w = allw[ww1][0]
-    
-    for sf in range(np.size(sf2plot)):
-        
-        plt.subplot(2,3,sf+1)
-        
-        inds = np.where(sflist==sf2plot[sf])[0]
-        
-        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-       
-        plt.plot(ori_axis[0:180],np.mean(np.reshape(disc, [180,2],order='F'), axis=1),color = 'k')
-
-        plt.title('%.2f cpp' % (sf_vals[sf2plot[sf]]/10))
-        
-        if sf>2:
-            plt.xlabel('Grating Orientation')
-            plt.xticks(np.arange(0,181,45))
-        else:
-            plt.xticks(np.arange(0,181,45),[])
-        if sf==0 or sf==3:
-            plt.ylabel('Discriminability (a.u.)')
-
-        plt.yticks([])
+b = np.arange(22.5,360,45)
+a = np.arange(0,360,90)
+bin_size = 6
       
-        for ll in np.arange(0,181,45):
-            plt.axvline(ll,color=[0.8,0.8,0.8,1])
-       
-        plt.xlim([0,180])
+for sf in sf2plot:
     
+    inds1 = np.where(sflist==sf2plot[sf])[0]
+        
+    aniso_vals = np.zeros([4,np.size(layers2plot)])
+    
+    for ww1 in range(np.size(layers2plot)):
+               
+        w = allw[layers2plot[ww1]][0]
+               
+        ori_axis, disc = classifiers.get_discrim_func(w[inds1,:],orilist_adj[inds1])
+       
+        # take the bins of interest to get amplitude       
+        baseline_discrim = [];
+        for ii in range(np.size(b)):        
+            inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+            assert np.size(inds)==bin_size-1
+            baseline_discrim.append(disc[inds])
+            
+        for ii in range(np.size(a)):       
+            inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+            assert np.size(inds)==bin_size
+            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+      
+    vals = np.mean(aniso_vals,0)
+ 
+    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
 
-    figname = os.path.join(figfolder, 'SpatFreq','%s_%s_discrim_subplots.pdf' % (model_name_2plot,layer_labels[ww1]))
-    plt.savefig(figname, format='pdf',transparent=True)
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
 
+plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_name_2plot))
+plt.savefig(figname, format='pdf',transparent=True)
 #%% plot HORIZONTAL anisotropy in 0-360 space, overlay SF
 assert phase_vals==[0,180]
 
@@ -370,68 +314,6 @@ plt.xlabel('Layer number')
 figname = os.path.join(figfolder, 'SpatFreq','%s_VerticalAnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
 
-    
-#%% plot Cardinal (V+H) anisotropy in 0-360 space, overlay SF
-assert phase_vals==[0,180]
-
-cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
-cols_sf = cols_sf[np.arange(2,8,1),:,:]
-orilist_adj = deepcopy(orilist)
-orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
-
-plt.close('all')
-plt.figure()
-
-layers2plot = np.arange(0,nLayers,1)
-sf2plot = [0,1,2,3,4,5] # spat freq
-legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
-
-b = np.arange(22.5,360,45)
-a = np.arange(0,360,90)
-bin_size = 6
-      
-for sf in sf2plot:
-    
-    inds1 = np.where(sflist==sf2plot[sf])[0]
-        
-    aniso_vals = np.zeros([4,np.size(layers2plot)])
-    
-    for ww1 in range(np.size(layers2plot)):
-               
-        w = allw[layers2plot[ww1]][0]
-               
-        ori_axis, disc = classifiers.get_discrim_func(w[inds1,:],orilist_adj[inds1])
-       
-        # take the bins of interest to get amplitude       
-        baseline_discrim = [];
-        for ii in range(np.size(b)):        
-            inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
-            assert np.size(inds)==bin_size-1
-            baseline_discrim.append(disc[inds])
-            
-        for ii in range(np.size(a)):       
-            inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
-            assert np.size(inds)==bin_size
-            aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
-      
-    vals = np.mean(aniso_vals,0)
- 
-    plt.plot(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
-
-ylims = [-1,1]
-xlims = [-1, np.size(layers2plot)]
-
-plt.legend(['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
-plt.plot(xlims, [0,0], 'k')
-plt.xlim(xlims)
-plt.ylim(ylims)
-plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
-plt.ylabel('Normalized Euclidean Distance difference')
-plt.xlabel('Layer number')
-
-figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_name_2plot))
-plt.savefig(figname, format='pdf',transparent=True)
 #%% plot OBLIQUE (45 only) anisotropy in 0-360 space, overlay SF
 assert phase_vals==[0,180]
  
