@@ -28,7 +28,7 @@ log_path=${ROOT}biasCNN/logs/vgg16/ImageNet/
 
 which_model=vgg_16
 dataset_name=imagenet
-rot=0
+rot=45
 
 set -e
 

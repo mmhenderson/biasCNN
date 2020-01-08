@@ -1,0 +1,1180 @@
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:708: The name tf.app.run is deprecated. Please use tf.compat.v1.app.run instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:628: FastGFile.__init__ (from tensorflow.python.platform.gfile) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.gfile.GFile.
+W0107 18:26:49.762593 140345637885760 deprecation.py:323] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:628: FastGFile.__init__ (from tensorflow.python.platform.gfile) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.gfile.GFile.
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:516: The name tf.gfile.Glob is deprecated. Please use tf.io.gfile.glob instead.
+
+W0107 18:26:54.666124 140345637885760 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:516: The name tf.gfile.Glob is deprecated. Please use tf.io.gfile.glob instead.
+
+Saving results to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/
+Successfully read 615299 bounding boxes across 544546 images.
+Determining list of input files and labels from /cube/neurocube/local/serenceslab/maggie/biasCNN/images/ImageNet/ILSVRC2012/validation_rot_0_square/.
+Finished finding files in 100 of 1000 classes.
+Finished finding files in 200 of 1000 classes.
+Finished finding files in 300 of 1000 classes.
+Finished finding files in 400 of 1000 classes.
+Finished finding files in 500 of 1000 classes.
+Finished finding files in 600 of 1000 classes.
+Finished finding files in 700 of 1000 classes.
+Finished finding files in 800 of 1000 classes.
+Finished finding files in 900 of 1000 classes.
+Finished finding files in 1000 of 1000 classes.
+Found 50000 JPEG files across 1000 labels inside /cube/neurocube/local/serenceslab/maggie/biasCNN/images/ImageNet/ILSVRC2012/validation_rot_0_square/.
+Found 0 images with bboxes out of 50000 images
+Launching 8 threads for spacings: [[0, 6250], [6250, 12500], [12500, 18750], [18750, 25000], [25000, 31250], [31250, 37500], [37500, 43750], [43750, 50000]]
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:236: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+W0107 18:27:19.607847 140345637885760 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:236: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+2020-01-07 18:27:19.629953: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
+2020-01-07 18:27:22.494204: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
+pciBusID: 0000:03:00.0
+2020-01-07 18:27:22.495266: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-07 18:27:22.498856: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10
+2020-01-07 18:27:22.501337: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10
+2020-01-07 18:27:22.502320: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10
+2020-01-07 18:27:22.505577: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10
+2020-01-07 18:27:22.507773: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10
+2020-01-07 18:27:22.514124: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-07 18:27:22.516030: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2020-01-07 18:27:22.516572: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX
+2020-01-07 18:27:22.544238: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100030000 Hz
+2020-01-07 18:27:22.546373: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55dbd13585f0 executing computations on platform Host. Devices:
+2020-01-07 18:27:22.546417: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+2020-01-07 18:27:22.547663: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
+pciBusID: 0000:03:00.0
+2020-01-07 18:27:22.547721: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-07 18:27:22.547754: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10
+2020-01-07 18:27:22.547785: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10
+2020-01-07 18:27:22.547814: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10
+2020-01-07 18:27:22.547845: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10
+2020-01-07 18:27:22.547875: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10
+2020-01-07 18:27:22.547906: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-07 18:27:22.550047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2020-01-07 18:27:22.550111: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-07 18:27:22.603449: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-01-07 18:27:22.603495: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0 
+2020-01-07 18:27:22.603506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N 
+2020-01-07 18:27:22.606006: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10798 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:03:00.0, compute capability: 3.5)
+2020-01-07 18:27:22.608443: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55dbd502b610 executing computations on platform CUDA. Devices:
+2020-01-07 18:27:22.608464: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): Tesla K40c, Compute Capability 3.5
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:239: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+W0107 18:27:22.610668 140345637885760 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:239: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:381: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+W0107 18:27:22.618789 140336798078720 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:381: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:381: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+W0107 18:27:22.619256 140336512890624 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/build_imagenet_data.py:381: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+2020-01-07 18:27:33.893801 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00000-of-00128
+2020-01-07 18:27:34.281823 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00064-of-00128
+2020-01-07 18:27:34.316251 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00032-of-00128
+2020-01-07 18:27:34.420084 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00096-of-00128
+2020-01-07 18:27:34.574628 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00048-of-00128
+2020-01-07 18:27:35.029847 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00112-of-00128
+2020-01-07 18:27:35.260604 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00016-of-00128
+2020-01-07 18:27:35.400748 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00080-of-00128
+2020-01-07 18:27:46.329065 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00033-of-00128
+2020-01-07 18:27:46.910452 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00065-of-00128
+2020-01-07 18:27:46.966236 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00001-of-00128
+2020-01-07 18:27:47.360032 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00049-of-00128
+2020-01-07 18:27:47.566369 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00113-of-00128
+2020-01-07 18:27:47.621155 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00097-of-00128
+2020-01-07 18:27:48.298289 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00017-of-00128
+2020-01-07 18:27:48.397305 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00081-of-00128
+2020-01-07 18:27:54.019420 [thread 2]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:54.513022 [thread 0]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:54.538567 [thread 4]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:54.808366 [thread 7]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:54.866471 [thread 3]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:55.166311 [thread 6]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:55.227853 [thread 1]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:55.280792 [thread 5]: Processed 1000 of 6250 images in thread batch.
+2020-01-07 18:27:59.598113 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00034-of-00128
+2020-01-07 18:28:00.253286 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00066-of-00128
+2020-01-07 18:28:00.406380 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00002-of-00128
+2020-01-07 18:28:00.829722 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00050-of-00128
+2020-01-07 18:28:00.957510 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00098-of-00128
+2020-01-07 18:28:01.081947 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00114-of-00128
+2020-01-07 18:28:01.166773 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00018-of-00128
+2020-01-07 18:28:01.530272 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00082-of-00128
+2020-01-07 18:28:12.488116 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00035-of-00128
+2020-01-07 18:28:14.047494 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00003-of-00128
+2020-01-07 18:28:14.219607 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00067-of-00128
+2020-01-07 18:28:14.482250 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00115-of-00128
+2020-01-07 18:28:14.916682 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00051-of-00128
+2020-01-07 18:28:15.231708 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00083-of-00128
+2020-01-07 18:28:15.413800 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00019-of-00128
+2020-01-07 18:28:15.519026 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00099-of-00128
+2020-01-07 18:28:26.350300 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00036-of-00128
+2020-01-07 18:28:27.389723 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00116-of-00128
+2020-01-07 18:28:27.573002 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00004-of-00128
+2020-01-07 18:28:27.764976 [thread 2]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:28.554947 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00068-of-00128
+2020-01-07 18:28:28.932202 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00084-of-00128
+2020-01-07 18:28:29.292414 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00052-of-00128
+2020-01-07 18:28:29.372967 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00100-of-00128
+2020-01-07 18:28:29.715254 [thread 7]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:30.021303 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00020-of-00128
+2020-01-07 18:28:30.027187 [thread 0]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:30.420028 [thread 4]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:30.624237 [thread 5]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:30.632834 [thread 3]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:30.995571 [thread 6]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:31.686676 [thread 1]: Processed 2000 of 6250 images in thread batch.
+2020-01-07 18:28:40.792452 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00037-of-00128
+2020-01-07 18:28:41.382381 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00117-of-00128
+2020-01-07 18:28:41.858328 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00085-of-00128
+2020-01-07 18:28:42.213990 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00005-of-00128
+2020-01-07 18:28:42.741317 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00053-of-00128
+2020-01-07 18:28:43.243798 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00101-of-00128
+2020-01-07 18:28:43.730252 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00069-of-00128
+2020-01-07 18:28:44.349227 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00021-of-00128
+2020-01-07 18:28:54.982265 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00086-of-00128
+2020-01-07 18:28:55.095867 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00038-of-00128
+2020-01-07 18:28:55.215278 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00118-of-00128
+2020-01-07 18:28:55.867253 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00102-of-00128
+2020-01-07 18:28:55.936066 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00006-of-00128
+2020-01-07 18:28:56.848546 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00054-of-00128
+2020-01-07 18:28:57.583180 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00022-of-00128
+2020-01-07 18:28:57.583484 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00070-of-00128
+2020-01-07 18:29:03.446948 [thread 5]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:04.216841 [thread 2]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:04.932781 [thread 7]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:05.206842 [thread 6]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:05.560914 [thread 0]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:06.201276 [thread 3]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:06.537604 [thread 4]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:06.759473 [thread 1]: Processed 3000 of 6250 images in thread batch.
+2020-01-07 18:29:07.607147 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00087-of-00128
+2020-01-07 18:29:08.403646 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00039-of-00128
+2020-01-07 18:29:08.871141 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00103-of-00128
+2020-01-07 18:29:09.360742 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00007-of-00128
+2020-01-07 18:29:09.467386 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00119-of-00128
+2020-01-07 18:29:10.930550 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00055-of-00128
+2020-01-07 18:29:11.339707 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00071-of-00128
+2020-01-07 18:29:11.531261 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00023-of-00128
+2020-01-07 18:29:21.322796 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00088-of-00128
+2020-01-07 18:29:22.256939 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00104-of-00128
+2020-01-07 18:29:22.620267 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00040-of-00128
+2020-01-07 18:29:22.737787 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00120-of-00128
+2020-01-07 18:29:23.092414 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00008-of-00128
+2020-01-07 18:29:23.922613 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00056-of-00128
+2020-01-07 18:29:24.226247 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00072-of-00128
+2020-01-07 18:29:24.920618 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00024-of-00128
+2020-01-07 18:29:34.459089 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00089-of-00128
+2020-01-07 18:29:35.936362 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00041-of-00128
+2020-01-07 18:29:36.055883 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00121-of-00128
+2020-01-07 18:29:36.236945 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00105-of-00128
+2020-01-07 18:29:36.979622 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00009-of-00128
+2020-01-07 18:29:37.230880 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00057-of-00128
+2020-01-07 18:29:37.813844 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00073-of-00128
+2020-01-07 18:29:37.880019 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00025-of-00128
+2020-01-07 18:29:38.150653 [thread 5]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:38.790879 [thread 7]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:38.880880 [thread 2]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:39.094760 [thread 6]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:40.177236 [thread 0]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:40.887282 [thread 3]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:41.144915 [thread 4]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:41.297376 [thread 1]: Processed 4000 of 6250 images in thread batch.
+2020-01-07 18:29:48.103537 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00090-of-00128
+2020-01-07 18:29:48.580061 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00042-of-00128
+2020-01-07 18:29:48.881368 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00106-of-00128
+2020-01-07 18:29:49.223424 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00122-of-00128
+2020-01-07 18:29:49.930243 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00010-of-00128
+2020-01-07 18:29:50.273531 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00074-of-00128
+2020-01-07 18:29:50.847018 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00058-of-00128
+2020-01-07 18:29:51.112160 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00026-of-00128
+2020-01-07 18:30:02.050203 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00091-of-00128
+2020-01-07 18:30:02.245787 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00043-of-00128
+2020-01-07 18:30:02.386419 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00107-of-00128
+2020-01-07 18:30:02.735331 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00123-of-00128
+2020-01-07 18:30:03.285181 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00011-of-00128
+2020-01-07 18:30:03.510937 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00075-of-00128
+2020-01-07 18:30:03.741892 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00059-of-00128
+2020-01-07 18:30:04.052189 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00027-of-00128
+2020-01-07 18:30:12.791754 [thread 7]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:13.045873 [thread 2]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:13.096972 [thread 5]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:13.135379 [thread 6]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:13.610112 [thread 0]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:13.974040 [thread 1]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:14.167745 [thread 3]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:14.370798 [thread 4]: Processed 5000 of 6250 images in thread batch.
+2020-01-07 18:30:15.041250 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00124-of-00128
+2020-01-07 18:30:15.255464 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00044-of-00128
+2020-01-07 18:30:15.682221 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00092-of-00128
+2020-01-07 18:30:15.777411 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00108-of-00128
+2020-01-07 18:30:16.826695 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00012-of-00128
+2020-01-07 18:30:17.191212 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00028-of-00128
+2020-01-07 18:30:17.329169 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00060-of-00128
+2020-01-07 18:30:17.674184 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00076-of-00128
+2020-01-07 18:30:28.522860 [thread 2]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00045-of-00128
+2020-01-07 18:30:28.859136 [thread 7]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00125-of-00128
+2020-01-07 18:30:28.995492 [thread 5]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00093-of-00128
+2020-01-07 18:30:29.834689 [thread 6]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00109-of-00128
+2020-01-07 18:30:29.984612 [thread 0]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00013-of-00128
+2020-01-07 18:30:30.169048 [thread 3]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00061-of-00128
+2020-01-07 18:30:30.474739 [thread 4]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00077-of-00128
+2020-01-07 18:30:30.873599 [thread 1]: Wrote 390 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00029-of-00128
+2020-01-07 18:30:42.494761 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00094-of-00128
+2020-01-07 18:30:42.686084 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00126-of-00128
+2020-01-07 18:30:42.828574 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00046-of-00128
+2020-01-07 18:30:43.836023 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00078-of-00128
+2020-01-07 18:30:43.919127 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00062-of-00128
+2020-01-07 18:30:43.972768 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00030-of-00128
+2020-01-07 18:30:44.120582 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00014-of-00128
+2020-01-07 18:30:44.464892 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00110-of-00128
+2020-01-07 18:30:47.674084 [thread 7]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:47.737082 [thread 5]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:48.014208 [thread 2]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:48.844389 [thread 3]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:48.887459 [thread 1]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:48.994501 [thread 0]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:49.224040 [thread 4]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:49.508899 [thread 6]: Processed 6000 of 6250 images in thread batch.
+2020-01-07 18:30:55.766633 [thread 7]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00127-of-00128
+2020-01-07 18:30:55.766777 [thread 7]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:55.901103 [thread 2]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00047-of-00128
+2020-01-07 18:30:55.901452 [thread 2]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:56.121831 [thread 5]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00095-of-00128
+2020-01-07 18:30:56.124508 [thread 5]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:57.764766 [thread 0]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00015-of-00128
+2020-01-07 18:30:57.766159 [thread 0]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:57.816578 [thread 1]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00031-of-00128
+2020-01-07 18:30:57.817093 [thread 1]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:57.979889 [thread 3]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00063-of-00128
+2020-01-07 18:30:57.979931 [thread 3]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:58.375798 [thread 6]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00111-of-00128
+2020-01-07 18:30:58.375849 [thread 6]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:58.637588 [thread 4]: Wrote 391 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/validation-00079-of-00128
+2020-01-07 18:30:58.637649 [thread 4]: Wrote 6250 images to 6250 shards.
+2020-01-07 18:30:58.925334: Finished writing all 50000 images in data set.
+Determining list of input files and labels from /cube/neurocube/local/serenceslab/maggie/biasCNN/images/ImageNet/ILSVRC2012/train_rot_0_square/.
+Finished finding files in 100 of 1000 classes.
+Finished finding files in 200 of 1000 classes.
+Finished finding files in 300 of 1000 classes.
+Finished finding files in 400 of 1000 classes.
+Finished finding files in 500 of 1000 classes.
+Finished finding files in 600 of 1000 classes.
+Finished finding files in 700 of 1000 classes.
+Finished finding files in 800 of 1000 classes.
+Finished finding files in 900 of 1000 classes.
+Finished finding files in 1000 of 1000 classes.
+Found 1281167 JPEG files across 1000 labels inside /cube/neurocube/local/serenceslab/maggie/biasCNN/images/ImageNet/ILSVRC2012/train_rot_0_square/.
+Found 0 images with bboxes out of 1281167 images
+Launching 8 threads for spacings: [[0, 160145], [160145, 320291], [320291, 480437], [480437, 640583], [640583, 800729], [800729, 960875], [960875, 1121021], [1121021, 1281167]]
+2020-01-07 18:34:10.090348: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
+pciBusID: 0000:03:00.0
+2020-01-07 18:34:10.090467: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-07 18:34:10.090519: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10
+2020-01-07 18:34:10.090591: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10
+2020-01-07 18:34:10.090641: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10
+2020-01-07 18:34:10.090681: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10
+2020-01-07 18:34:10.090726: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10
+2020-01-07 18:34:10.090769: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-07 18:34:10.092333: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2020-01-07 18:34:10.092490: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-01-07 18:34:10.092505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0 
+2020-01-07 18:34:10.092514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N 
+2020-01-07 18:34:10.094246: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10798 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:03:00.0, compute capability: 3.5)
+2020-01-07 18:34:46.271440 [thread 3]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:46.683192 [thread 2]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:48.261904 [thread 4]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:48.661637 [thread 0]: Processed 1000 of 160145 images in thread batch.
+2020-01-07 18:34:48.803310 [thread 6]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:48.832077 [thread 5]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:49.075291 [thread 1]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:49.611735 [thread 7]: Processed 1000 of 160146 images in thread batch.
+2020-01-07 18:34:55.648719 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00384-of-01024
+2020-01-07 18:34:56.245738 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00256-of-01024
+2020-01-07 18:34:56.676694 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00512-of-01024
+2020-01-07 18:34:57.922121 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00000-of-01024
+2020-01-07 18:34:58.101856 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00768-of-01024
+2020-01-07 18:34:58.773517 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00128-of-01024
+2020-01-07 18:34:58.962704 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00640-of-01024
+2020-01-07 18:34:59.489639 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00896-of-01024
+2020-01-07 18:35:24.956957 [thread 3]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:25.412813 [thread 2]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:26.055089 [thread 4]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:26.091736 [thread 0]: Processed 2000 of 160145 images in thread batch.
+2020-01-07 18:35:26.297415 [thread 5]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:26.492917 [thread 7]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:26.896957 [thread 6]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:27.256826 [thread 1]: Processed 2000 of 160146 images in thread batch.
+2020-01-07 18:35:42.213590 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00385-of-01024
+2020-01-07 18:35:44.600770 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00257-of-01024
+2020-01-07 18:35:44.745439 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00001-of-01024
+2020-01-07 18:35:45.001432 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00513-of-01024
+2020-01-07 18:35:45.121602 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00641-of-01024
+2020-01-07 18:35:45.236298 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00897-of-01024
+2020-01-07 18:35:46.090459 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00129-of-01024
+2020-01-07 18:35:47.231680 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00769-of-01024
+2020-01-07 18:36:02.425320 [thread 3]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:03.324393 [thread 2]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:03.451739 [thread 0]: Processed 3000 of 160145 images in thread batch.
+2020-01-07 18:36:03.626355 [thread 5]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:03.697731 [thread 4]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:03.868529 [thread 7]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:04.023577 [thread 1]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:06.486998 [thread 6]: Processed 3000 of 160146 images in thread batch.
+2020-01-07 18:36:31.060761 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00386-of-01024
+2020-01-07 18:36:32.552552 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00258-of-01024
+2020-01-07 18:36:32.787241 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00002-of-01024
+2020-01-07 18:36:32.893955 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00642-of-01024
+2020-01-07 18:36:33.522075 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00514-of-01024
+2020-01-07 18:36:33.785667 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00130-of-01024
+2020-01-07 18:36:34.297048 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00898-of-01024
+2020-01-07 18:36:35.699036 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00770-of-01024
+2020-01-07 18:36:40.590250 [thread 3]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:41.649418 [thread 2]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:42.045159 [thread 4]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:42.088767 [thread 0]: Processed 4000 of 160145 images in thread batch.
+2020-01-07 18:36:42.178010 [thread 5]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:42.516176 [thread 1]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:43.501727 [thread 7]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:36:43.757513 [thread 6]: Processed 4000 of 160146 images in thread batch.
+2020-01-07 18:37:18.213831 [thread 3]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:18.399397 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00387-of-01024
+2020-01-07 18:37:18.804386 [thread 2]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:18.923721 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00259-of-01024
+2020-01-07 18:37:19.112532 [thread 4]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:19.249958 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00515-of-01024
+2020-01-07 18:37:19.570185 [thread 1]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:19.683133 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00131-of-01024
+2020-01-07 18:37:19.729454 [thread 0]: Processed 5000 of 160145 images in thread batch.
+2020-01-07 18:37:19.876543 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00003-of-01024
+2020-01-07 18:37:20.632359 [thread 5]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:20.796744 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00643-of-01024
+2020-01-07 18:37:20.803964 [thread 6]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:21.130501 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00771-of-01024
+2020-01-07 18:37:21.756468 [thread 7]: Processed 5000 of 160146 images in thread batch.
+2020-01-07 18:37:21.926649 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00899-of-01024
+2020-01-07 18:37:56.380048 [thread 1]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:57.435549 [thread 2]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:57.469280 [thread 3]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:57.800551 [thread 4]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:58.536472 [thread 6]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:58.710769 [thread 0]: Processed 6000 of 160145 images in thread batch.
+2020-01-07 18:37:59.546942 [thread 5]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:37:59.885016 [thread 7]: Processed 6000 of 160146 images in thread batch.
+2020-01-07 18:38:06.978569 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00132-of-01024
+2020-01-07 18:38:08.209839 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00260-of-01024
+2020-01-07 18:38:08.332489 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00388-of-01024
+2020-01-07 18:38:08.505602 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00516-of-01024
+2020-01-07 18:38:08.809658 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00772-of-01024
+2020-01-07 18:38:09.257584 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00004-of-01024
+2020-01-07 18:38:10.290612 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00644-of-01024
+2020-01-07 18:38:11.286996 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00900-of-01024
+2020-01-07 18:38:39.526683 [thread 1]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:40.239251 [thread 3]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:40.350756 [thread 4]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:40.550677 [thread 2]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:40.912992 [thread 6]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:41.633500 [thread 0]: Processed 7000 of 160145 images in thread batch.
+2020-01-07 18:38:43.428276 [thread 5]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:38:44.641447 [thread 7]: Processed 7000 of 160146 images in thread batch.
+2020-01-07 18:39:01.060416 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00133-of-01024
+2020-01-07 18:39:01.823096 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00517-of-01024
+2020-01-07 18:39:02.042776 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00389-of-01024
+2020-01-07 18:39:03.304704 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00261-of-01024
+2020-01-07 18:39:04.175948 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00005-of-01024
+2020-01-07 18:39:04.623719 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00773-of-01024
+2020-01-07 18:39:06.063586 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00645-of-01024
+2020-01-07 18:39:06.473561 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00901-of-01024
+2020-01-07 18:39:23.704700 [thread 1]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:24.477289 [thread 4]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:26.064288 [thread 3]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:26.663016 [thread 0]: Processed 8000 of 160145 images in thread batch.
+2020-01-07 18:39:26.666649 [thread 2]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:26.696305 [thread 6]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:28.464462 [thread 5]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:39:28.927647 [thread 7]: Processed 8000 of 160146 images in thread batch.
+2020-01-07 18:40:01.100740 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00134-of-01024
+2020-01-07 18:40:01.403759 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00390-of-01024
+2020-01-07 18:40:01.830232 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00518-of-01024
+2020-01-07 18:40:02.242203 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00262-of-01024
+2020-01-07 18:40:02.990177 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00006-of-01024
+2020-01-07 18:40:03.100816 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00774-of-01024
+2020-01-07 18:40:05.597076 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00646-of-01024
+2020-01-07 18:40:08.230071 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00902-of-01024
+2020-01-07 18:40:13.930327 [thread 1]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:14.205781 [thread 3]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:14.810973 [thread 4]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:15.250664 [thread 2]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:16.100020 [thread 6]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:16.290320 [thread 0]: Processed 9000 of 160145 images in thread batch.
+2020-01-07 18:40:19.037704 [thread 5]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:40:22.686191 [thread 7]: Processed 9000 of 160146 images in thread batch.
+2020-01-07 18:41:04.586186 [thread 1]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:04.733966 [thread 4]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:04.919187 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00135-of-01024
+2020-01-07 18:41:05.147053 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00519-of-01024
+2020-01-07 18:41:05.320683 [thread 2]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:06.151935 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00263-of-01024
+2020-01-07 18:41:06.300125 [thread 3]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:06.793736 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00391-of-01024
+2020-01-07 18:41:07.339050 [thread 6]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:07.604568 [thread 0]: Processed 10000 of 160145 images in thread batch.
+2020-01-07 18:41:07.938769 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00775-of-01024
+2020-01-07 18:41:08.090113 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00007-of-01024
+2020-01-07 18:41:09.396705 [thread 5]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:09.880896 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00647-of-01024
+2020-01-07 18:41:12.410064 [thread 7]: Processed 10000 of 160146 images in thread batch.
+2020-01-07 18:41:12.867796 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00903-of-01024
+2020-01-07 18:41:48.734010 [thread 1]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:49.535311 [thread 4]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:49.948357 [thread 2]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:50.407353 [thread 0]: Processed 11000 of 160145 images in thread batch.
+2020-01-07 18:41:50.559333 [thread 3]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:51.408380 [thread 6]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:53.332807 [thread 5]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:41:56.509882 [thread 7]: Processed 11000 of 160146 images in thread batch.
+2020-01-07 18:42:05.199550 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00136-of-01024
+2020-01-07 18:42:05.340298 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00520-of-01024
+2020-01-07 18:42:05.501100 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00264-of-01024
+2020-01-07 18:42:06.289995 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00392-of-01024
+2020-01-07 18:42:06.747896 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00008-of-01024
+2020-01-07 18:42:07.490310 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00776-of-01024
+2020-01-07 18:42:11.248967 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00648-of-01024
+2020-01-07 18:42:16.155714 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00904-of-01024
+2020-01-07 18:42:44.171450 [thread 2]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:44.441966 [thread 1]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:45.256394 [thread 3]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:45.293613 [thread 4]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:46.540815 [thread 0]: Processed 12000 of 160145 images in thread batch.
+2020-01-07 18:42:46.562442 [thread 6]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:49.964131 [thread 5]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:42:51.117892 [thread 7]: Processed 12000 of 160146 images in thread batch.
+2020-01-07 18:43:05.907015 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00265-of-01024
+2020-01-07 18:43:06.021985 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00137-of-01024
+2020-01-07 18:43:07.587669 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00393-of-01024
+2020-01-07 18:43:07.663846 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00521-of-01024
+2020-01-07 18:43:08.071531 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00777-of-01024
+2020-01-07 18:43:08.298935 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00009-of-01024
+2020-01-07 18:43:10.348885 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00649-of-01024
+2020-01-07 18:43:12.685307 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00905-of-01024
+2020-01-07 18:43:25.323875 [thread 2]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:26.211043 [thread 1]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:26.633379 [thread 4]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:26.980520 [thread 3]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:27.439827 [thread 6]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:27.502953 [thread 0]: Processed 13000 of 160145 images in thread batch.
+2020-01-07 18:43:30.705719 [thread 5]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:32.532566 [thread 7]: Processed 13000 of 160146 images in thread batch.
+2020-01-07 18:43:53.174865 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00266-of-01024
+2020-01-07 18:43:54.904395 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00522-of-01024
+2020-01-07 18:43:55.661651 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00138-of-01024
+2020-01-07 18:43:56.141975 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00394-of-01024
+2020-01-07 18:43:56.360867 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00778-of-01024
+2020-01-07 18:43:56.673944 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00010-of-01024
+2020-01-07 18:43:58.443541 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00650-of-01024
+2020-01-07 18:44:01.495684 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00906-of-01024
+2020-01-07 18:44:02.511237 [thread 2]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:03.432263 [thread 4]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:03.959290 [thread 1]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:04.444728 [thread 6]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:05.062991 [thread 3]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:06.061640 [thread 0]: Processed 14000 of 160145 images in thread batch.
+2020-01-07 18:44:07.871044 [thread 5]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:10.382321 [thread 7]: Processed 14000 of 160146 images in thread batch.
+2020-01-07 18:44:39.201975 [thread 2]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:39.630175 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00267-of-01024
+2020-01-07 18:44:40.409355 [thread 1]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:40.509086 [thread 4]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:40.769550 [thread 6]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:41.233192 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00139-of-01024
+2020-01-07 18:44:41.368750 [thread 3]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:41.466511 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00523-of-01024
+2020-01-07 18:44:41.672226 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00779-of-01024
+2020-01-07 18:44:42.190244 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00395-of-01024
+2020-01-07 18:44:43.073185 [thread 0]: Processed 15000 of 160145 images in thread batch.
+2020-01-07 18:44:43.577496 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00011-of-01024
+2020-01-07 18:44:44.342313 [thread 5]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:44.858958 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00651-of-01024
+2020-01-07 18:44:47.606370 [thread 7]: Processed 15000 of 160146 images in thread batch.
+2020-01-07 18:44:48.092746 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00907-of-01024
+2020-01-07 18:45:16.285400 [thread 1]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:16.797065 [thread 2]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:17.069795 [thread 6]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:17.346022 [thread 4]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:17.958033 [thread 3]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:18.793689 [thread 0]: Processed 16000 of 160145 images in thread batch.
+2020-01-07 18:45:20.847329 [thread 5]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:23.627280 [thread 7]: Processed 16000 of 160146 images in thread batch.
+2020-01-07 18:45:26.485850 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00140-of-01024
+2020-01-07 18:45:26.598672 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00268-of-01024
+2020-01-07 18:45:28.394118 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00780-of-01024
+2020-01-07 18:45:28.461969 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00012-of-01024
+2020-01-07 18:45:28.462842 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00396-of-01024
+2020-01-07 18:45:28.886743 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00524-of-01024
+2020-01-07 18:45:31.232267 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00652-of-01024
+2020-01-07 18:45:32.353379 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00908-of-01024
+2020-01-07 18:45:53.328143 [thread 1]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:53.408205 [thread 2]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:54.462580 [thread 3]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:54.503600 [thread 6]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:54.697701 [thread 0]: Processed 17000 of 160145 images in thread batch.
+2020-01-07 18:45:55.550354 [thread 4]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:57.360603 [thread 5]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:45:59.522053 [thread 7]: Processed 17000 of 160146 images in thread batch.
+2020-01-07 18:46:10.946801 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00141-of-01024
+2020-01-07 18:46:11.809809 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00269-of-01024
+2020-01-07 18:46:13.055031 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00397-of-01024
+2020-01-07 18:46:13.127255 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00781-of-01024
+2020-01-07 18:46:14.198951 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00013-of-01024
+2020-01-07 18:46:15.477995 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00525-of-01024
+2020-01-07 18:46:16.394727 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00653-of-01024
+2020-01-07 18:46:18.662211 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00909-of-01024
+2020-01-07 18:46:30.191124 [thread 1]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:31.813770 [thread 6]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:31.938047 [thread 2]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:32.006090 [thread 3]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:32.200224 [thread 0]: Processed 18000 of 160145 images in thread batch.
+2020-01-07 18:46:34.952553 [thread 4]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:36.055181 [thread 5]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:46:37.596602 [thread 7]: Processed 18000 of 160146 images in thread batch.
+2020-01-07 18:47:02.400331 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00142-of-01024
+2020-01-07 18:47:04.456783 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00782-of-01024
+2020-01-07 18:47:05.284838 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00398-of-01024
+2020-01-07 18:47:05.749534 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00014-of-01024
+2020-01-07 18:47:06.235882 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00270-of-01024
+2020-01-07 18:47:10.264077 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00526-of-01024
+2020-01-07 18:47:10.748803 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00654-of-01024
+2020-01-07 18:47:12.243581 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00910-of-01024
+2020-01-07 18:47:12.847162 [thread 1]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:15.692630 [thread 3]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:15.887516 [thread 0]: Processed 19000 of 160145 images in thread batch.
+2020-01-07 18:47:16.025968 [thread 6]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:16.771504 [thread 2]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:20.275569 [thread 4]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:20.637564 [thread 5]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:22.175105 [thread 7]: Processed 19000 of 160146 images in thread batch.
+2020-01-07 18:47:56.245808 [thread 1]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:47:56.961337 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00143-of-01024
+2020-01-07 18:47:58.146496 [thread 6]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:47:58.545407 [thread 2]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:47:58.565082 [thread 3]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:47:58.744233 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00783-of-01024
+2020-01-07 18:47:58.963522 [thread 0]: Processed 20000 of 160145 images in thread batch.
+2020-01-07 18:47:59.165512 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00271-of-01024
+2020-01-07 18:47:59.275964 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00399-of-01024
+2020-01-07 18:47:59.531203 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00015-of-01024
+2020-01-07 18:48:02.714374 [thread 5]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:48:03.317714 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00655-of-01024
+2020-01-07 18:48:04.013397 [thread 4]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:48:04.662283 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00527-of-01024
+2020-01-07 18:48:04.784517 [thread 7]: Processed 20000 of 160146 images in thread batch.
+2020-01-07 18:48:05.981035 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00911-of-01024
+2020-01-07 18:48:37.694691 [thread 1]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:39.485047 [thread 6]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:39.999128 [thread 2]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:40.458906 [thread 0]: Processed 21000 of 160145 images in thread batch.
+2020-01-07 18:48:40.491929 [thread 3]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:45.600137 [thread 5]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:46.323219 [thread 4]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:47.406941 [thread 7]: Processed 21000 of 160146 images in thread batch.
+2020-01-07 18:48:48.700332 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00144-of-01024
+2020-01-07 18:48:51.555822 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00272-of-01024
+2020-01-07 18:48:51.619978 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00784-of-01024
+2020-01-07 18:48:52.912618 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00016-of-01024
+2020-01-07 18:48:53.179548 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00400-of-01024
+2020-01-07 18:48:58.200806 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00656-of-01024
+2020-01-07 18:48:59.079776 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00912-of-01024
+2020-01-07 18:48:59.157537 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00528-of-01024
+2020-01-07 18:49:18.893879 [thread 1]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:22.247443 [thread 6]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:23.040029 [thread 0]: Processed 22000 of 160145 images in thread batch.
+2020-01-07 18:49:23.298714 [thread 3]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:23.791441 [thread 2]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:27.651443 [thread 5]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:29.049008 [thread 7]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:30.162567 [thread 4]: Processed 22000 of 160146 images in thread batch.
+2020-01-07 18:49:40.389015 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00145-of-01024
+2020-01-07 18:49:44.401636 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00785-of-01024
+2020-01-07 18:49:45.256336 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00017-of-01024
+2020-01-07 18:49:45.611218 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00401-of-01024
+2020-01-07 18:49:46.655412 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00273-of-01024
+2020-01-07 18:49:50.927048 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00657-of-01024
+2020-01-07 18:49:51.583942 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00913-of-01024
+2020-01-07 18:49:52.875588 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00529-of-01024
+2020-01-07 18:50:02.396247 [thread 1]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:05.196833 [thread 6]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:05.853940 [thread 0]: Processed 23000 of 160145 images in thread batch.
+2020-01-07 18:50:05.974657 [thread 3]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:07.581243 [thread 2]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:12.023846 [thread 5]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:12.304877 [thread 7]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:13.995678 [thread 4]: Processed 23000 of 160146 images in thread batch.
+2020-01-07 18:50:36.120571 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00146-of-01024
+2020-01-07 18:50:39.128760 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00786-of-01024
+2020-01-07 18:50:39.188739 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00018-of-01024
+2020-01-07 18:50:40.297793 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00402-of-01024
+2020-01-07 18:50:42.642689 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00274-of-01024
+2020-01-07 18:50:46.387384 [thread 1]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:46.572935 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00914-of-01024
+2020-01-07 18:50:46.648481 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00658-of-01024
+2020-01-07 18:50:47.711761 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00530-of-01024
+2020-01-07 18:50:48.823198 [thread 6]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:50.112721 [thread 3]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:50.242828 [thread 0]: Processed 24000 of 160145 images in thread batch.
+2020-01-07 18:50:53.046260 [thread 2]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:56.742771 [thread 7]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:56.858539 [thread 5]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:50:57.801595 [thread 4]: Processed 24000 of 160146 images in thread batch.
+2020-01-07 18:51:31.368822 [thread 1]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:32.171027 [thread 6]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:32.214326 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00147-of-01024
+2020-01-07 18:51:33.136266 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00787-of-01024
+2020-01-07 18:51:33.209639 [thread 3]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:33.369013 [thread 0]: Processed 25000 of 160145 images in thread batch.
+2020-01-07 18:51:34.065912 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00019-of-01024
+2020-01-07 18:51:34.123116 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00403-of-01024
+2020-01-07 18:51:36.303905 [thread 2]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:37.079278 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00275-of-01024
+2020-01-07 18:51:39.334238 [thread 5]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:39.935254 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00659-of-01024
+2020-01-07 18:51:41.968235 [thread 4]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:42.115060 [thread 7]: Processed 25000 of 160146 images in thread batch.
+2020-01-07 18:51:42.758857 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00531-of-01024
+2020-01-07 18:51:42.879007 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00915-of-01024
+2020-01-07 18:52:14.432837 [thread 6]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:14.970357 [thread 1]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:15.277993 [thread 3]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:15.792313 [thread 0]: Processed 26000 of 160145 images in thread batch.
+2020-01-07 18:52:18.954511 [thread 2]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:20.045345 [thread 5]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:23.090209 [thread 7]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:24.027101 [thread 4]: Processed 26000 of 160146 images in thread batch.
+2020-01-07 18:52:25.778191 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00788-of-01024
+2020-01-07 18:52:26.288710 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00148-of-01024
+2020-01-07 18:52:27.672011 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00404-of-01024
+2020-01-07 18:52:27.945702 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00020-of-01024
+2020-01-07 18:52:31.049980 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00276-of-01024
+2020-01-07 18:52:31.167198 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00660-of-01024
+2020-01-07 18:52:34.379111 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00916-of-01024
+2020-01-07 18:52:36.006088 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00532-of-01024
+2020-01-07 18:52:56.240736 [thread 6]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:52:57.225441 [thread 1]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:52:58.156033 [thread 0]: Processed 27000 of 160145 images in thread batch.
+2020-01-07 18:52:58.248023 [thread 3]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:53:00.593751 [thread 2]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:53:00.931920 [thread 5]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:53:04.817354 [thread 7]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:53:06.093995 [thread 4]: Processed 27000 of 160146 images in thread batch.
+2020-01-07 18:53:17.215236 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00789-of-01024
+2020-01-07 18:53:17.417998 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00149-of-01024
+2020-01-07 18:53:18.345562 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00021-of-01024
+2020-01-07 18:53:19.081298 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00405-of-01024
+2020-01-07 18:53:21.603012 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00661-of-01024
+2020-01-07 18:53:21.887871 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00277-of-01024
+2020-01-07 18:53:25.876178 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00917-of-01024
+2020-01-07 18:53:27.256350 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00533-of-01024
+2020-01-07 18:53:36.274979 [thread 1]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:36.679410 [thread 0]: Processed 28000 of 160145 images in thread batch.
+2020-01-07 18:53:36.693468 [thread 6]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:36.813892 [thread 3]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:38.772231 [thread 5]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:40.074441 [thread 2]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:43.858081 [thread 7]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:53:46.592881 [thread 4]: Processed 28000 of 160146 images in thread batch.
+2020-01-07 18:54:07.951841 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00790-of-01024
+2020-01-07 18:54:08.220953 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00022-of-01024
+2020-01-07 18:54:08.451108 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00406-of-01024
+2020-01-07 18:54:08.518143 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00150-of-01024
+2020-01-07 18:54:09.822827 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00662-of-01024
+2020-01-07 18:54:13.001389 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00278-of-01024
+2020-01-07 18:54:15.437172 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00918-of-01024
+2020-01-07 18:54:17.234499 [thread 6]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:17.771208 [thread 0]: Processed 29000 of 160145 images in thread batch.
+2020-01-07 18:54:18.059040 [thread 3]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:18.914540 [thread 1]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:19.932345 [thread 5]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:20.046791 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00534-of-01024
+2020-01-07 18:54:22.350319 [thread 2]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:24.896844 [thread 7]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:54:30.221981 [thread 4]: Processed 29000 of 160146 images in thread batch.
+2020-01-07 18:55:09.742544 [thread 6]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:10.190564 [thread 0]: Processed 30000 of 160145 images in thread batch.
+2020-01-07 18:55:10.263378 [thread 3]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:10.419359 [thread 5]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:10.963434 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00791-of-01024
+2020-01-07 18:55:10.972563 [thread 1]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:11.626062 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00407-of-01024
+2020-01-07 18:55:11.676563 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00023-of-01024
+2020-01-07 18:55:12.084440 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00151-of-01024
+2020-01-07 18:55:12.266271 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00663-of-01024
+2020-01-07 18:55:14.741823 [thread 2]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:17.015835 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00279-of-01024
+2020-01-07 18:55:18.937048 [thread 7]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:20.136647 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00919-of-01024
+2020-01-07 18:55:22.484720 [thread 4]: Processed 30000 of 160146 images in thread batch.
+2020-01-07 18:55:23.429879 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00535-of-01024
+2020-01-07 18:55:50.947518 [thread 3]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:55:50.959903 [thread 0]: Processed 31000 of 160145 images in thread batch.
+2020-01-07 18:55:51.549045 [thread 6]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:55:52.992818 [thread 1]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:55:53.193802 [thread 5]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:55:55.446511 [thread 2]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:55:59.080826 [thread 7]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:56:02.606143 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00408-of-01024
+2020-01-07 18:56:03.100771 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00792-of-01024
+2020-01-07 18:56:03.344185 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00024-of-01024
+2020-01-07 18:56:03.374722 [thread 4]: Processed 31000 of 160146 images in thread batch.
+2020-01-07 18:56:04.422396 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00664-of-01024
+2020-01-07 18:56:04.452408 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00152-of-01024
+2020-01-07 18:56:06.781486 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00280-of-01024
+2020-01-07 18:56:09.786553 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00920-of-01024
+2020-01-07 18:56:14.237482 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00536-of-01024
+2020-01-07 18:56:31.180445 [thread 3]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:31.319797 [thread 0]: Processed 32000 of 160145 images in thread batch.
+2020-01-07 18:56:31.603414 [thread 6]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:32.778377 [thread 5]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:33.378019 [thread 1]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:35.389509 [thread 2]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:38.436570 [thread 7]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:41.677304 [thread 4]: Processed 32000 of 160146 images in thread batch.
+2020-01-07 18:56:51.441928 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00409-of-01024
+2020-01-07 18:56:51.845890 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00025-of-01024
+2020-01-07 18:56:52.075295 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00793-of-01024
+2020-01-07 18:56:53.116634 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00665-of-01024
+2020-01-07 18:56:53.382787 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00153-of-01024
+2020-01-07 18:56:56.205936 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00281-of-01024
+2020-01-07 18:56:58.506117 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00921-of-01024
+2020-01-07 18:57:02.137785 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00537-of-01024
+2020-01-07 18:57:11.124988 [thread 0]: Processed 33000 of 160145 images in thread batch.
+2020-01-07 18:57:11.225217 [thread 6]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:11.255188 [thread 3]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:12.007241 [thread 1]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:12.942166 [thread 5]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:14.302995 [thread 2]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:17.023950 [thread 7]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:20.843066 [thread 4]: Processed 33000 of 160146 images in thread batch.
+2020-01-07 18:57:41.203010 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00410-of-01024
+2020-01-07 18:57:41.472196 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00026-of-01024
+2020-01-07 18:57:41.832288 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00794-of-01024
+2020-01-07 18:57:42.485882 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00154-of-01024
+2020-01-07 18:57:44.632624 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00666-of-01024
+2020-01-07 18:57:45.043908 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00282-of-01024
+2020-01-07 18:57:46.745294 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00922-of-01024
+2020-01-07 18:57:49.705690 [thread 3]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:57:50.292751 [thread 0]: Processed 34000 of 160145 images in thread batch.
+2020-01-07 18:57:50.977525 [thread 6]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:57:51.425793 [thread 1]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:57:51.854198 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00538-of-01024
+2020-01-07 18:57:53.305661 [thread 2]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:57:53.385800 [thread 5]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:57:55.600740 [thread 7]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:58:00.590615 [thread 4]: Processed 34000 of 160146 images in thread batch.
+2020-01-07 18:58:27.150206 [thread 3]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:27.728687 [thread 0]: Processed 35000 of 160145 images in thread batch.
+2020-01-07 18:58:28.140162 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00411-of-01024
+2020-01-07 18:58:28.266357 [thread 6]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:28.888667 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00027-of-01024
+2020-01-07 18:58:29.132977 [thread 1]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:29.550744 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00795-of-01024
+2020-01-07 18:58:31.182789 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00155-of-01024
+2020-01-07 18:58:31.338824 [thread 2]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:31.436928 [thread 5]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:32.339762 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00667-of-01024
+2020-01-07 18:58:32.476540 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00283-of-01024
+2020-01-07 18:58:34.148148 [thread 7]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:35.157630 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00923-of-01024
+2020-01-07 18:58:37.345344 [thread 4]: Processed 35000 of 160146 images in thread batch.
+2020-01-07 18:58:38.402189 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00539-of-01024
+2020-01-07 18:59:04.417754 [thread 3]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:04.832943 [thread 6]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:05.857588 [thread 0]: Processed 36000 of 160145 images in thread batch.
+2020-01-07 18:59:07.628658 [thread 1]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:08.036612 [thread 2]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:08.177611 [thread 5]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:10.369465 [thread 7]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:14.121912 [thread 4]: Processed 36000 of 160146 images in thread batch.
+2020-01-07 18:59:14.594029 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00412-of-01024
+2020-01-07 18:59:15.476622 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00796-of-01024
+2020-01-07 18:59:15.742276 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00028-of-01024
+2020-01-07 18:59:18.118136 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00156-of-01024
+2020-01-07 18:59:18.434560 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00284-of-01024
+2020-01-07 18:59:18.965192 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00668-of-01024
+2020-01-07 18:59:20.966698 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00924-of-01024
+2020-01-07 18:59:24.603665 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00540-of-01024
+2020-01-07 18:59:41.222485 [thread 3]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:42.932940 [thread 6]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:43.854942 [thread 0]: Processed 37000 of 160145 images in thread batch.
+2020-01-07 18:59:44.088461 [thread 1]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:44.405743 [thread 2]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:45.377694 [thread 5]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:48.479029 [thread 7]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 18:59:51.430349 [thread 4]: Processed 37000 of 160146 images in thread batch.
+2020-01-07 19:00:03.377468 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00413-of-01024
+2020-01-07 19:00:05.253496 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00797-of-01024
+2020-01-07 19:00:05.748022 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00157-of-01024
+2020-01-07 19:00:05.843095 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00029-of-01024
+2020-01-07 19:00:06.496081 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00285-of-01024
+2020-01-07 19:00:08.459931 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00669-of-01024
+2020-01-07 19:00:10.914354 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00925-of-01024
+2020-01-07 19:00:14.861429 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00541-of-01024
+2020-01-07 19:00:22.508495 [thread 3]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:26.250373 [thread 1]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:26.401313 [thread 6]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:26.412730 [thread 0]: Processed 38000 of 160145 images in thread batch.
+2020-01-07 19:00:26.992841 [thread 2]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:29.367802 [thread 5]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:30.189178 [thread 7]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:35.189433 [thread 4]: Processed 38000 of 160146 images in thread batch.
+2020-01-07 19:00:57.565319 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00414-of-01024
+2020-01-07 19:01:00.433228 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00798-of-01024
+2020-01-07 19:01:00.611090 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00158-of-01024
+2020-01-07 19:01:01.147195 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00030-of-01024
+2020-01-07 19:01:01.972968 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00286-of-01024
+2020-01-07 19:01:05.086890 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00670-of-01024
+2020-01-07 19:01:06.063722 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00926-of-01024
+2020-01-07 19:01:08.055562 [thread 3]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:09.484923 [thread 1]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:10.435515 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00542-of-01024
+2020-01-07 19:01:10.874572 [thread 6]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:11.618063 [thread 0]: Processed 39000 of 160145 images in thread batch.
+2020-01-07 19:01:12.508418 [thread 2]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:16.336831 [thread 5]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:17.603328 [thread 7]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:22.616459 [thread 4]: Processed 39000 of 160146 images in thread batch.
+2020-01-07 19:01:54.181883 [thread 3]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:01:56.229054 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00415-of-01024
+2020-01-07 19:01:56.549934 [thread 1]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:01:56.950963 [thread 6]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:01:57.875485 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00159-of-01024
+2020-01-07 19:01:58.343141 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00799-of-01024
+2020-01-07 19:01:58.743808 [thread 0]: Processed 40000 of 160145 images in thread batch.
+2020-01-07 19:01:58.889311 [thread 2]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:02:00.052806 [thread 7]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:02:00.418239 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00031-of-01024
+2020-01-07 19:02:00.551279 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00287-of-01024
+2020-01-07 19:02:01.554038 [thread 5]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:02:02.154661 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00927-of-01024
+2020-01-07 19:02:02.978415 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00671-of-01024
+2020-01-07 19:02:07.866477 [thread 4]: Processed 40000 of 160146 images in thread batch.
+2020-01-07 19:02:09.267562 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00543-of-01024
+2020-01-07 19:02:36.273599 [thread 3]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:37.401099 [thread 6]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:37.644092 [thread 1]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:39.040904 [thread 2]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:39.740997 [thread 0]: Processed 41000 of 160145 images in thread batch.
+2020-01-07 19:02:41.549542 [thread 7]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:42.146283 [thread 5]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:47.868531 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00416-of-01024
+2020-01-07 19:02:48.083981 [thread 4]: Processed 41000 of 160146 images in thread batch.
+2020-01-07 19:02:48.501597 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00160-of-01024
+2020-01-07 19:02:49.049570 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00800-of-01024
+2020-01-07 19:02:50.279811 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00288-of-01024
+2020-01-07 19:02:51.659511 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00032-of-01024
+2020-01-07 19:02:53.506858 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00928-of-01024
+2020-01-07 19:02:53.910613 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00672-of-01024
+2020-01-07 19:03:00.186452 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00544-of-01024
+2020-01-07 19:03:14.768191 [thread 3]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:17.862643 [thread 1]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:18.421496 [thread 6]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:19.598611 [thread 2]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:20.354190 [thread 0]: Processed 42000 of 160145 images in thread batch.
+2020-01-07 19:03:21.016908 [thread 5]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:23.015935 [thread 7]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:28.302548 [thread 4]: Processed 42000 of 160146 images in thread batch.
+2020-01-07 19:03:35.901387 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00417-of-01024
+2020-01-07 19:03:39.041755 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00161-of-01024
+2020-01-07 19:03:39.416308 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00801-of-01024
+2020-01-07 19:03:40.323345 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00289-of-01024
+2020-01-07 19:03:41.150958 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00033-of-01024
+2020-01-07 19:03:41.945185 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00673-of-01024
+2020-01-07 19:03:44.974838 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00929-of-01024
+2020-01-07 19:03:49.234088 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00545-of-01024
+2020-01-07 19:03:54.827926 [thread 3]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:03:56.442995 [thread 1]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:03:56.942380 [thread 6]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:03:59.802264 [thread 0]: Processed 43000 of 160145 images in thread batch.
+2020-01-07 19:04:00.175550 [thread 2]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:04:00.388825 [thread 5]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:04:02.516061 [thread 7]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:04:07.080356 [thread 4]: Processed 43000 of 160146 images in thread batch.
+2020-01-07 19:04:25.531148 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00418-of-01024
+2020-01-07 19:04:26.062709 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00162-of-01024
+2020-01-07 19:04:26.722654 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00802-of-01024
+2020-01-07 19:04:28.828306 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00034-of-01024
+2020-01-07 19:04:30.680690 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00674-of-01024
+2020-01-07 19:04:30.722301 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00290-of-01024
+2020-01-07 19:04:32.795564 [thread 3]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:33.020345 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00930-of-01024
+2020-01-07 19:04:33.295748 [thread 1]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:34.915418 [thread 6]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:36.921604 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00546-of-01024
+2020-01-07 19:04:37.226645 [thread 0]: Processed 44000 of 160145 images in thread batch.
+2020-01-07 19:04:37.909492 [thread 2]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:38.242666 [thread 5]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:41.542845 [thread 7]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:04:45.301122 [thread 4]: Processed 44000 of 160146 images in thread batch.
+2020-01-07 19:05:11.231897 [thread 1]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:11.506080 [thread 3]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:12.565883 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00163-of-01024
+2020-01-07 19:05:12.734280 [thread 6]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:12.831958 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00419-of-01024
+2020-01-07 19:05:14.151473 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00803-of-01024
+2020-01-07 19:05:16.054824 [thread 2]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:16.561484 [thread 0]: Processed 45000 of 160145 images in thread batch.
+2020-01-07 19:05:16.706270 [thread 5]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:17.137897 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00291-of-01024
+2020-01-07 19:05:18.040039 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00035-of-01024
+2020-01-07 19:05:18.168318 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00675-of-01024
+2020-01-07 19:05:18.948612 [thread 7]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:21.463470 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00931-of-01024
+2020-01-07 19:05:22.359397 [thread 4]: Processed 45000 of 160146 images in thread batch.
+2020-01-07 19:05:23.769760 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00547-of-01024
+2020-01-07 19:05:48.218127 [thread 1]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:48.446193 [thread 3]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:49.197094 [thread 6]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:52.360581 [thread 2]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:53.101505 [thread 5]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:53.782543 [thread 0]: Processed 46000 of 160145 images in thread batch.
+2020-01-07 19:05:55.354813 [thread 7]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:58.954752 [thread 4]: Processed 46000 of 160146 images in thread batch.
+2020-01-07 19:05:59.023312 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00164-of-01024
+2020-01-07 19:05:59.282200 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00420-of-01024
+2020-01-07 19:05:59.990028 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00804-of-01024
+2020-01-07 19:06:03.287845 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00292-of-01024
+2020-01-07 19:06:04.399444 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00676-of-01024
+2020-01-07 19:06:04.994431 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00036-of-01024
+2020-01-07 19:06:07.489074 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00932-of-01024
+2020-01-07 19:06:09.825874 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00548-of-01024
+2020-01-07 19:06:25.042087 [thread 1]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:27.599183 [thread 3]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:28.232041 [thread 6]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:29.310723 [thread 2]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:30.681859 [thread 5]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:32.569533 [thread 0]: Processed 47000 of 160145 images in thread batch.
+2020-01-07 19:06:33.762296 [thread 7]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:35.137084 [thread 4]: Processed 47000 of 160146 images in thread batch.
+2020-01-07 19:06:45.243677 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00165-of-01024
+2020-01-07 19:06:46.577013 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00421-of-01024
+2020-01-07 19:06:48.217410 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00805-of-01024
+2020-01-07 19:06:48.900324 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00293-of-01024
+2020-01-07 19:06:50.881912 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00677-of-01024
+2020-01-07 19:06:52.167332 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00037-of-01024
+2020-01-07 19:06:54.448572 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00933-of-01024
+2020-01-07 19:06:55.792691 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00549-of-01024
+2020-01-07 19:07:06.795299 [thread 1]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:09.273453 [thread 3]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:10.936543 [thread 6]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:11.638144 [thread 2]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:14.120394 [thread 5]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:16.244206 [thread 0]: Processed 48000 of 160145 images in thread batch.
+2020-01-07 19:07:19.751336 [thread 7]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:20.834660 [thread 4]: Processed 48000 of 160146 images in thread batch.
+2020-01-07 19:07:41.510806 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00166-of-01024
+2020-01-07 19:07:44.708286 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00422-of-01024
+2020-01-07 19:07:45.392839 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00806-of-01024
+2020-01-07 19:07:46.371046 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00678-of-01024
+2020-01-07 19:07:46.566599 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00294-of-01024
+2020-01-07 19:07:48.942754 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00038-of-01024
+2020-01-07 19:07:49.596754 [thread 1]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:07:51.978498 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00934-of-01024
+2020-01-07 19:07:52.322585 [thread 3]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:07:52.618483 [thread 6]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:07:53.377432 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00550-of-01024
+2020-01-07 19:07:54.685694 [thread 5]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:07:54.827161 [thread 2]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:07:56.392901 [thread 0]: Processed 49000 of 160145 images in thread batch.
+2020-01-07 19:07:59.803697 [thread 7]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:08:01.342216 [thread 4]: Processed 49000 of 160146 images in thread batch.
+2020-01-07 19:08:25.901356 [thread 1]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:27.438901 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00167-of-01024
+2020-01-07 19:08:27.961403 [thread 3]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:29.275237 [thread 6]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:30.183049 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00423-of-01024
+2020-01-07 19:08:30.249672 [thread 5]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:30.918051 [thread 2]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:31.282226 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00807-of-01024
+2020-01-07 19:08:31.633403 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00679-of-01024
+2020-01-07 19:08:32.572822 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00295-of-01024
+2020-01-07 19:08:32.794385 [thread 0]: Processed 50000 of 160145 images in thread batch.
+2020-01-07 19:08:34.051355 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00039-of-01024
+2020-01-07 19:08:36.134842 [thread 7]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:37.351931 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00935-of-01024
+2020-01-07 19:08:37.748803 [thread 4]: Processed 50000 of 160146 images in thread batch.
+2020-01-07 19:08:38.998016 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00551-of-01024
+2020-01-07 19:09:03.356637 [thread 1]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:06.301487 [thread 3]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:07.708152 [thread 6]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:08.656530 [thread 5]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:09.035984 [thread 2]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:09.478743 [thread 0]: Processed 51000 of 160145 images in thread batch.
+2020-01-07 19:09:12.772031 [thread 7]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:14.794278 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00168-of-01024
+2020-01-07 19:09:16.552783 [thread 4]: Processed 51000 of 160146 images in thread batch.
+2020-01-07 19:09:18.128738 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00424-of-01024
+2020-01-07 19:09:19.461098 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00808-of-01024
+2020-01-07 19:09:20.154213 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00680-of-01024
+2020-01-07 19:09:21.799125 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00296-of-01024
+2020-01-07 19:09:21.969834 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00040-of-01024
+2020-01-07 19:09:23.317996 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00936-of-01024
+2020-01-07 19:09:27.797574 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00552-of-01024
+2020-01-07 19:09:42.137244 [thread 1]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:44.327880 [thread 3]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:45.563071 [thread 6]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:46.431344 [thread 5]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:47.782361 [thread 2]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:47.969260 [thread 0]: Processed 52000 of 160145 images in thread batch.
+2020-01-07 19:09:49.952758 [thread 7]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:09:53.822629 [thread 4]: Processed 52000 of 160146 images in thread batch.
+2020-01-07 19:10:02.381808 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00169-of-01024
+2020-01-07 19:10:04.896293 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00425-of-01024
+2020-01-07 19:10:07.025899 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00681-of-01024
+2020-01-07 19:10:07.256881 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00809-of-01024
+2020-01-07 19:10:08.162635 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00297-of-01024
+2020-01-07 19:10:08.297513 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00041-of-01024
+2020-01-07 19:10:10.068192 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00937-of-01024
+2020-01-07 19:10:14.608263 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00553-of-01024
+2020-01-07 19:10:19.504122 [thread 1]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:21.525643 [thread 3]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:23.950470 [thread 5]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:24.625393 [thread 6]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:24.656811 [thread 2]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:24.703235 [thread 0]: Processed 53000 of 160145 images in thread batch.
+2020-01-07 19:10:26.609705 [thread 7]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:30.372443 [thread 4]: Processed 53000 of 160146 images in thread batch.
+2020-01-07 19:10:49.107476 [thread 1]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00170-of-01024
+2020-01-07 19:10:51.466208 [thread 3]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00426-of-01024
+2020-01-07 19:10:53.583841 [thread 6]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00810-of-01024
+2020-01-07 19:10:53.684232 [thread 5]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00682-of-01024
+2020-01-07 19:10:54.079278 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00042-of-01024
+2020-01-07 19:10:54.336093 [thread 2]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00298-of-01024
+2020-01-07 19:10:56.383821 [thread 1]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:10:56.489457 [thread 7]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00938-of-01024
+2020-01-07 19:10:59.520735 [thread 3]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:00.419915 [thread 4]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00554-of-01024
+2020-01-07 19:11:00.871049 [thread 5]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:00.946825 [thread 6]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:01.098514 [thread 0]: Processed 54000 of 160145 images in thread batch.
+2020-01-07 19:11:01.500489 [thread 2]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:04.346940 [thread 7]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:07.542274 [thread 4]: Processed 54000 of 160146 images in thread batch.
+2020-01-07 19:11:31.740470 [thread 1]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:33.432190 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00171-of-01024
+2020-01-07 19:11:34.970407 [thread 3]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:36.058752 [thread 6]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:38.217763 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00427-of-01024
+2020-01-07 19:11:38.324937 [thread 0]: Processed 55000 of 160145 images in thread batch.
+2020-01-07 19:11:38.813796 [thread 2]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:38.890993 [thread 5]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:39.442929 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00811-of-01024
+2020-01-07 19:11:40.313984 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00043-of-01024
+2020-01-07 19:11:40.572886 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00683-of-01024
+2020-01-07 19:11:40.805836 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00299-of-01024
+2020-01-07 19:11:42.343066 [thread 7]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:45.285580 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00939-of-01024
+2020-01-07 19:11:46.251556 [thread 4]: Processed 55000 of 160146 images in thread batch.
+2020-01-07 19:11:48.485259 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00555-of-01024
+2020-01-07 19:12:16.583792 [thread 1]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:18.575910 [thread 3]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:21.038886 [thread 6]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:21.181932 [thread 0]: Processed 56000 of 160145 images in thread batch.
+2020-01-07 19:12:21.859237 [thread 2]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:22.527651 [thread 5]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:24.078167 [thread 7]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:27.469586 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00172-of-01024
+2020-01-07 19:12:28.762794 [thread 4]: Processed 56000 of 160146 images in thread batch.
+2020-01-07 19:12:31.162787 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00428-of-01024
+2020-01-07 19:12:31.478568 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00812-of-01024
+2020-01-07 19:12:32.247415 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00044-of-01024
+2020-01-07 19:12:33.503668 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00684-of-01024
+2020-01-07 19:12:33.681625 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00300-of-01024
+2020-01-07 19:12:35.809882 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00940-of-01024
+2020-01-07 19:12:44.405700 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00556-of-01024
+2020-01-07 19:12:59.744344 [thread 1]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:04.211038 [thread 3]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:06.162475 [thread 6]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:06.261926 [thread 0]: Processed 57000 of 160145 images in thread batch.
+2020-01-07 19:13:06.693090 [thread 5]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:07.269813 [thread 2]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:08.008858 [thread 7]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:13.751829 [thread 4]: Processed 57000 of 160146 images in thread batch.
+2020-01-07 19:13:20.398747 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00173-of-01024
+2020-01-07 19:13:24.159581 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00429-of-01024
+2020-01-07 19:13:25.376150 [thread 0]: Wrote 1252 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00045-of-01024
+2020-01-07 19:13:26.143914 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00813-of-01024
+2020-01-07 19:13:26.211805 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00685-of-01024
+2020-01-07 19:13:26.400575 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00301-of-01024
+2020-01-07 19:13:26.803322 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00941-of-01024
+2020-01-07 19:13:32.996312 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00557-of-01024
+2020-01-07 19:13:36.509818 [thread 1]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:40.338268 [thread 3]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:41.092571 [thread 0]: Processed 58000 of 160145 images in thread batch.
+2020-01-07 19:13:41.753301 [thread 6]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:41.854572 [thread 2]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:41.916743 [thread 5]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:42.767396 [thread 7]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:13:49.236020 [thread 4]: Processed 58000 of 160146 images in thread batch.
+2020-01-07 19:14:04.057170 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00174-of-01024
+2020-01-07 19:14:08.870433 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00046-of-01024
+2020-01-07 19:14:08.947438 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00430-of-01024
+2020-01-07 19:14:10.143487 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00814-of-01024
+2020-01-07 19:14:10.538909 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00942-of-01024
+2020-01-07 19:14:10.718793 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00302-of-01024
+2020-01-07 19:14:11.141522 [thread 1]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:11.434533 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00686-of-01024
+2020-01-07 19:14:15.524702 [thread 3]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:15.678031 [thread 0]: Processed 59000 of 160145 images in thread batch.
+2020-01-07 19:14:16.937689 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00558-of-01024
+2020-01-07 19:14:18.048828 [thread 2]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:18.067944 [thread 6]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:18.145026 [thread 7]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:18.827255 [thread 5]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:24.158905 [thread 4]: Processed 59000 of 160146 images in thread batch.
+2020-01-07 19:14:46.882703 [thread 1]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:48.515157 [thread 1]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00175-of-01024
+2020-01-07 19:14:51.341612 [thread 0]: Processed 60000 of 160145 images in thread batch.
+2020-01-07 19:14:51.646606 [thread 3]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:52.521813 [thread 2]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:52.905439 [thread 0]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00047-of-01024
+2020-01-07 19:14:53.027743 [thread 6]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:53.131444 [thread 7]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:53.253039 [thread 3]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00431-of-01024
+2020-01-07 19:14:53.561005 [thread 5]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:14:54.856373 [thread 2]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00303-of-01024
+2020-01-07 19:14:55.603732 [thread 7]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00943-of-01024
+2020-01-07 19:14:55.857125 [thread 6]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00815-of-01024
+2020-01-07 19:14:56.271808 [thread 5]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00687-of-01024
+2020-01-07 19:14:58.990117 [thread 4]: Processed 60000 of 160146 images in thread batch.
+2020-01-07 19:15:01.806451 [thread 4]: Wrote 1251 images to /cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_0_square/train-00559-of-01024

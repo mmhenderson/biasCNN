@@ -13,7 +13,7 @@ root = root(1:filesepinds(end-1));
 image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
 save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [170:180];
+sets2do = [300:400];
 nSets = length(sets2do);
 %% find the names of all image sets (these are identical across rotations)
 % want to make sure we grab the same ones in the same order across all

@@ -3,8 +3,8 @@
 Spyder Editor
 
 Make grating images with a specified orientation, spatial frequency, contrast 
-and amount of noise (the SpatFreqGratings dataset)
-These ones do have the circular smoothed window, and they DO have phase jitter 
+and amount of noise (the SquareGratings dataset)
+These ones do NOT have the circular smoothed window, and they DO have phase jitter 
 (each set has two phases, 180 deg apart, but each set's phase pair is jittered randomly)
 
 MMH 11/14/19
@@ -21,11 +21,11 @@ from PIL import Image
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
 
 # mask file for my smoothed circular window
-mask_file = os.path.join(root,'biasCNN','code','image_proc_code','Smoothed_mask.png')
+#mask_file = os.path.join(root,'biasCNN','code','image_proc_code','Smoothed_mask.png')
 
 #%% how many sets do i want to make? each one is a different random noise instantiation
 nSets = 4
-seeds=[746824,948249,289474,219374]
+seeds=[767575,124612,956859,237378]
 
 #%% parameters of the image set
  # final size the images get saved at
@@ -33,19 +33,19 @@ final_size = [224, 224]
 image_size = final_size[0]
 
 # this is a mask of range 0-255 - use this to window the image
-mask_image = Image.open(mask_file)            
-mask_image = np.tile(np.expand_dims(np.array(mask_image),2),[1,1,3])
-mask_image = mask_image/255 # change to 0-1 range
-
-# also want to change the background color from 0 (black) to a mid gray color 
-# (mean of each color channel). These values match vgg_preprocessing_biasCNN.py, 
-# will be subtracted when the images are centered during preproc.
-_R_MEAN = 124
-_G_MEAN = 117
-_B_MEAN = 104
-
-mask_to_add = np.concatenate((_R_MEAN*np.ones([224,224,1]), _G_MEAN*np.ones([224,224,1]),_B_MEAN*np.ones([224,224,1])), axis=2)
-mask_to_add = mask_to_add*(1-mask_image)
+#mask_image = Image.open(mask_file)            
+#mask_image = np.tile(np.expand_dims(np.array(mask_image),2),[1,1,3])
+#mask_image = mask_image/255 # change to 0-1 range
+#
+## also want to change the background color from 0 (black) to a mid gray color 
+## (mean of each color channel). These values match vgg_preprocessing_biasCNN.py, 
+## will be subtracted when the images are centered during preproc.
+#_R_MEAN = 124
+#_G_MEAN = 117
+#_B_MEAN = 104
+#
+#mask_to_add = np.concatenate((_R_MEAN*np.ones([224,224,1]), _G_MEAN*np.ones([224,224,1]),_B_MEAN*np.ones([224,224,1])), axis=2)
+#mask_to_add = mask_to_add*(1-mask_image)
 
 #%% more parameters
 # what spatial frequencies do you want? these will each be in a separate
@@ -86,9 +86,9 @@ for ss in range(nSets):
   
   # path to where all the images will get saved
   if ss==0:
-    image_folder = os.path.join(root, 'biasCNN','images','gratings','SpatFreqGratings')
+    image_folder = os.path.join(root, 'biasCNN','images','gratings','SquareGratings')
   else:
-    image_folder = os.path.join(root, 'biasCNN','images','gratings','SpatFreqGratings' + np.str(ss))
+    image_folder = os.path.join(root, 'biasCNN','images','gratings','SquareGratings' + np.str(ss))
   if not os.path.isdir(image_folder):
     os.mkdir(image_folder)
     
@@ -144,14 +144,14 @@ for ss in range(nSets):
                       assert np.shape(stim_scaled)[0]==image_size
                       assert np.shape(stim_scaled)[1]==image_size
                           
-                      stim_masked = np.tile(np.expand_dims(stim_scaled,axis=2),3)*mask_image
-                                 
-                      stim_masked_adj = stim_masked+mask_to_add
-                      
-                      assert(np.all(np.squeeze(stim_masked_adj[0,0])==[_R_MEAN,_G_MEAN,_B_MEAN]))
+#                      stim_masked = np.tile(np.expand_dims(stim_scaled,axis=2),3)*mask_image
+                     
+#                      stim_masked_adj = stim_masked+mask_to_add
+                                            
+#                      assert(np.all(np.squeeze(stim_masked_adj[0,0])==[_R_MEAN,_G_MEAN,_B_MEAN]))
                       
                       # put this new array in an image and save it
-                      image_final = Image.fromarray(stim_masked_adj.astype('uint8'))     
+                      image_final = Image.fromarray(stim_scaled.astype('uint8'))     
                       
                       fn2save = os.path.join(thisdir, 'Gaussian_phase%d_ex%d_%ddeg.png'%(pp,ii+1,orient_vals[oo]))
                       print('saving to %s... \n'%fn2save)

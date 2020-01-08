@@ -18,23 +18,35 @@ from scipy import stats
 
 from matplotlib import cm
 
+import matplotlib.lines as mlines
+
 cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
 cols_sf = cols_sf[np.arange(2,8,1),:,:]
 
 #%% get the data ready to go...then can run any below cells independently.
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
-#dataset = 'SpatFreqGratings'
+dataset_all = 'SpatFreqGratings'
+#dataset_all = 'SquareGratings'
+
 model='vgg16'
+
+#training_str='scratch_imagenet_rot_0'
+#ckpt_str='689475'
+
 #training_str='scratch_imagenet_rot_45'
+#ckpt_str='694497'
+
 training_str='pretrained'
+ckpt_str='0'
+
 param_str='params1'
 
 # first, searching for all folders from the same model, evaluated on different datasets (the sets are very similar but have different noise instantiation)
 dirs = os.listdir(os.path.join(root, 'activations', model, training_str, param_str))
-good = [ii for ii in range(np.size(dirs)) if 'SpatFreqGratings' in dirs[ii]]
+good = [ii for ii in range(np.size(dirs)) if dataset_all in dirs[ii]]
 
-model_name_2plot = model + '_' + training_str + '_' + param_str + '_avg_samples'
+model_name_2plot = model + '_' + training_str + '_' + param_str + '_' + dataset_all + '_avg_samples'
 
 
 os.chdir(os.path.join(root, 'code', 'analysis_code'))
@@ -49,7 +61,7 @@ for ii in good:
   
   # also searching for all evaluations at different timepts (nearby, all are around the optimal point)
   dirs2 = os.listdir(os.path.join(root, 'activations', model, training_str, param_str,dirs[ii]))
-  good2 = [jj for jj in range(np.size(dirs2)) if 'reduced' in dirs2[jj]]
+  good2 = [jj for jj in range(np.size(dirs2)) if 'reduced' in dirs2[jj] and ckpt_str in dirs2[jj]]
 
   for jj in good2:
     
@@ -57,7 +69,7 @@ for ii in good:
     ckpt_num= dirs2[jj].split('_')[2][5:]
     this_allw, all_labs, info = load_activations.load_activ(model, dirs[ii], training_str, param_str, ckpt_num)
     allw.append(this_allw)
-    if ii==good[0] & jj==good2[0]:
+    if ii==good[0] and jj==good2[0]:
       info_orig = info
     else:
       np.testing.assert_equal(info_orig, info)
@@ -98,12 +110,225 @@ for ii in good:
 
 # how many total evaluations of the network do we have here?  
 nSamples = np.shape(allw)[0]
+
+
+#%% plot Cardinal (V+H) anisotropy in 0-360 space W ERRORBARS, overlay SF
+assert phase_vals==[0,180]
+
+cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
+cols_sf = cols_sf[np.arange(2,8,1),:,:]
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
+plt.close('all')
+fig=plt.figure()
+ax=fig.add_subplot(111)
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+b = np.arange(22.5,360,45)
+a = np.arange(0,360,90)
+bin_size = 6
+handles = []   
+cc=0
+nn=0
+
+for sf in sf2plot:
+  
+   # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+    for kk in range(nSamples):
+
+      inds1 = np.where(sflist==sf2plot[sf])[0]
+          
+      aniso_vals = np.zeros([4,np.size(layers2plot)])
+      
+      for ww1 in range(np.size(layers2plot)):
+
+          w = allw[kk][layers2plot[ww1]][0]
+    
+          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
+
+          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+
+          # take the bins of interest to get amplitude       
+          baseline_discrim = [];
+          for ii in range(np.size(b)):        
+              inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+              assert np.size(inds)==bin_size-1
+              baseline_discrim.append(disc[inds])
+              
+          for ii in range(np.size(a)):       
+              inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+              assert np.size(inds)==bin_size
+              aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+        
+      vals = np.mean(aniso_vals,0)
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
+      ax.add_line(myline)   
+      if kk==0:
+        handles.append(myline)
+
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(handles,['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinal anisotropy' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+
+ 
+#%% plot Oblique (45+135) anisotropy in 0-360 space W ERRORBARS, overlay SF
+assert phase_vals==[0,180]
+
+cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
+cols_sf = cols_sf[np.arange(2,8,1),:,:]
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
+plt.close('all')
+fig=plt.figure()
+ax=fig.add_subplot(111)
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+b = np.arange(22.5,360,45)
+a = np.arange(45,360,90)
+
+bin_size = 6
+handles = []   
+for sf in sf2plot:
+  
+   # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+    for kk in range(nSamples):
+
+      inds1 = np.where(sflist==sf2plot[sf])[0]
+          
+      aniso_vals = np.zeros([4,np.size(layers2plot)])
+      
+      for ww1 in range(np.size(layers2plot)):
+
+          w = allw[kk][layers2plot[ww1]][0]
+    
+          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
+
+          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+
+          # take the bins of interest to get amplitude       
+          baseline_discrim = [];
+          for ii in range(np.size(b)):        
+              inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+              assert np.size(inds)==bin_size-1
+              baseline_discrim.append(disc[inds])
+              
+          for ii in range(np.size(a)):       
+              inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+              assert np.size(inds)==bin_size
+              aniso_vals[ii,ww1] = (np.mean(disc[inds]) - np.mean(baseline_discrim))/(np.mean(disc[inds]) + np.mean(baseline_discrim))
+        
+      vals = np.mean(aniso_vals,0)
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
+      ax.add_line(myline)   
+      if kk==0:
+        handles.append(myline)
+
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(handles,['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nOblique anisotropy' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+  
+
+ 
+#%% plot Cardinal (0+90) MINUS Oblique (45+135) anisotropy 
+assert phase_vals==[0,180]
+
+cols_sf = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
+cols_sf = cols_sf[np.arange(2,8,1),:,:]
+orilist_adj = deepcopy(orilist)
+orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
+plt.close('all')
+fig=plt.figure()
+ax=fig.add_subplot(111)
+layers2plot = np.arange(0,nLayers,1)
+sf2plot = [0,1,2,3,4,5] # spat freq
+legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
+
+#b = np.arange(22.5,360,45)
+b = np.arange(45,360,90)
+a = np.arange(0,360,90)
+
+bin_size = 6
+handles = []   
+for sf in sf2plot:
+  
+   # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+    for kk in range(nSamples):
+
+      inds1 = np.where(sflist==sf2plot[sf])[0]
+          
+      aniso_vals = np.zeros([np.size(layers2plot)])
+      
+      for ww1 in range(np.size(layers2plot)):
+
+          w = allw[kk][layers2plot[ww1]][0]
+    
+          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
+
+          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+
+          # take the bins of interest to get amplitude       
+          oblique_discrim = [];
+          for ii in range(np.size(b)):        
+              inds = np.where(np.logical_or(np.abs(ori_axis-b[ii])<bin_size/2, np.abs(ori_axis-(360+b[ii]))<bin_size/2))[0] 
+              assert np.size(inds)==bin_size
+              oblique_discrim.append(disc[inds])
+              
+          cardinal_discrim = [];    
+          for ii in range(np.size(a)):       
+              inds = np.where(np.logical_or(np.abs(ori_axis-a[ii])<bin_size/2, np.abs(ori_axis-(360+a[ii]))<bin_size/2))[0]
+              assert np.size(inds)==bin_size
+              cardinal_discrim.append(disc[inds])
+              
+          aniso_vals[ww1] = (np.mean(cardinal_discrim) - np.mean(oblique_discrim))/(np.mean(cardinal_discrim) + np.mean(oblique_discrim))
+        
+      vals = aniso_vals
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[sf,0,:])
+      ax.add_line(myline)   
+      if kk==0:
+        handles.append(myline)
+
+ylims = [-1,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(handles,['sf=%.2f'%sf_vals[sf] for sf in sf2plot])
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+plt.title('%s\nCardinals-Obliques/(Cardinals + Obliques)' % (model_name_2plot))
+plt.ylabel('Normalized Euclidean Distance difference')
+plt.xlabel('Layer number')
+  
 #%% plot discriminability across 0-360 space, overlay spatial frequencies
 
 assert phase_vals==[0,180]
   
 orilist_adj = deepcopy(orilist)
 orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+
  
 plt.close('all')
 plt.figure()
@@ -123,6 +348,7 @@ for ww1 in layers2plot:
         all_disc = []
         # looping here over "samples", going to get discriminability function for each, then average to smooth it.
         for kk in range(nSamples):
+#        for kk in [3]:
 
           w = allw[kk][ww1][0]
     
@@ -169,7 +395,7 @@ layers2plot = np.arange(0,nLayers,1)
 
 #legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
 
-sf=2
+sf=5
 cc=0
 nn=0
  
@@ -178,6 +404,7 @@ for ww1 in layers2plot:
     all_disc = []
     # looping here over "samples", going to get discriminability function for each, then average to smooth it.
     for kk in range(nSamples):
+#    for kk in [3]:
 
       w = allw[kk][ww1][0]
 
@@ -434,6 +661,7 @@ plt.xlabel('Layer number')
 
 figname = os.path.join(figfolder, 'SpatFreq','%s_AnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
+
 #%% plot OBLIQUE (45 only) anisotropy in 0-360 space, overlay SF
 assert phase_vals==[0,180]
  
@@ -645,7 +873,7 @@ plt.xlabel('Layer number')
 
 figname = os.path.join(figfolder, 'SpatFreq','%s_ObliqueAnisotropySF.pdf' % (model_name_2plot))
 plt.savefig(figname, format='pdf',transparent=True)
-     
+  
 #%% plot Mean Discrim in 0-360 space, overlay SF
 assert phase_vals==[0,180]
 

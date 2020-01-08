@@ -23,7 +23,7 @@ def load_activ(model, dataset, training_str, param_str, ckpt_num):
     #%% define where all the activations should be found
       
     weight_path = os.path.join(root, 'activations', model, training_str, param_str,  dataset, 'eval_at_ckpt-' + ckpt_num + '_reduced')
-   
+    print('loading activations from %s\n'%weight_path)
     #%% list all the layers of this network
     if 'nasnet'==model:
         
@@ -80,7 +80,7 @@ def load_activ(model, dataset, training_str, param_str, ckpt_num):
     featureMat_orig = np.load(feat_path)
     #%% list all the parameters of the image set that was used for this round of evaluation
 
-    if 'SpatFreqGratings' in dataset:
+    if 'SpatFreqGratings' in dataset or 'SquareGratings' in dataset:
         [u,noiselist] = np.unique(featureMat_orig[:,0],return_inverse=True)
         noiselist = np.expand_dims(noiselist,1)      
         [u,exlist] = np.unique(featureMat_orig[:,1],return_inverse=True)
@@ -97,7 +97,7 @@ def load_activ(model, dataset, training_str, param_str, ckpt_num):
 
         info['timepoint_labels'] = ['before retraining']
         info['noise_levels'] = [0.01]
-        info['sf_vals'] = np.logspace(np.log10(0.02),np.log10(.4),6)   
+        info['sf_vals'] = np.logspace(np.log10(0.02),np.log10(.4),6)*140/224
         info['contrast_levels'] = [0.8]
         info['phase_vals'] = [0,180]
         nPhase=2

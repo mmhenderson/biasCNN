@@ -1,0 +1,578 @@
+script=/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_vgg16_SquareGratings_cluster.sh
+rot=0
+step_num=689475
+which_hyperpars=params1
+ loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/datasets/gratings/SquareGratings
+ saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full and /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From reduce_weights.py:179: The name tf.app.run is deprecated. Please use tf.compat.v1.app.run instead.
+
+WARNING:tensorflow:From reduce_weights.py:107: The name tf.gfile.Exists is deprecated. Please use tf.io.gfile.exists instead.
+
+W0107 17:53:42.317366 140377327953728 deprecation_wrapper.py:119] From reduce_weights.py:107: The name tf.gfile.Exists is deprecated. Please use tf.io.gfile.exists instead.
+
+WARNING:tensorflow:From reduce_weights.py:110: The name tf.gfile.MakeDirs is deprecated. Please use tf.io.gfile.makedirs instead.
+
+W0107 17:53:42.536630 140377327953728 deprecation_wrapper.py:119] From reduce_weights.py:110: The name tf.gfile.MakeDirs is deprecated. Please use tf.io.gfile.makedirs instead.
+
+deleting contents of /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch0_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch1_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch2_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch3_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch4_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch5_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch6_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch7_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch8_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch9_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch10_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch11_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch12_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch13_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch14_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch15_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch16_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch17_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch18_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch19_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch20_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch21_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch22_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch23_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch24_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch25_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch26_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch27_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch28_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch29_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch30_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch31_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch32_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch33_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch34_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch35_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch36_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch37_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch38_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch39_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch40_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch41_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch42_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch43_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch44_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch45_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch46_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch47_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch48_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch49_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch50_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch51_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch52_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch53_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch54_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch55_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch56_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch57_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch58_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch59_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch60_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch61_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch62_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch63_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch64_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch65_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch66_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch67_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch68_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch69_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch70_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch71_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch72_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch73_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch74_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch75_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch76_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch77_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch78_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch79_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch80_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch81_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch82_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch83_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch84_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch85_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch86_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch87_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch88_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch89_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch90_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch91_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch92_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch93_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch94_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch95_vgg_16_conv1_conv1_1.npy
+
+need 482 components to capture 80 percent of variance, saving first 500
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsReducedWts_vgg_16_conv1_conv1_1.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsVarExpl_vgg_16_conv1_conv1_1.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsLabsPredicted_vgg_16_conv1_conv1_1.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsLabsOrig_vgg_16_conv1_conv1_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch0_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch1_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch2_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch3_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch4_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch5_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch6_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch7_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch8_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch9_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch10_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch11_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch12_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch13_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch14_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch15_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch16_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch17_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch18_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch19_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch20_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch21_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch22_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch23_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch24_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch25_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch26_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch27_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch28_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch29_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch30_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch31_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch32_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch33_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch34_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch35_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch36_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch37_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch38_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch39_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch40_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch41_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch42_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch43_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch44_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch45_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch46_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch47_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch48_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch49_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch50_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch51_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch52_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch53_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch54_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch55_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch56_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch57_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch58_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch59_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch60_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch61_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch62_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch63_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch64_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch65_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch66_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch67_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch68_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch69_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch70_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch71_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch72_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch73_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch74_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch75_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch76_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch77_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch78_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch79_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch80_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch81_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch82_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch83_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch84_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch85_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch86_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch87_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch88_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch89_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch90_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch91_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch92_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch93_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch94_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch95_vgg_16_conv1_conv1_2.npy
+
+need > 500 components to capture 80 percent of variance, saving first 500
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsReducedWts_vgg_16_conv1_conv1_2.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsVarExpl_vgg_16_conv1_conv1_2.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsLabsPredicted_vgg_16_conv1_conv1_2.npy
+
+saving to /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_reduced/allStimsLabsOrig_vgg_16_conv1_conv1_2.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch0_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch1_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch2_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch3_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch4_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch5_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch6_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch7_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch8_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch9_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch10_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch11_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch12_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch13_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch14_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch15_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch16_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch17_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch18_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch19_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch20_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch21_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch22_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch23_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch24_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch25_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch26_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch27_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch28_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch29_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch30_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch31_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch32_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch33_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch34_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch35_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch36_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch37_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch38_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch39_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch40_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch41_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch42_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch43_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch44_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch45_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch46_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch47_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch48_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch49_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch50_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch51_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch52_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch53_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch54_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch55_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch56_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch57_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch58_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch59_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch60_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch61_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch62_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch63_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch64_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch65_vgg_16_conv2_conv2_1.npy
+
+loading from /cube/neurocube/local/serenceslab/maggie//biasCNN/activations/vgg16/scratch_imagenet_rot_0/params1/SquareGratings/eval_at_ckpt-689475_full/batch66_vgg_16_conv2_conv2_1.npy

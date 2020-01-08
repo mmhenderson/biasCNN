@@ -27,7 +27,7 @@ function get_orientation_stats_imagenet_rots(root, numcores)
 
     % which sets should we look at now? don't do all of them yet, because it'll
     % take too long.
-    sets2do = [164:1000];
+    sets2do = [274:1000];
 
     % set up parallel pool w 8 cores
     if isempty(gcp('nocreate'))

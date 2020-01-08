@@ -1,23 +1,6 @@
 #!/bin/bash
-# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-#
 
-# evaluate VGG-16 model that has been trained by a specified amount, on a 
-# specified image set.
-# MMH 12/11/19
+# evaluate trained VGG-16 model with the desired dataset
 
 # Specify the directory i am working in
 #ROOT=/usr/local/serenceslab/maggie/
@@ -29,9 +12,10 @@ slimpath=${ROOT}tensorflow/models/research/slim/
 
 which_model=vgg_16
 # amount the images were rotated by
-rot=45
+rot=0
 # what step do we want to use as the final checkpoint?
-step_num=694497
+#step_num=694497
+step_num=689475
 
 # using shorthand for the full description of model hyperparameters
 which_hyperpars=params1
@@ -52,9 +36,14 @@ load_log_dir=${ROOT}/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_${ro
 # loop over datasets that are almost identical, but have different noise instantiations
 declare -i nSets=3
 
-for ss in $(seq 1 $nSets)
+for ss in $(seq 0 $nSets)
 do
-	dataset_name=SpatFreqGratings${ss}
+	if [ "${ss}" = "0" ]
+	then
+		dataset_name=SpatFreqGratings
+	else
+		dataset_name=SpatFreqGratings${ss}
+	fi
 
 	dataset_dir=${ROOT}/biasCNN/datasets/gratings/${dataset_name}
 	if [ ! -d ${dataset_dir} ]

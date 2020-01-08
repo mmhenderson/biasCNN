@@ -13,8 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """Make the dataset (tfrecord) files for grating stimuli. 
-    This script will load gratings with different levels of noise. These will be used for model TESTING.
-    The training images are completely distinct - even the 0 noise condition has different randomized phase for training and testing sets.
+
 """
 
 from __future__ import absolute_import
@@ -210,9 +209,9 @@ def main(argv):
   for ss in range(nSets):
 
     if ss==0:
-      dataset_name = 'SpatFreqGratings'
+      dataset_name = 'SquareGratings'
     else:
-      dataset_name = 'SpatFreqGratings' + np.str(ss)
+      dataset_name = 'SquareGratings' + np.str(ss)
     
     dataset_dir = os.path.join(root, 'biasCNN/datasets/gratings/',dataset_name)
     image_dir = os.path.join(root, 'biasCNN/images/gratings/',dataset_name)
