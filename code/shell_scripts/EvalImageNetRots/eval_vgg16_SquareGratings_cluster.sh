@@ -39,7 +39,7 @@ load_log_dir=${ROOT}/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_${ro
 # loop over datasets that are almost identical, but have different noise instantiations
 declare -i nSets=3
 
-for ss in $(seq 0 $nSets)
+for ss in $(seq 1 $nSets)
 do
 	if [ "${ss}" = "0" ]
 	then
@@ -74,16 +74,16 @@ do
 	set -e
 
 	# Evaluate the network.
-	#cd ${slimpath}
-	#python eval_image_classifier_biasCNN.py \
-	# --checkpoint_path=${load_log_dir} \
-	# --eval_dir=${save_eval_dir} \
-	# --dataset_name=${dataset_name} \
-	# --dataset_dir=${dataset_dir} \
-	# --model_name=${which_model} \
-	# --num_batches=96 \
-	# --append_scope_string=my_scope \
-	# --num_classes=1001
+	cd ${slimpath}
+	python eval_image_classifier_biasCNN.py \
+	 --checkpoint_path=${load_log_dir} \
+	 --eval_dir=${save_eval_dir} \
+	 --dataset_name=${dataset_name} \
+	 --dataset_dir=${dataset_dir} \
+	 --model_name=${which_model} \
+	 --num_batches=96 \
+	 --append_scope_string=my_scope \
+	 --num_classes=1001
 
 
 	# Reduce the weights with PCA

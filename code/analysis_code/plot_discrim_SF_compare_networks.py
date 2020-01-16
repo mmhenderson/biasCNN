@@ -22,8 +22,8 @@ import matplotlib.lines as mlines
 #%% get the data ready to go...then can run any below cells independently.
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
-dataset_all = 'SpatFreqGratings'
-#dataset_all = 'SquareGratings'
+#dataset_all = 'SpatFreqGratings'
+dataset_all = 'SquareGratings'
 
 model='vgg16'
 
@@ -518,7 +518,7 @@ new_pos = curr_pos + [0, 0.2, 0, -0.2]
 ax.set_position(new_pos)
 
 #%% plot card versus obliques, one training scheme at a time
-tr=2
+tr=0
 plt.rcParams.update({'font.size': 16})
 plt.close('all')
 fig=plt.figure()

@@ -9,10 +9,11 @@ function get_orientation_stats_imagenet_rots(root, numcores)
         % default params
         root = pwd;
         filesepinds = find(root==filesep);
-        root = root(1:filesepinds(end-1));
+        root = root(1:filesepinds(end-1));       
         numcores = 8;        
     end
     
+    fprintf('numcores argument set to %s\n',numcores)
     rot_list = [0,22,45];
 
     image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
@@ -25,11 +26,20 @@ function get_orientation_stats_imagenet_rots(root, numcores)
     % set an amount of downsampling, for speed of processing
     resize_factor = 1;  % if one then using actual size
 
-    % which sets should we look at now? don't do all of them yet, because it'll
-    % take too long.
-    sets2do = [274:1000];
+    % which sets should we look at now? start from where we left off(last
+    % time this process crashed, probably)
+    n_done = zeros(length(rot_list),1);
+    for rr=1:length(rot_list)
+       n_done(rr) = length(dir(fullfile(save_path,sprintf('*%d*',rot_list(rr)),'*.mat'))); 
+    end
+    sets2do = [min(n_done)+1:1000];
 
     % set up parallel pool w 8 cores
+    if strcmp(numcores,'max')
+         maxcores = feature('numcores');
+         numcores=maxcores;
+    end
+    fprintf('USING %D CORES FOR PROCESSING IMAGES\n',numcores)
     if isempty(gcp('nocreate'))
         parpool(numcores);
     end

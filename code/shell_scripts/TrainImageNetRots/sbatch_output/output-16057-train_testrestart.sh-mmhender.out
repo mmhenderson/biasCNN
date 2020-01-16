@@ -1,0 +1,838 @@
+script=/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_vgg16_cluster_params1_testrestart.sh
+rot=45
+saving to /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart
+1500000
+python train_image_classifier_biasCNN_TEST.py --train_dir=/cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart --dataset_name=imagenet --dataset_split_name=train --dataset_dir=/cube/neurocube/local/serenceslab/maggie/biasCNN/datasets/ImageNet/ILSVRC2012//tfrecord_rot_45/ --model_name=vgg_16 --max_number_of_steps=1500000 --flipLR=False --random_scale=False --is_windowed=True --weight_decay=0.00005 --rmsprop_decay=0.90 --rmsprop_momentum=0.80 --learning_rate=0.005 --learning_rate_decay_factor=0.94 --max_checkpoints_to_keep=5 --keep_checkpoint_every_n_hours=0.5 --batch_size=32
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/nets/inception_resnet_v2.py:373: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/nets/mobilenet/mobilenet.py:389: The name tf.nn.avg_pool is deprecated. Please use tf.nn.avg_pool2d instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:762: The name tf.app.run is deprecated. Please use tf.compat.v1.app.run instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:445: The name tf.logging.set_verbosity is deprecated. Please use tf.compat.v1.logging.set_verbosity instead.
+
+W0114 14:47:18.237940 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:445: The name tf.logging.set_verbosity is deprecated. Please use tf.compat.v1.logging.set_verbosity instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:445: The name tf.logging.INFO is deprecated. Please use tf.compat.v1.logging.INFO instead.
+
+W0114 14:47:18.238361 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:445: The name tf.logging.INFO is deprecated. Please use tf.compat.v1.logging.INFO instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:459: create_global_step (from tensorflow.contrib.framework.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.create_global_step
+W0114 14:47:18.239933 140700242003776 deprecation.py:323] From train_image_classifier_biasCNN_TEST.py:459: create_global_step (from tensorflow.contrib.framework.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.create_global_step
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/imagenet.py:151: The name tf.FixedLenFeature is deprecated. Please use tf.io.FixedLenFeature instead.
+
+W0114 14:47:18.249446 140700242003776 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/imagenet.py:151: The name tf.FixedLenFeature is deprecated. Please use tf.io.FixedLenFeature instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/imagenet.py:159: The name tf.VarLenFeature is deprecated. Please use tf.io.VarLenFeature instead.
+
+W0114 14:47:18.249684 140700242003776 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/imagenet.py:159: The name tf.VarLenFeature is deprecated. Please use tf.io.VarLenFeature instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/dataset_utils.py:127: The name tf.gfile.Exists is deprecated. Please use tf.io.gfile.exists instead.
+
+W0114 14:47:18.249947 140700242003776 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/dataset_utils.py:127: The name tf.gfile.Exists is deprecated. Please use tf.io.gfile.exists instead.
+
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/dataset_utils.py:141: The name tf.gfile.Open is deprecated. Please use tf.io.gfile.GFile instead.
+
+W0114 14:47:18.250205 140700242003776 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/datasets/dataset_utils.py:141: The name tf.gfile.Open is deprecated. Please use tf.io.gfile.GFile instead.
+
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/data/parallel_reader.py:246: string_input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(string_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W0114 14:47:18.392658 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/data/parallel_reader.py:246: string_input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(string_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:278: input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(input_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W0114 14:47:18.407674 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:278: input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(input_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:190: limit_epochs (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensors(tensor).repeat(num_epochs)`.
+W0114 14:47:18.408869 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:190: limit_epochs (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensors(tensor).repeat(num_epochs)`.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:199: QueueRunner.__init__ (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W0114 14:47:18.411194 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:199: QueueRunner.__init__ (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:199: add_queue_runner (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W0114 14:47:18.412711 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/input.py:199: add_queue_runner (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/data/parallel_reader.py:95: TFRecordReader.__init__ (from tensorflow.python.ops.io_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.TFRecordDataset`.
+W0114 14:47:18.423732 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/data/parallel_reader.py:95: TFRecordReader.__init__ (from tensorflow.python.ops.io_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.TFRecordDataset`.
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py:327: The name tf.assert_equal is deprecated. Please use tf.compat.v1.assert_equal instead.
+
+W0114 14:47:18.582763 140700242003776 deprecation_wrapper.py:119] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py:327: The name tf.assert_equal is deprecated. Please use tf.compat.v1.assert_equal instead.
+
+ERROR:tensorflow:==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 512, in main
+    image = image_preprocessing_fn(image, train_image_size, train_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 408, in preprocess_image
+    resize_side_min, resize_side_max, flipLR, random_scale, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 327, in preprocess_for_train
+    tf.assert_equal(shape[0],shape[1])  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+E0114 14:47:18.604220 140700242003776 tf_should_use.py:71] ==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 512, in main
+    image = image_preprocessing_fn(image, train_image_size, train_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 408, in preprocess_image
+    resize_side_min, resize_side_max, flipLR, random_scale, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 327, in preprocess_for_train
+    tf.assert_equal(shape[0],shape[1])  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+ERROR:tensorflow:==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_1/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 512, in main
+    image = image_preprocessing_fn(image, train_image_size, train_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 408, in preprocess_image
+    resize_side_min, resize_side_max, flipLR, random_scale, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 328, in preprocess_for_train
+    tf.assert_equal(shape[0],output_height)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+E0114 14:47:18.622344 140700242003776 tf_should_use.py:71] ==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_1/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 512, in main
+    image = image_preprocessing_fn(image, train_image_size, train_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 408, in preprocess_image
+    resize_side_min, resize_side_max, flipLR, random_scale, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 328, in preprocess_for_train
+    tf.assert_equal(shape[0],output_height)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+WARNING:tensorflow:From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py:335: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+W0114 14:47:18.622597 140700242003776 deprecation.py:323] From /cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py:335: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:518: batch (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.batch(batch_size)` (or `padded_batch(...)` if `dynamic_pad=True`).
+W0114 14:47:18.632553 140700242003776 deprecation.py:323] From train_image_classifier_biasCNN_TEST.py:518: batch (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.batch(batch_size)` (or `padded_batch(...)` if `dynamic_pad=True`).
+ERROR:tensorflow:==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_2/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 537, in main
+    image_val = image_preprocessing_fn_val(image_val, eval_image_size, eval_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 411, in preprocess_image
+    resize_side_min, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 363, in preprocess_for_eval
+    tf.assert_equal(shape[0],shape[1])  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+E0114 14:47:18.876380 140700242003776 tf_should_use.py:71] ==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_2/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 537, in main
+    image_val = image_preprocessing_fn_val(image_val, eval_image_size, eval_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 411, in preprocess_image
+    resize_side_min, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 363, in preprocess_for_eval
+    tf.assert_equal(shape[0],shape[1])  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+ERROR:tensorflow:==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_3/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 537, in main
+    image_val = image_preprocessing_fn_val(image_val, eval_image_size, eval_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 411, in preprocess_image
+    resize_side_min, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 364, in preprocess_for_eval
+    tf.assert_equal(shape[0],output_height)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+E0114 14:47:18.890020 140700242003776 tf_should_use.py:71] ==================================
+Object was never used (type <class 'tensorflow.python.framework.ops.Operation'>):
+<tf.Operation 'assert_equal_3/Assert/Assert' type=Assert>
+If you want to mark it as used call its "mark_used()" method.
+It was originally created here:
+  File "train_image_classifier_biasCNN_TEST.py", line 762, in <module>
+    tf.app.run()  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))  File "train_image_classifier_biasCNN_TEST.py", line 537, in main
+    image_val = image_preprocessing_fn_val(image_val, eval_image_size, eval_image_size)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/preprocessing_biasCNN.py", line 54, in preprocessing_fn
+    image, output_height, output_width, is_training=is_training, flipLR=flipLR, random_scale=random_scale, is_windowed=is_windowed, **kwargs)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 411, in preprocess_image
+    resize_side_min, is_windowed)  File "/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/preprocessing/vgg_preprocessing_biasCNN.py", line 364, in preprocess_for_eval
+    tf.assert_equal(shape[0],output_height)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 557, in assert_equal
+    return control_flow_ops.Assert(condition, data, summarize=summarize)  File "/home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py", line 193, in wrapped
+    return _add_should_use_warning(fn(*args, **kwargs))
+==================================
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:572: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.
+
+W0114 14:47:18.915457 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:572: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.
+
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dc10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dc10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.197900 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dc10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dc10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dd90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dd90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.328027 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dd90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dd90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec60dad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec60dad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.406250 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec60dad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec60dad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a1d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a1d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.522741 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a1d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a1d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a8d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a8d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.631498 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a8d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec62a8d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec5bdad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec5bdad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.697292 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec5bdad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec5bdad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59dfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59dfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.804275 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59dfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59dfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5a4fd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5a4fd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:19.913249 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5a4fd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5a4fd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60d590>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60d590>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.022095 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60d590>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60d590>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec59d450>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec59d450>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.088036 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec59d450>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec59d450>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec61bfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec61bfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.233060 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec61bfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec61bfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.347777 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dad0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec60dad0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec561610>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec561610>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.456685 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec561610>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec561610>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec560510>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec560510>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.522714 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec560510>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec560510>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5602d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5602d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.628453 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5602d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5602d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec567350>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec567350>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.733544 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec567350>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec567350>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59d090>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59d090>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.838110 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59d090>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59d090>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec4ca1d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec4ca1d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:20.901529 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec4ca1d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6ec4ca1d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec464fd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec464fd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:21.007350 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec464fd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec464fd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec4dbc50>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec4dbc50>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:21.028257 140700242003776 ag_logging.py:145] Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec4dbc50>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec4dbc50>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec3aa590>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec3aa590>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:21.143800 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec3aa590>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec3aa590>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec441b50>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec441b50>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:21.164196 140700242003776 ag_logging.py:145] Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec441b50>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec441b50>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec56a910>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec56a910>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:21.278816 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec56a910>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec56a910>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:567: The name tf.losses.softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.softmax_cross_entropy instead.
+
+W0114 14:47:21.282413 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:567: The name tf.losses.softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.softmax_cross_entropy instead.
+
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/losses/losses_impl.py:121: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+W0114 14:47:21.319422 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/losses/losses_impl.py:121: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:588: The name tf.summary.image is deprecated. Please use tf.compat.v1.summary.image instead.
+
+W0114 14:47:21.330143 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:588: The name tf.summary.image is deprecated. Please use tf.compat.v1.summary.image instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:589: The name tf.summary.histogram is deprecated. Please use tf.compat.v1.summary.histogram instead.
+
+W0114 14:47:21.347062 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:589: The name tf.summary.histogram is deprecated. Please use tf.compat.v1.summary.histogram instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:590: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+W0114 14:47:21.348495 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:590: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:301: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+
+W0114 14:47:22.037107 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:301: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:362: The name tf.train.RMSPropOptimizer is deprecated. Please use tf.compat.v1.train.RMSPropOptimizer instead.
+
+W0114 14:47:22.044134 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:362: The name tf.train.RMSPropOptimizer is deprecated. Please use tf.compat.v1.train.RMSPropOptimizer instead.
+
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/rmsprop.py:119: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W0114 14:47:22.618179 140700242003776 deprecation.py:506] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/rmsprop.py:119: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+INFO:tensorflow:Scale of 0 disables regularizer.
+I0114 14:47:23.043302 140700242003776 regularizers.py:98] Scale of 0 disables regularizer.
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1dcfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1dcfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.142688 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1dcfd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1dcfd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df30bc10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df30bc10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.233268 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df30bc10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df30bc10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.296290 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a19d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a19d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.383998 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a19d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a19d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a1bd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a1bd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.472949 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a1bd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0a1bd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df191250>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df191250>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.535902 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df191250>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df191250>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1670d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1670d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.623459 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1670d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df1670d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0505d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0505d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.712584 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0505d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0505d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050bd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050bd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.808233 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050bd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050bd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.883162 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df2c9c90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d39d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d39d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:23.971448 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d39d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d39d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3d90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3d90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.060449 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3d90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3d90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df05f8d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df05f8d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.149444 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df05f8d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df05f8d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df542b90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df542b90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.212278 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df542b90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df542b90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050650>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050650>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.300012 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050650>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050650>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0409d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0409d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.389370 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0409d0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df0409d0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec58c050>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec58c050>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.478692 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec58c050>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec58c050>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df323950>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df323950>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.541687 140700242003776 ag_logging.py:145] Entity <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df323950>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Pooling2D.call of <tensorflow.python.layers.pooling.MaxPooling2D object at 0x7ff6df323950>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050b90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050b90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.629260 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050b90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6df050b90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6df242090>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6df242090>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.649662 140700242003776 ag_logging.py:145] Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6df242090>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6df242090>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3dd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3dd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.737028 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3dd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec5d3dd0>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec5d3e90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec5d3e90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.757277 140700242003776 ag_logging.py:145] Entity <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec5d3e90>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dropout.call of <tensorflow.python.layers.core.Dropout object at 0x7ff6ec5d3e90>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59db10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59db10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+W0114 14:47:24.844699 140700242003776 ag_logging.py:145] Entity <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59db10>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Conv.call of <tensorflow.python.layers.convolutional.Conv2D object at 0x7ff6ec59db10>>: AssertionError: Bad argument number for Name: 3, expecting 4
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:683: The name tf.metrics.accuracy is deprecated. Please use tf.compat.v1.metrics.accuracy instead.
+
+W0114 14:47:24.898754 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:683: The name tf.metrics.accuracy is deprecated. Please use tf.compat.v1.metrics.accuracy instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:684: The name tf.metrics.recall_at_k is deprecated. Please use tf.compat.v1.metrics.recall_at_k instead.
+
+W0114 14:47:24.916674 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:684: The name tf.metrics.recall_at_k is deprecated. Please use tf.compat.v1.metrics.recall_at_k instead.
+
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/metrics_impl.py:2640: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0114 14:47:24.942822 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/metrics_impl.py:2640: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py:193: initialize_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.variables_initializer` instead.
+W0114 14:47:25.006793 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/util/tf_should_use.py:193: initialize_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.variables_initializer` instead.
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:714: The name tf.summary.merge is deprecated. Please use tf.compat.v1.summary.merge instead.
+
+W0114 14:47:25.007838 140700242003776 deprecation_wrapper.py:119] From train_image_classifier_biasCNN_TEST.py:714: The name tf.summary.merge is deprecated. Please use tf.compat.v1.summary.merge instead.
+
+WARNING:tensorflow:From train_image_classifier_biasCNN_TEST.py:736: to_int64 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+W0114 14:47:25.129145 140700242003776 deprecation.py:323] From train_image_classifier_biasCNN_TEST.py:736: to_int64 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/learning.py:742: Supervisor.__init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+W0114 14:47:25.240475 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/contrib/slim/python/slim/learning.py:742: Supervisor.__init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2020-01-14 14:47:25.469076: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
+2020-01-14 14:47:28.217451: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
+pciBusID: 0000:03:00.0
+2020-01-14 14:47:28.218501: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-14 14:47:28.221873: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10
+2020-01-14 14:47:28.223904: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10
+2020-01-14 14:47:28.224682: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10
+2020-01-14 14:47:28.227389: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10
+2020-01-14 14:47:28.229068: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10
+2020-01-14 14:47:28.234234: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-14 14:47:28.235972: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2020-01-14 14:47:28.236617: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX
+2020-01-14 14:47:28.248322: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100030000 Hz
+2020-01-14 14:47:28.249520: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5607086627b0 executing computations on platform Host. Devices:
+2020-01-14 14:47:28.249546: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+2020-01-14 14:47:28.250549: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
+pciBusID: 0000:03:00.0
+2020-01-14 14:47:28.250621: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-14 14:47:28.250656: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10
+2020-01-14 14:47:28.250689: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10
+2020-01-14 14:47:28.250722: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10
+2020-01-14 14:47:28.250756: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10
+2020-01-14 14:47:28.250789: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10
+2020-01-14 14:47:28.250822: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-14 14:47:28.252443: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2020-01-14 14:47:28.252501: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.1
+2020-01-14 14:47:28.300150: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-01-14 14:47:28.300196: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0 
+2020-01-14 14:47:28.300214: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N 
+2020-01-14 14:47:28.302748: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10798 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:03:00.0, compute capability: 3.5)
+2020-01-14 14:47:28.305500: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x56070b0ba3d0 executing computations on platform CUDA. Devices:
+2020-01-14 14:47:28.305523: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): Tesla K40c, Compute Capability 3.5
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/saver.py:1276: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+W0114 14:47:28.311348 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/saver.py:1276: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+INFO:tensorflow:Restoring parameters from /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt-312
+I0114 14:47:28.366717 140700242003776 saver.py:1280] Restoring parameters from /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt-312
+2020-01-14 14:47:28.609838: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
+WARNING:tensorflow:From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/saver.py:1066: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+W0114 14:47:48.281672 140700242003776 deprecation.py:323] From /home/AD/mmhender/anaconda3/lib/python3.7/site-packages/tensorflow/python/training/saver.py:1066: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+INFO:tensorflow:Running local_init_op.
+I0114 14:47:48.288869 140700242003776 session_manager.py:500] Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+I0114 14:47:49.150148 140700242003776 session_manager.py:502] Done running local_init_op.
+INFO:tensorflow:Starting Session.
+I0114 14:47:50.902664 140700242003776 learning.py:754] Starting Session.
+INFO:tensorflow:Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+I0114 14:47:50.942693 140691082557184 supervisor.py:1117] Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+INFO:tensorflow:Starting Queues.
+I0114 14:47:50.954185 140700242003776 learning.py:768] Starting Queues.
+INFO:tensorflow:global_step/sec: 0
+I0114 14:47:52.758785 140691074164480 supervisor.py:1099] global_step/sec: 0
+2020-01-14 14:47:53.796662: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-01-14 14:47:59.974676: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.62GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:global_step/sec: 0
+I0114 14:48:11.669715 140691074164480 supervisor.py:1099] global_step/sec: 0
+2020-01-14 14:48:14.095979: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.87GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-01-14 14:48:19.430430: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.16GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:Recording summary at step 312.
+I0114 14:48:19.819180 140691065771776 supervisor.py:1050] Recording summary at step 312.
+2020-01-14 14:48:20.638330: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.26GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:Recording summary at step 312.
+I0114 14:48:25.987986 140691065771776 supervisor.py:1050] Recording summary at step 312.
+INFO:tensorflow:global_step/sec: 0.100005
+I0114 14:48:31.668612 140691074164480 supervisor.py:1099] global_step/sec: 0.100005
+INFO:tensorflow:Recording summary at step 316.
+I0114 14:48:37.226962 140691065771776 supervisor.py:1050] Recording summary at step 316.
+INFO:tensorflow:global step 320: loss = 7.1667 (1.451 sec/step)
+I0114 14:48:41.942039 140700242003776 learning.py:507] global step 320: loss = 7.1667 (1.451 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 320
+
+I0114 14:48:41.946572 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 320
+
+INFO:tensorflow:global_step/sec: 0.550003
+I0114 14:48:51.668361 140691074164480 supervisor.py:1099] global_step/sec: 0.550003
+INFO:tensorflow:Recording summary at step 328.
+I0114 14:48:57.320452 140691065771776 supervisor.py:1050] Recording summary at step 328.
+INFO:tensorflow:global step 330: loss = 7.1665 (1.450 sec/step)
+I0114 14:48:59.941102 140700242003776 learning.py:507] global step 330: loss = 7.1665 (1.450 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 330
+
+I0114 14:48:59.946153 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 330
+
+INFO:tensorflow:global_step/sec: 0.549999
+I0114 14:49:11.668479 140691074164480 supervisor.py:1099] global_step/sec: 0.549999
+INFO:tensorflow:Recording summary at step 339.
+I0114 14:49:17.888638 140691065771776 supervisor.py:1050] Recording summary at step 339.
+INFO:tensorflow:global step 340: loss = 7.1655 (1.445 sec/step)
+I0114 14:49:18.089345 140700242003776 learning.py:507] global step 340: loss = 7.1655 (1.445 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 340
+
+I0114 14:49:18.092867 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 340
+
+INFO:tensorflow:global_step/sec: 0.548986
+I0114 14:49:31.705382 140691074164480 supervisor.py:1099] global_step/sec: 0.548986
+INFO:tensorflow:global step 350: loss = 7.1718 (1.428 sec/step)
+I0114 14:49:36.279434 140700242003776 learning.py:507] global step 350: loss = 7.1718 (1.428 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 350
+
+I0114 14:49:36.280868 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 350
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 350
+
+I0114 14:49:36.335283 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 350
+
+INFO:tensorflow:Recording summary at step 350.
+I0114 14:49:38.162781 140691065771776 supervisor.py:1050] Recording summary at step 350.
+2020-01-14 14:49:51.575708: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.72GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:global_step/sec: 0.60111
+I0114 14:49:51.668259 140691074164480 supervisor.py:1099] global_step/sec: 0.60111
+INFO:tensorflow:global step 360: loss = 7.1704 (3.455 sec/step)
+I0114 14:49:54.397680 140700242003776 learning.py:507] global step 360: loss = 7.1704 (3.455 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 360
+
+I0114 14:49:54.399675 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 360
+
+INFO:tensorflow:Recording summary at step 361.
+I0114 14:49:57.452911 140691065771776 supervisor.py:1050] Recording summary at step 361.
+INFO:tensorflow:global step 370: loss = 7.1747 (1.421 sec/step)
+I0114 14:50:10.580841 140700242003776 learning.py:507] global step 370: loss = 7.1747 (1.421 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 370
+
+I0114 14:50:10.585065 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 370
+
+INFO:tensorflow:global_step/sec: 0.544783
+I0114 14:50:11.859844 140691074164480 supervisor.py:1099] global_step/sec: 0.544783
+INFO:tensorflow:Recording summary at step 372.
+I0114 14:50:17.866314 140691065771776 supervisor.py:1050] Recording summary at step 372.
+INFO:tensorflow:global step 380: loss = 7.1723 (1.409 sec/step)
+I0114 14:50:28.398080 140700242003776 learning.py:507] global step 380: loss = 7.1723 (1.409 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 380
+
+I0114 14:50:28.402124 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 380
+
+INFO:tensorflow:global_step/sec: 0.555323
+I0114 14:50:31.668102 140691074164480 supervisor.py:1099] global_step/sec: 0.555323
+INFO:tensorflow:Recording summary at step 383.
+I0114 14:50:37.048371 140691065771776 supervisor.py:1050] Recording summary at step 383.
+INFO:tensorflow:global step 390: loss = 7.1619 (1.428 sec/step)
+I0114 14:50:46.111049 140700242003776 learning.py:507] global step 390: loss = 7.1619 (1.428 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 390
+
+I0114 14:50:46.114719 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 390
+
+INFO:tensorflow:global_step/sec: 0.54994
+I0114 14:50:51.671437 140691074164480 supervisor.py:1099] global_step/sec: 0.54994
+2020-01-14 14:50:52.909735: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.02GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:Recording summary at step 395.
+I0114 14:50:57.038223 140691065771776 supervisor.py:1050] Recording summary at step 395.
+INFO:tensorflow:global step 400: loss = 7.1672 (1.429 sec/step)
+I0114 14:51:04.210461 140700242003776 learning.py:507] global step 400: loss = 7.1672 (1.429 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 400
+
+I0114 14:51:04.213684 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 400
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 400
+
+I0114 14:51:04.215958 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 400
+
+INFO:tensorflow:Recording summary at step 407.
+I0114 14:51:17.512533 140691065771776 supervisor.py:1050] Recording summary at step 407.
+INFO:tensorflow:global step 410: loss = 7.1687 (1.593 sec/step)
+I0114 14:51:21.999323 140700242003776 learning.py:507] global step 410: loss = 7.1687 (1.593 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 410
+
+I0114 14:51:22.002903 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 410
+
+INFO:tensorflow:Recording summary at step 418.
+I0114 14:51:37.164680 140691065771776 supervisor.py:1050] Recording summary at step 418.
+INFO:tensorflow:global step 420: loss = 7.1777 (1.445 sec/step)
+I0114 14:51:39.739578 140700242003776 learning.py:507] global step 420: loss = 7.1777 (1.445 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 420
+
+I0114 14:51:39.743847 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 420
+
+INFO:tensorflow:Recording summary at step 429.
+I0114 14:51:57.325257 140691065771776 supervisor.py:1050] Recording summary at step 429.
+INFO:tensorflow:global step 430: loss = 7.1742 (1.395 sec/step)
+I0114 14:51:57.558657 140700242003776 learning.py:507] global step 430: loss = 7.1742 (1.395 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 430
+
+I0114 14:51:57.561286 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 430
+
+INFO:tensorflow:global step 440: loss = 7.1496 (1.396 sec/step)
+I0114 14:52:15.780892 140700242003776 learning.py:507] global step 440: loss = 7.1496 (1.396 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 440
+
+I0114 14:52:15.783511 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 440
+
+INFO:tensorflow:Recording summary at step 440.
+I0114 14:52:16.993163 140691065771776 supervisor.py:1050] Recording summary at step 440.
+INFO:tensorflow:global step 450: loss = 7.1573 (1.677 sec/step)
+I0114 14:52:31.952096 140700242003776 learning.py:507] global step 450: loss = 7.1573 (1.677 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 450
+
+I0114 14:52:32.001411 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 450
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 450
+
+I0114 14:52:33.419614 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 450
+
+INFO:tensorflow:Recording summary at step 451.
+I0114 14:52:36.980512 140691065771776 supervisor.py:1050] Recording summary at step 451.
+INFO:tensorflow:global step 460: loss = 7.1586 (1.593 sec/step)
+I0114 14:52:49.230238 140700242003776 learning.py:507] global step 460: loss = 7.1586 (1.593 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 460
+
+I0114 14:52:49.233873 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 460
+
+INFO:tensorflow:Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+I0114 14:52:50.942869 140691082557184 supervisor.py:1117] Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+INFO:tensorflow:Recording summary at step 463.
+I0114 14:52:57.878021 140691065771776 supervisor.py:1050] Recording summary at step 463.
+INFO:tensorflow:global step 470: loss = 7.1878 (1.422 sec/step)
+I0114 14:53:06.938465 140700242003776 learning.py:507] global step 470: loss = 7.1878 (1.422 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 470
+
+I0114 14:53:08.023957 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 470
+
+2020-01-14 14:53:11.605839: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.02GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-01-14 14:53:11.657699: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.72GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-01-14 14:53:11.657911: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.72GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:Recording summary at step 473.
+I0114 14:53:17.032235 140691065771776 supervisor.py:1050] Recording summary at step 473.
+INFO:tensorflow:global step 480: loss = 7.1578 (1.519 sec/step)
+I0114 14:53:26.138015 140700242003776 learning.py:507] global step 480: loss = 7.1578 (1.519 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 480
+
+I0114 14:53:26.142760 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 480
+
+INFO:tensorflow:Recording summary at step 485.
+I0114 14:53:37.147188 140691065771776 supervisor.py:1050] Recording summary at step 485.
+INFO:tensorflow:global step 490: loss = 7.1802 (1.427 sec/step)
+I0114 14:53:44.290034 140700242003776 learning.py:507] global step 490: loss = 7.1802 (1.427 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 490
+
+I0114 14:53:44.293845 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 490
+
+INFO:tensorflow:Recording summary at step 496.
+I0114 14:53:57.230930 140691065771776 supervisor.py:1050] Recording summary at step 496.
+INFO:tensorflow:global step 500: loss = 7.1762 (1.590 sec/step)
+I0114 14:54:02.163465 140700242003776 learning.py:507] global step 500: loss = 7.1762 (1.590 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 500
+
+I0114 14:54:02.166521 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 500
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 500
+
+I0114 14:54:02.168832 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 500
+
+INFO:tensorflow:Recording summary at step 507.
+I0114 14:54:17.126711 140691065771776 supervisor.py:1050] Recording summary at step 507.
+INFO:tensorflow:global step 510: loss = 7.1639 (1.560 sec/step)
+I0114 14:54:20.477714 140700242003776 learning.py:507] global step 510: loss = 7.1639 (1.560 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 510
+
+I0114 14:54:20.481338 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 510
+
+2020-01-14 14:54:31.567104: W tensorflow/core/common_runtime/bfc_allocator.cc:237] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.02GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+INFO:tensorflow:Recording summary at step 518.
+I0114 14:54:37.027889 140691065771776 supervisor.py:1050] Recording summary at step 518.
+INFO:tensorflow:global step 520: loss = 7.1671 (1.547 sec/step)
+I0114 14:54:38.620365 140700242003776 learning.py:507] global step 520: loss = 7.1671 (1.547 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 520
+
+I0114 14:54:38.625178 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 520
+
+INFO:tensorflow:global step 530: loss = 7.1758 (1.496 sec/step)
+I0114 14:54:56.527851 140700242003776 learning.py:507] global step 530: loss = 7.1758 (1.496 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 530
+
+I0114 14:54:56.530457 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 530
+
+INFO:tensorflow:Recording summary at step 530.
+I0114 14:54:57.089007 140691065771776 supervisor.py:1050] Recording summary at step 530.
+INFO:tensorflow:global step 540: loss = 7.1809 (3.230 sec/step)
+I0114 14:55:14.113139 140700242003776 learning.py:507] global step 540: loss = 7.1809 (3.230 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 540
+
+I0114 14:55:14.115455 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 540
+
+INFO:tensorflow:Recording summary at step 541.
+I0114 14:55:17.159443 140691065771776 supervisor.py:1050] Recording summary at step 541.
+INFO:tensorflow:global step 550: loss = 7.1741 (1.429 sec/step)
+I0114 14:55:30.535122 140700242003776 learning.py:507] global step 550: loss = 7.1741 (1.429 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 550
+
+I0114 14:55:30.539048 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 550
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 550
+
+I0114 14:55:30.541414 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 550
+
+INFO:tensorflow:Recording summary at step 552.
+I0114 14:55:37.402628 140691065771776 supervisor.py:1050] Recording summary at step 552.
+INFO:tensorflow:global step 560: loss = 7.1824 (1.547 sec/step)
+I0114 14:55:48.144748 140700242003776 learning.py:507] global step 560: loss = 7.1824 (1.547 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 560
+
+I0114 14:55:48.149098 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 560
+
+INFO:tensorflow:Recording summary at step 564.
+I0114 14:55:57.265497 140691065771776 supervisor.py:1050] Recording summary at step 564.
+INFO:tensorflow:global step 570: loss = 7.1724 (1.424 sec/step)
+I0114 14:56:05.931519 140700242003776 learning.py:507] global step 570: loss = 7.1724 (1.424 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 570
+
+I0114 14:56:05.936221 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 570
+
+INFO:tensorflow:Recording summary at step 575.
+I0114 14:56:17.001821 140691065771776 supervisor.py:1050] Recording summary at step 575.
+INFO:tensorflow:global step 580: loss = 7.1636 (1.426 sec/step)
+I0114 14:56:23.257201 140700242003776 learning.py:507] global step 580: loss = 7.1636 (1.426 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 580
+
+I0114 14:56:23.261101 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 580
+
+INFO:tensorflow:Recording summary at step 587.
+I0114 14:56:37.206874 140691065771776 supervisor.py:1050] Recording summary at step 587.
+INFO:tensorflow:global step 590: loss = 7.1657 (1.422 sec/step)
+I0114 14:56:40.858161 140700242003776 learning.py:507] global step 590: loss = 7.1657 (1.422 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 590
+
+I0114 14:56:40.861391 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 590
+
+INFO:tensorflow:Recording summary at step 599.
+I0114 14:56:57.911258 140691065771776 supervisor.py:1050] Recording summary at step 599.
+INFO:tensorflow:global step 600: loss = 7.1766 (1.409 sec/step)
+I0114 14:56:58.790765 140700242003776 learning.py:507] global step 600: loss = 7.1766 (1.409 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 600
+
+I0114 14:56:58.793867 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 600
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 600
+
+I0114 14:56:58.795876 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 600
+
+INFO:tensorflow:global step 610: loss = 7.1724 (1.463 sec/step)
+I0114 14:57:16.787796 140700242003776 learning.py:507] global step 610: loss = 7.1724 (1.463 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 610
+
+I0114 14:57:16.790851 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 610
+
+INFO:tensorflow:Recording summary at step 610.
+I0114 14:57:17.166516 140691065771776 supervisor.py:1050] Recording summary at step 610.
+INFO:tensorflow:global step 620: loss = 7.1719 (2.794 sec/step)
+I0114 14:57:34.743952 140700242003776 learning.py:507] global step 620: loss = 7.1719 (2.794 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 620
+
+I0114 14:57:34.746904 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 620
+
+INFO:tensorflow:Recording summary at step 620.
+I0114 14:57:37.304785 140691065771776 supervisor.py:1050] Recording summary at step 620.
+INFO:tensorflow:global step 630: loss = 7.1660 (1.426 sec/step)
+I0114 14:57:50.544026 140700242003776 learning.py:507] global step 630: loss = 7.1660 (1.426 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 630
+
+I0114 14:57:50.549275 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 630
+
+INFO:tensorflow:Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+I0114 14:57:50.942853 140691082557184 supervisor.py:1117] Saving checkpoint to path /cube/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/init1_testrestart/model.ckpt
+INFO:tensorflow:Recording summary at step 632.
+I0114 14:57:57.145764 140691065771776 supervisor.py:1050] Recording summary at step 632.
+INFO:tensorflow:global step 640: loss = 7.1715 (1.426 sec/step)
+I0114 14:58:08.047566 140700242003776 learning.py:507] global step 640: loss = 7.1715 (1.426 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 640
+
+I0114 14:58:08.429324 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 640
+
+INFO:tensorflow:Recording summary at step 643.
+I0114 14:58:17.233060 140691065771776 supervisor.py:1050] Recording summary at step 643.
+INFO:tensorflow:global step 650: loss = 7.1713 (1.458 sec/step)
+I0114 14:58:26.025014 140700242003776 learning.py:507] global step 650: loss = 7.1713 (1.458 sec/step)
+INFO:tensorflow:RESETTING STREAMING EVAL METRICS AT STEP 650
+
+I0114 14:58:26.028343 140700242003776 learning_biasCNN_TEST.py:41] RESETTING STREAMING EVAL METRICS AT STEP 650
+
+INFO:tensorflow:EVALUATING MODEL AT STEP 650
+
+I0114 14:58:26.030977 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 650
+
+INFO:tensorflow:Recording summary at step 655.
+I0114 14:58:37.058074 140691065771776 supervisor.py:1050] Recording summary at step 655.
+INFO:tensorflow:global step 660: loss = 7.1704 (1.542 sec/step)
+I0114 14:58:43.927564 140700242003776 learning.py:507] global step 660: loss = 7.1704 (1.542 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 660
+
+I0114 14:58:43.932183 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 660
+
+INFO:tensorflow:Recording summary at step 666.
+I0114 14:58:57.008924 140691065771776 supervisor.py:1050] Recording summary at step 666.
+INFO:tensorflow:global step 670: loss = 7.1703 (1.580 sec/step)
+I0114 14:59:01.977601 140700242003776 learning.py:507] global step 670: loss = 7.1703 (1.580 sec/step)
+INFO:tensorflow:EVALUATING MODEL AT STEP 670
+
+I0114 14:59:01.982586 140700242003776 learning_biasCNN_TEST.py:48] EVALUATING MODEL AT STEP 670
+
+slurmstepd-ssrde-c-402: error: *** JOB 16057 ON ssrde-c-402 CANCELLED AT 2020-01-14T14:59:13 ***

@@ -3,9 +3,10 @@
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
-#SBATCH -o ./sbatch_output/output-%A-%x-%u.out # STDOUT
+#SBATCH --open-mode=append
+#SBATCH --output=./sbatch_output/output-%A-%x-%u.out 
 
-rot=45
+rot=45_square
 
 source ~/anaconda3/bin/activate
 /cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_vgg16_cluster_params1.sh $rot 

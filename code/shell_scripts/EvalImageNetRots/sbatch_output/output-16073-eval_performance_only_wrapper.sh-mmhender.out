@@ -1,0 +1,6 @@
+Not a conda environment: /home/AD/mmhender/anaconda3/envs/cuda9
+rot=0_square
+step_num=78345
+which_hyperpars=params1
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 48: unexpected EOF while looking for matching `}'
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 74: syntax error: unexpected end of file

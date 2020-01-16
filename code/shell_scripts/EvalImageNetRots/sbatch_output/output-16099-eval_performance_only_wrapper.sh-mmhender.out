@@ -1,0 +1,48 @@
+ls: cannot access '/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/model.ckpt-*.meta': No such file or directory
+can't find a checkpoint past 200000
+Not a conda environment: /home/AD/mmhender/anaconda3/envs/cuda9
+rot=45
+step_num=params1
+which_hyperpars=/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/
+log_dir=/mnt/neurocube/local/serenceslab/maggie/
+mkdir: cannot create directory ‘/mnt/neurocube’: Permission denied
+evaluating from checkpoint at /mnt/neurocube/local/serenceslab/maggie/model.ckpt-params1
+evaluating on images from biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_45
+saving to /mnt/neurocube/local/serenceslab/maggie/eval_at_ckpt-params1_performance_only
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 53: cd: tensorflow/models/research/slim/: No such file or directory
+ls: cannot access '/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/model.ckpt-*.meta': No such file or directory
+can't find a checkpoint past 400000
+Not a conda environment: /home/AD/mmhender/anaconda3/envs/cuda9
+rot=45
+step_num=params1
+which_hyperpars=/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/
+log_dir=/mnt/neurocube/local/serenceslab/maggie/
+mkdir: cannot create directory ‘/mnt/neurocube’: Permission denied
+evaluating from checkpoint at /mnt/neurocube/local/serenceslab/maggie/model.ckpt-params1
+evaluating on images from biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_45
+saving to /mnt/neurocube/local/serenceslab/maggie/eval_at_ckpt-params1_performance_only
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 53: cd: tensorflow/models/research/slim/: No such file or directory
+ls: cannot access '/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/model.ckpt-*.meta': No such file or directory
+can't find a checkpoint past 600000
+Not a conda environment: /home/AD/mmhender/anaconda3/envs/cuda9
+rot=45
+step_num=params1
+which_hyperpars=/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/
+log_dir=/mnt/neurocube/local/serenceslab/maggie/
+mkdir: cannot create directory ‘/mnt/neurocube’: Permission denied
+evaluating from checkpoint at /mnt/neurocube/local/serenceslab/maggie/model.ckpt-params1
+evaluating on images from biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_45
+saving to /mnt/neurocube/local/serenceslab/maggie/eval_at_ckpt-params1_performance_only
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 53: cd: tensorflow/models/research/slim/: No such file or directory
+ls: cannot access '/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/model.ckpt-*.meta': No such file or directory
+can't find a checkpoint past 800000
+Not a conda environment: /home/AD/mmhender/anaconda3/envs/cuda9
+rot=45
+step_num=params1
+which_hyperpars=/mnt/neurocube/local/serenceslab/maggie/biasCNN/logs/vgg16/ImageNet/scratch_vgg16_imagenet_rot_45/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94/
+log_dir=/mnt/neurocube/local/serenceslab/maggie/
+mkdir: cannot create directory ‘/mnt/neurocube’: Permission denied
+evaluating from checkpoint at /mnt/neurocube/local/serenceslab/maggie/model.ckpt-params1
+evaluating on images from biasCNN/datasets/ImageNet/ILSVRC2012/tfrecord_rot_45
+saving to /mnt/neurocube/local/serenceslab/maggie/eval_at_ckpt-params1_performance_only
+/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_performance_only.sh: line 53: cd: tensorflow/models/research/slim/: No such file or directory

@@ -13,7 +13,7 @@ root = root(1:filesepinds(end-1));
 image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
 save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [300:400];
+sets2do = [1:508];
 nSets = length(sets2do);
 %% find the names of all image sets (these are identical across rotations)
 % want to make sure we grab the same ones in the same order across all
@@ -34,6 +34,7 @@ for rr=1:length(rot_list)
         set_file = set_file(1);
         
         fn2load = fullfile(set_file.folder, set_file.name);
+        fprintf('loading %s\n',fn2load);
         load(fn2load)
         if isempty(image_stats)
             fprintf('NO IMAGES PRESENT\n')
