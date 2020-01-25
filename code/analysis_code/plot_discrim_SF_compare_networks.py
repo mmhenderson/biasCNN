@@ -22,8 +22,8 @@ import matplotlib.lines as mlines
 #%% get the data ready to go...then can run any below cells independently.
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
-#dataset_all = 'SpatFreqGratings'
-dataset_all = 'SquareGratings'
+dataset_all = 'SpatFreqGratings'
+#dataset_all = 'SquareGratings'
 
 model='vgg16'
 
@@ -37,17 +37,28 @@ import classifiers_custom as classifiers
 param_str='params1'
 
 #%% load activations from whatever networks/training schemes are of interest here
-# note all these were evaluated with the same stimulus set
 
-training_strs=['pretrained','scratch_imagenet_rot_0','scratch_imagenet_rot_45'];
+#training_strs=['scratch_imagenet_rot_0_square','scratch_imagenet_rot_0_square','scratch_imagenet_rot_0_square'];
+#ckpt_strs=['350000','400000','450000']
+#legend_strs=['trained 0 square - 350K steps','trained 0 square - 400K steps','trained 0 square - 450K steps']
 
-ckpt_strs=['0','689475','694497']
+training_strs=['scratch_imagenet_rot_0_square','scratch_imagenet_rot_22_square','scratch_imagenet_rot_45_square'];
+ckpt_strs=['350000','350000','350000']
+legend_strs=['trained 0 square - 350K steps','trained 22 square - 350K steps','trained 45 square - 350K steps']
 
-legend_strs = ['pretrained','trained upright','trained 45 rot']
+#training_strs=['scratch_imagenet_rot_0_square','scratch_imagenet_rot_22_square','scratch_imagenet_rot_45_square'];
+#ckpt_strs=['400000','400000','400000']
+#legend_strs=['trained 0 square - 400K steps','trained 22 square - 400K steps','trained 45 square - 400K steps']
+
+#training_strs=['scratch_imagenet_rot_0_square','scratch_imagenet_rot_22_square','scratch_imagenet_rot_45_square'];
+#ckpt_strs=['450000','450000','450000']
+#legend_strs=['trained 0 square - 450K steps','trained 22 square - 450K steps','trained 45 square - 450K steps']
+
 
 nTrainingSchemes = np.size(training_strs)
 
 bigw = []
+
 
 # load activations for each training scheme
 for tr in range(nTrainingSchemes):
@@ -58,7 +69,7 @@ for tr in range(nTrainingSchemes):
   # first, searching for all folders from the same model, evaluated on different datasets (the sets are very similar but have different noise instantiation)
   dirs = os.listdir(os.path.join(root, 'activations', model, training_str, param_str))
   good = [ii for ii in range(np.size(dirs)) if dataset_all in dirs[ii]]
-  
+
   model_name_2plot = model + '_' + training_str + '_' + param_str + '_' + dataset_all + '_avg_samples'
   
   allw = []
@@ -66,13 +77,16 @@ for tr in range(nTrainingSchemes):
     
     # also searching for all evaluations at different timepts (nearby, all are around the optimal point)
     dirs2 = os.listdir(os.path.join(root, 'activations', model, training_str, param_str,dirs[ii]))
-    good2 = [jj for jj in range(np.size(dirs2)) if 'reduced' in dirs2[jj] and ckpt_str in dirs2[jj]]
+    nums=[dir[np.char.find(dir,'-')+1:np.char.find(dir,'-')+7] for dir in dirs2]
+    
+    # compare the first two characters
+    good2 = [jj for jj in range(np.size(dirs2)) if 'reduced' in dirs2[jj] and not 'sep_edges' in dirs2[jj] and ckpt_str[0:2] in nums[jj][0:2]]
   
     for jj in good2:
       
 
       ckpt_num= dirs2[jj].split('_')[2][5:]
-      this_allw, all_labs, info = load_activations.load_activ(model, dirs[ii], training_str, param_str, ckpt_num)
+      this_allw, all_labs, allvarexpl, info = load_activations.load_activ(model, dirs[ii], training_str, param_str, ckpt_num)
       allw.append(this_allw)
       if ii==good[0] and jj==good2[0]:
         info_orig = info
@@ -142,7 +156,10 @@ cols_sf = np.concatenate((cols_sf_1[np.arange(2,8,1),:,:],cols_sf_2[np.arange(2,
 # using half steps, since discriminability is always between pairs of orientations 1 degree apart
 ori_axis = np.arange(0.5, 360,1)
 
-b = np.arange(22.5,360,45)  # baseline
+#b = np.arange(22.5,360,45)  # baseline
+
+b = np.arange(22.5,360,90)  # baseline
+m = np.arange(67.5,360,90)  # these are the orientations that should be dominant in the 22 deg rot set (note the CW/CCW labels are flipped so its 67.5)
 c = np.arange(0,360,90) # cardinals
 o = np.arange(45,360,90)  # obliques
 bin_size = 6
@@ -165,12 +182,19 @@ for ii in range(np.size(o)):
   obl_inds=np.append(obl_inds,inds)
 obl_inds = np.uint64(obl_inds)
  
+middle_inds = []
+for ii in range(np.size(m)):        
+  inds = list(np.where(np.logical_or(np.abs(ori_axis-m[ii])<bin_size/2, np.abs(ori_axis-(360+m[ii]))<bin_size/2))[0])
+  middle_inds=np.append(middle_inds,inds)
+middle_inds = np.uint64(middle_inds)
+ 
 #%% visualize the bins 
 plt.figure();
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),baseline_inds))
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),card_inds))
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),obl_inds))
-plt.legend(['baseline','cardinals','obliques'])
+plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),middle_inds))
+plt.legend(['baseline','cardinals','obliques','22'])
 plt.title('bins for getting anisotropy index')
 
 
@@ -313,6 +337,78 @@ for sf in sf2plot:
 # finish up the entire plot
 plt.suptitle('Obliques versus baseline')  
 fig.set_size_inches(18,8)
+                    
+                    
+#%% plot 22-deg anisotropy W single samples, overlay networks, one subplot per spatial freq
+plt.rcParams.update({'font.size': 10})
+plt.close('all')
+fig=plt.figure()
+ 
+layers2plot = np.arange(0,nLayers,1)
+sf2plot=[0,1,2,3,4,5]
+#sf2plot=[0]
+# loop over SF, make one plot for each
+for sf in sf2plot:
+      
+    ax=fig.add_subplot(2,3,sf+1)
+    handles = []
+    
+    # loop over network training schemes (upright versus rot images etc)
+    for tr in range(nTrainingSchemes):
+      
+      # matrix to store anisotropy index for each layer    
+      aniso_vals = np.zeros([nSamples,np.size(layers2plot)])
+      
+      # loop over network layers
+      for ww1 in range(np.size(layers2plot)):
+  
+        disc_vals = np.zeros([nSamples, 360])    
+        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+        for kk in range(nSamples):
+  
+          w = bigw[tr][kk][layers2plot[ww1]][0]
+    
+          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
+  
+          # these are each 360 long (go around twice because of phase)
+          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+          
+          # take the bins of interest to get anisotropy
+          base_discrim=  disc[baseline_inds]
+          peak_discrim = disc[middle_inds]
+          
+          # final value for this layer: difference divided by sum 
+          aniso_vals[kk,ww1] = (np.mean(peak_discrim) - np.mean(base_discrim))/(np.mean(peak_discrim) + np.mean(base_discrim))
+        
+      # put the line for this spatial frequency onto the plot      
+      vals = np.mean(aniso_vals,0)
+      errvals = np.std(aniso_vals,0)
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[3,tr,:])
+      ax.add_line(myline)   
+      handles.append(myline)
+      plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=cols_sf[3,tr,:])
+
+
+    # finish up this subplot 
+    ylims = [-1,1]
+    xlims = [-1, np.size(layers2plot)]
+    
+    if sf==sf2plot[-1]:
+      plt.legend(handles,legend_strs)
+    
+    plt.plot(xlims, [0,0], 'k')
+    plt.xlim(xlims)
+    plt.ylim(ylims)
+    plt.title('SF=%.2f cpp' % (sf_vals[sf]))
+   
+    if sf>2:
+      plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+      plt.ylabel('Normalized Euclidean Distance difference')
+    
+# finish up the entire plot
+plt.suptitle('22 versus baseline')  
+fig.set_size_inches(18,8)
+
 #%% plot Cardinal (0+90) MINUS Oblique (45+135) anisotropy W single samples, overlay networks, one subplot per spatial freq
 plt.rcParams.update({'font.size': 10})
 plt.close('all')
@@ -384,7 +480,7 @@ plt.suptitle('Cardinals versus obliques')
 fig.set_size_inches(18,8)
 
 #%% plot cardinal versus baseline, one training scheme at a time
-tr=2
+tr=1
 plt.rcParams.update({'font.size': 16})
 plt.close('all')
 fig=plt.figure()
@@ -585,13 +681,14 @@ new_pos = curr_pos + [0, 0.2, 0, -0.2]
 ax.set_position(new_pos)
 
 #%% plot average discriminability curves, overlay spatial frequencies
-tr=0
+tr=2
 
 plt.close('all')
 plt.figure()
 
 layers2plot = np.arange(0,nLayers,1)
 sf2plot = np.arange(0,6,1)
+#sf2plot=[0]
 legendlabs = ['sf=%.2f'%(sf_vals[sf]) for sf in sf2plot]
 
 # loop over layers, making a subplot for each

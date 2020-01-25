@@ -52,7 +52,7 @@ set -e
 # Evaluate the network.
 cd ${slimpath}
 
-python eval_image_classifier_biasCNN_eval_only.py \
+python eval_image_classifier_biasCNN_performance_only.py \
 	 --checkpoint_path=${load_log_dir} \
 	 --eval_dir=${save_eval_dir} \
 	 --dataset_name=${dataset_name} \

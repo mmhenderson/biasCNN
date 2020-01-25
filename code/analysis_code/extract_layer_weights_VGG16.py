@@ -29,33 +29,27 @@ from slim.nets.vgg import vgg_16 as vgg_16
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 
 
-ckptfile1 = os.path.join(root, 'logs', 'vgg16_oriTrn2_short','model.ckpt-1')
-metafile1 = os.path.join(root, 'logs', 'vgg16_oriTrn2_short','model.ckpt-1.meta')
-
-
-ckptfile2 = os.path.join(root, 'logs', 'vgg16_oriTrn2_long','model.ckpt-10000')
-metafile2 = os.path.join(root, 'logs', 'vgg16_oriTrn2_long','model.ckpt-10000.meta')
-
-
-ckptfile3 = os.path.join(root, 'checkpoints', 'vgg16_ckpt', 'vgg_16.ckpt')
+ckptfile = os.path.join(root, 'logs', 'vgg16','ImageNet','scratch_imagenet_rot_0_square','params1','model.ckpt-2194')
+metafile = os.path.join(root, 'logs', 'vgg16','ImageNet','scratch_imagenet_rot_0_square','params1','model.ckpt-2194.meta')
 
 #%% print list of all tensors
 # Load a .ckpt file for the model after some amount of training, inspect the checkpoint file using a tensorflow built-in function.
     
-prt(ckptfile1,[],all_tensors=False)
-prt(ckptfile3,[],all_tensors=False)
+prt(ckptfile,[],all_tensors=False)
+#prt(ckptfile,[],all_tensors=False)
 
 #%%Get a list of the names of all tensors
 
-reader = pywrap_tensorflow.NewCheckpointReader(ckptfile1)
+reader = pywrap_tensorflow.NewCheckpointReader(ckptfile)
 var_to_shape_map = reader.get_variable_to_shape_map()
 ind = 0 # can change this to other numbers
 tensor_list = list(var_to_shape_map.keys())
 tensors2check = []
 for kk in tensor_list:
     if (not 'global_step' in kk) & (not 'RMSProp' in kk): 
+        
         tensors2check.append('%s:%d' %(kk,ind))
-
+        
 # here we'll store the weights for each of these tensors
 w_check = []
 
@@ -65,8 +59,8 @@ tf.reset_default_graph()
 
 with tf.Session() as sess:
     
-    saver = tf.train.import_meta_graph(metafile1)
-    saver.restore(sess, ckptfile1)
+    saver = tf.train.import_meta_graph(metafile)
+    saver.restore(sess, ckptfile)
     # get the graph
     g = tf.get_default_graph()
 
@@ -77,51 +71,41 @@ with tf.Session() as sess:
         
     w_check.append(w_1)
 
-#%% same thing after re-tuning the last few layers
+    
+#%% get activations for some random images
+# input these key parameters, they match how the network was trained
+batch_size = 10
+image_size = 224
+# passing a bunch of blank images in, just as a placeholder
+images = np.ones([batch_size, image_size, image_size, 3])
+# testing for effect of batch normalization - if we change one of the images in the batch, does this change activations measured for individual ims?
+images2 = np.concatenate((np.ones([batch_size-1, image_size, image_size, 3]), 2*np.ones([1, image_size, image_size, 3])), axis=0)
+ 
 tf.reset_default_graph()
 
 with tf.Session() as sess:
     
-    saver = tf.train.import_meta_graph(metafile2)
-    saver.restore(sess, ckptfile2)
+    saver = tf.train.import_meta_graph(metafile)
+    saver.restore(sess, ckptfile)
     # get the graph
     g = tf.get_default_graph()
-     
-    w_2 = []
-    for tt in range(np.size(tensors2check)):
-        
-        w_2.append(sess.run(g.get_tensor_by_name(tensors2check[tt])))
-        
-    w_check.append(w_2)
 
-#%% get out the activations for same image set, before and after training
-# these activation measurements were saved out by "eval_image_classifier_MMH_biasCNN.py"
-# they have already been subjected to PCA within layer
-model_str = 'vgg16_oriTst1';
+    with g.as_default():
+      
+      inputs = tf.placeholder(tf.float32, shape=(batch_size,
+                                                         image_size, image_size, 3))
+            
+      logits = vgg_16(inputs, num_classes=1000,
+                 is_training=False,spatial_squeeze=False)
 
-import load_activations
-#allw, all_labs, info = load_activations.load_activ_nasnet_oriTst0()
-allw, all_labs, info = load_activations.load_activ(model_str)
-layer_labels = info['layer_labels']
-nLayers = info['nLayers']
+    
+    #% first run one set of images through the network...get activations
+    mydict = {'Placeholder:0': images}
 
-plt.close('all')
-#corrs = np.zeros(nLayers, 1)
-#for l1  in range(nLayers):
-for l1 in [2,5,8]:
-    act1 = (allw[l1][0])
-    act2 = (allw[l1][1])
-    
-    ii=150; # choose a random image in the set
-    
-    plt.figure();plt.plot(act1[ii,:]);plt.plot(act2[ii,:]);
-    plt.legend(info['timepoint_labels'])
-    plt.title('%s\nactivations for a single image, after PCA' %(layer_labels[l1]))
-    corrs = []
-    for ii in np.arange(0,np.shape(act1)[0],100):
-        r,p = scipy.stats.pearsonr(act1[ii,:],act2[ii,:])
-        corrs.append(r)
-    
+    out = sess.run([logits], feed_dict = mydict)
+
+    logit_activations = out[0][0]
+    other_activations = out[0][1]
 #%% evaluate the original model before we did anything to it
 # don't have a meta file here so we have to use the .py file to define the graph
 
@@ -154,7 +138,7 @@ with tf.Session() as sess:
             
             logits = vgg_16(inputs, num_classes=1000,
                        is_training=False,spatial_squeeze=False)
-            
+#            
             test_vars = []
             for tt in range(np.size(tensors2check)):
                 
@@ -162,7 +146,7 @@ with tf.Session() as sess:
             
         # restore the model from saved checkpt
         saver = tf.train.Saver()
-        saver.restore(sess, ckptfile3)
+        saver.restore(sess, ckptfile)
         
         #% first run one set of images through the network...get activations
         mydict = {'Placeholder:0': images}

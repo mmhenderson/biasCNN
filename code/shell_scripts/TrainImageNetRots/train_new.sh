@@ -8,7 +8,7 @@
 
 model=vgg_16
 params=params1
-rot=0_square
+rot=22_square
 from_scratch=0
 
 source ~/anaconda3/bin/activate
