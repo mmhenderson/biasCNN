@@ -16,7 +16,7 @@ ROOT=/mnt/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-rot=0_square
+rot=0
 which_hyperpars=params1
 dataset_root=CircGratings
 which_model=vgg_16

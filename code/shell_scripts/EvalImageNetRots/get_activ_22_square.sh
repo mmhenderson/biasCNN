@@ -9,23 +9,23 @@
 set -e
 
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
-ROOT=/cube/neurocube/local/serenceslab/maggie/
-#ROOT=/mnt/neurocube/local/serenceslab/maggie/
+#ROOT=/cube/neurocube/local/serenceslab/maggie/
+ROOT=/mnt/neurocube/local/serenceslab/maggie/
 
 # am i over-writing old folders, or checking which exist already?
-overwrite=1
+overwrite=0
 TEST=0
 
 rot=22_square
 which_hyperpars=params1
-dataset_root=SpatFreqGratings
+dataset_root=CircGratings
 which_model=vgg_16
 # num of versions of this dataset (phases are different)
 nSets=3
 
 # what steps to evaluate at? make a nice sequence here even though the real checkpoints are not round numbers
-start=350000
-stop=450000
+start=400000
+stop=400000
 step=50000
 # these are approximate - will keep the first checkpoint after each of these numbers
 step2eval_list_approx=($(seq $start $step $stop))

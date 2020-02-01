@@ -9,7 +9,7 @@ source ~/anaconda3/bin/activate
 
 ROOT=/cube/neurocube/local/serenceslab/maggie/
 #ROOT=/mnt/neurocube/local/serenceslab/maggie/
-rot=0
+rot=22_square
 which_hyperpars=params1
 
 # what steps to evaluate at? make a nice sequence here even though the real checkpoints are not round numbers

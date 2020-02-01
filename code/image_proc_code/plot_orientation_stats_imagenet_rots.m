@@ -4,7 +4,7 @@ clear
 close all
 
 % rot_list = [45];
-rot_list = [0,22,45];
+rot_list = [45];
 
 root = pwd;
 filesepinds = find(root==filesep);
@@ -13,7 +13,7 @@ root = root(1:filesepinds(end-1));
 image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
 save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [1:508];
+sets2do = [1:1000];
 nSets = length(sets2do);
 %% find the names of all image sets (these are identical across rotations)
 % want to make sure we grab the same ones in the same order across all
@@ -80,6 +80,7 @@ for rr=1:length(rot_list)
 %% plot stats with error bars
 
     figure;
+    set(gcf,'DefaultLegendAutoUpdate','off');
     hold all;
     set(gcf,'Color','w')
     meanvals = mean(ori_mag_list,1);
@@ -87,9 +88,9 @@ for rr=1:length(rot_list)
     stdvals = std(ori_mag_list,[],1);
     plot(ori_list,ori_mag_list(datasample(1:nImsTotal,100),:),'Color',[0.5,0.5,0.5],'LineStyle','-')
     errorbar(ori_list, meanvals, stdvals,'Color','k','LineWidth',2);
-     title(sprintf('Orientation content: ims rotated %d deg\n%d images (mean+/-std)', rot_list(rr), nImsTotal));
+     title(sprintf('Orientation content: Images rotated %d deg\n%d images (mean+/-std)', rot_list(rr), nImsTotal));
     xlabel('degrees');
-    ylabel('average magnitude')
+    ylabel('average magnitude (z-score)')
     xlim([min(ori_list),max(ori_list)])
     set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
 
@@ -98,12 +99,13 @@ for rr=1:length(rot_list)
     %% one example image
     % this plot should be shifted when the image is rotated
     figure;
+    set(gcf,'DefaultLegendAutoUpdate','off');
     hold all;
     set(gcf,'Color','w')
 
     plot(ori_list,ori_mag_list(1,:),'Color',[0.5,0.5,0.5],'LineStyle','-')
 
-    title(sprintf('Orientation content: ims rotated %d deg\none example image', rot_list(rr)));
+    title(sprintf('Orientation content: Images rotated %d deg\none example image', rot_list(rr)));
     xlabel('degrees');
     ylabel('average magnitude')
     xlim([min(ori_list),max(ori_list)])
@@ -114,7 +116,9 @@ for rr=1:length(rot_list)
 
     %% one example image - each SF separately
     % this plot should be shifted when the image is rotated
+    
     figure;
+    set(gcf,'DefaultLegendAutoUpdate','off');
     hold all;
     set(gcf,'Color','w')
     cols = parula(nSF);
@@ -124,7 +128,7 @@ for rr=1:length(rot_list)
         plot(ori_list,vals,'Color',cols(sf,:),'LineStyle','-')
 
     end
-    title(sprintf('Orientation content: ims rotated %d deg\none example image', rot_list(rr)));
+    title(sprintf('Orientation content: Images rotated %d deg\none example image', rot_list(rr)));
     xlabel('degrees');
     ylabel('average magnitude')
     xlim([min(ori_list),max(ori_list)])
@@ -136,6 +140,7 @@ for rr=1:length(rot_list)
     %% plot the mean stats, separated by spatial frequency
 
     figure;set(gcf,'Color','w')
+    set(gcf,'DefaultLegendAutoUpdate','off');
     hold all;
     cols = parula(nSF);
 
@@ -145,9 +150,9 @@ for rr=1:length(rot_list)
         plot(ori_list,ori_lines(sf,:),'Color',cols(sf,:),'LineStyle','-')
     end
     
-    title(sprintf('Orientation content: ims rotated %d deg', rot_list(rr)));
+    title(sprintf('Orientation content: Images rotated %d deg', rot_list(rr)));
     xlabel('degrees');
-    ylabel('average magnitude')
+    ylabel('average magnitude (z-score)')
     xlim([min(ori_list),max(ori_list)])
     set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
     legend(legend_labs)
@@ -156,7 +161,7 @@ for rr=1:length(rot_list)
 
     %% plot SF distribution
     figure ;hold all;
-
+    set(gcf,'DefaultLegendAutoUpdate','off');
     wave_hist = squeeze(mean(mean(mean_mag,1),3));
     [~,peak] = max(wave_hist);
     plot(freq_list, wave_hist,'Color','k')

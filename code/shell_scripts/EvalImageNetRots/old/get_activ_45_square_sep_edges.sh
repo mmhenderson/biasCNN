@@ -1,9 +1,8 @@
 #!/bin/bash
-#SBATCH --partition=general
+#SBATCH --partition=bigmem_long
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
-#SBATCH --mem-per-cpu=500000
 #SBATCH -o ./sbatch_output/output-%A-%x-%u.out # STDOUT
 
 set -e
@@ -16,24 +15,24 @@ ROOT=/mnt/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-rot=0_square
+rot=45_square
 which_hyperpars=params1
-dataset_root=CircGratings
+dataset_root=SpatFreqGratings
 which_model=vgg_16
 # num of versions of this dataset (phases are different)
-nSets=3
+nSets=1
 
 # what steps to evaluate at? make a nice sequence here even though the real checkpoints are not round numbers
-start=400000
-stop=400000
+start=450000
+stop=450000
 step=50000
 # these are approximate - will keep the first checkpoint after each of these numbers
 step2eval_list_approx=($(seq $start $step $stop))
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}
-log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_imagenet_rot_${rot}/${which_hyperpars}/
-#log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_vgg16_imagenet_rot_${rot}/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94_init1/
+#log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_imagenet_rot_${rot}/${which_hyperpars}/
+log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_vgg16_imagenet_rot_${rot}/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94_init1/
 
 if [ ! -d ${log_dir} ]
 then
@@ -85,7 +84,7 @@ do
 		fi
 
 		#source ~/anaconda3/bin/activate
-		${ROOT}biasCNN/code/shell_scripts/EvalImageNetRots/get_activ_single.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
+		${ROOT}biasCNN/code/shell_scripts/EvalImageNetRots/get_activ_single_sep_edges.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
 		
 	done
 done

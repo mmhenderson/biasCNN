@@ -18,123 +18,64 @@ from matplotlib import cm
 
 import matplotlib.lines as mlines
 
+import load_activations
 
 #%% get the data ready to go...then can run any below cells independently.
 root = '/usr/local/serenceslab/maggie/biasCNN/';
-
-dataset_all = 'SpatFreqGratings'
-#dataset_all = 'SquareGratings'
-
-model='vgg16'
-
 os.chdir(os.path.join(root, 'code', 'analysis_code'))
 figfolder = os.path.join(root, 'figures')
 
-import load_activations
-
-import classifiers_custom as classifiers    
-
+dataset_all = 'SpatFreqGratings'
+nSamples = 2
+model='vgg16'
 param_str='params1'
 
-#%% load activations from whatever networks/training schemes are of interest here
+training_str='scratch_imagenet_rot_45_square';
+ckpt_str='450000'
+title_str='trained 45 square - 450K steps'
 
-#training_strs=['scratch_imagenet_rot_45_square'];
-#ckpt_strs=['450000']
-#legend_strs=['trained 45 square - 450K steps']
-training_strs=['scratch_imagenet_rot_0_square'];
-ckpt_strs=['450000']
-legend_strs=['trained 0 square - 450K steps']
+part_strs = ['all_units','center_units','edge_units']
+nParts = 3
 
-nTrainingSchemes = np.size(training_strs)
+all_discrim = []
 
-bigw = []
+nLayers = 13
 
-part_strs = ['center units','edge units']
-nParts = 2
-
-# load activations for each training scheme
-for tr in range(nTrainingSchemes):
+# looping over different subsets of units (all, center only, edge only)
+for pp in range(nParts):
   
-  training_str = training_strs[tr]
-  ckpt_str = ckpt_strs[tr]
-  
-  # first, searching for all folders from the same model, evaluated on different datasets (the sets are very similar but have different noise instantiation)
-  dirs = os.listdir(os.path.join(root, 'activations', model, training_str, param_str))
-  good = [ii for ii in range(np.size(dirs)) if dataset_all in dirs[ii]]
-
-  model_name_2plot = model + '_' + training_str + '_' + param_str + '_' + dataset_all + '_avg_samples'
-  
-  allw = []
-  for ii in good:
+  # different versions of the evaluation image set (samples)
+  for kk in range(nSamples):
     
-    # also searching for all evaluations at different timepts (nearby, all are around the optimal point)
-    dirs2 = os.listdir(os.path.join(root, 'activations', model, training_str, param_str,dirs[ii]))
-    nums=[dir[np.char.find(dir,'-')+1:np.char.find(dir,'-')+7] for dir in dirs2]
-    
-    # compare the first two characters
-    good2 = [jj for jj in range(np.size(dirs2)) if 'reduced_sep_edges' in dirs2[jj] and ckpt_str[0:2] in nums[jj][0:2]]
-  
-    for jj in good2:
-      
-
-      ckpt_num= dirs2[jj].split('_')[2][5:]
-      this_allw, all_labs, allvarexpl, info = load_activations.load_activ_sep_edges(model, dirs[ii], training_str, param_str, ckpt_num)
-      allw.append(this_allw)
-      if ii==good[0] and jj==good2[0]:
-        info_orig = info
-      else:
-        np.testing.assert_equal(info_orig, info)
+    if kk==0:
+      dataset = dataset_all
+    else:
+      dataset = '%s%d'%(dataset_all,kk)
         
-      # extract some fields that will help us process the data
-      orilist = info['orilist']
-      phaselist=  info['phaselist']
-      sflist = info['sflist']
-      typelist = info['typelist']
-      noiselist = info['noiselist']
-      exlist = info['exlist']
-      contrastlist = info['contrastlist']
+    d, info = load_activations.load_discrim(model,dataset,training_str,param_str,ckpt_str,part_strs[pp])
+
+    if kk==0:
       
-#      nLayers = info['nLayers']
-      nPhase = info['nPhase']
       nSF = info['nSF']
-      nType = info['nType']
-      nTimePts = info['nTimePts']
-      nNoiseLevels = info['nNoiseLevels']
-      nEx = info['nEx']
-      nContrastLevels = info['nContrastLevels']
+      discrim = np.zeros([nSamples, nLayers, nSF, 360])
       
-      layer_labels = info['layer_labels']
-      timepoint_labels = info['timepoint_labels']
-      noise_levels = info['noise_levels']    
-      stim_types = info['stim_types']
-      phase_vals = info['phase_vals']
-      contrast_levels = info['contrast_levels']      
-      sf_vals = info['sf_vals']
-      
-      nLayers = np.size(layer_labels)
-      assert nPhase == info['nPhase']
-      assert nSF == info['nSF']
-      assert nType == info['nType']
-      assert nTimePts == info['nTimePts']
-      assert nNoiseLevels == info['nNoiseLevels']
-      assert nEx == info['nEx']
-      assert nContrastLevels == info['nContrastLevels']
+    # discrim will be nSamples x nLayers x nSF x nOrientations  
+    discrim[kk,:,:,:] = d[0:nLayers,:,:]
+    
+  all_discrim.append(discrim)
   
-  # how many total evaluations of the network do we have here?  
-  if tr==0:
-    nSamples = np.shape(allw)[0]
-  else:
-    assert(np.shape(allw)[0]==nSamples)
+#%% more parameters of interest 
 
-  bigw.append(allw)
+orilist = info['orilist']
+sflist = info['sflist']
+phaselist=  info['phaselist']
+sf_vals = info['sf_vals']
+layer_labels = info['layer_labels']
 
-cc=0
-nn=0
-
-# treat the orientation space as a 0-360 space since we have to go around the 180 space twice to account for phase.
-assert phase_vals==[0,180]
+# treat the orientation space as a 0-360 space since we have to go around the 180 space twice to account for phase.    
 orilist_adj = deepcopy(orilist)
 orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
+ori_axis = np.arange(0.5, 360,1)
 
 # make a big color map - nSF x nNetworks x RBGA
 cols_sf_1 = np.moveaxis(np.expand_dims(cm.Greys(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
@@ -142,16 +83,11 @@ cols_sf_2 = np.moveaxis(np.expand_dims(cm.GnBu(np.linspace(0,1,8)),axis=2),[0,1,
 cols_sf_3 = np.moveaxis(np.expand_dims(cm.OrRd(np.linspace(0,1,8)),axis=2),[0,1,2],[0,2,1])
 cols_sf = np.concatenate((cols_sf_1[np.arange(2,8,1),:,:],cols_sf_2[np.arange(2,8,1),:,:],cols_sf_3[np.arange(2,8,1),:,:]),axis=1)
 
-#%% define the orientation bins of interest
+#% define the orientation bins of interest
 # will use these below to calculate anisotropy index
 
-# using half steps, since discriminability is always between pairs of orientations 1 degree apart
-ori_axis = np.arange(0.5, 360,1)
-
-#b = np.arange(22.5,360,45)  # baseline
-
 b = np.arange(22.5,360,90)  # baseline
-m = np.arange(67.5,360,90)  # these are the orientations that should be dominant in the 22 deg rot set (note the CW/CCW labels are flipped so its 67.5)
+t = np.arange(67.5,360,90)  # these are the orientations that should be dominant in the 22 deg rot set (note the CW/CCW labels are flipped so its 67.5)
 c = np.arange(0,360,90) # cardinals
 o = np.arange(45,360,90)  # obliques
 bin_size = 6
@@ -174,25 +110,23 @@ for ii in range(np.size(o)):
   obl_inds=np.append(obl_inds,inds)
 obl_inds = np.uint64(obl_inds)
  
-middle_inds = []
-for ii in range(np.size(m)):        
-  inds = list(np.where(np.logical_or(np.abs(ori_axis-m[ii])<bin_size/2, np.abs(ori_axis-(360+m[ii]))<bin_size/2))[0])
-  middle_inds=np.append(middle_inds,inds)
-middle_inds = np.uint64(middle_inds)
+twent_inds = []
+for ii in range(np.size(t)):        
+  inds = list(np.where(np.logical_or(np.abs(ori_axis-t[ii])<bin_size/2, np.abs(ori_axis-(360+t[ii]))<bin_size/2))[0])
+  twent_inds=np.append(twent_inds,inds)
+twent_inds = np.uint64(twent_inds)
  
 #%% visualize the bins 
 plt.figure();
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),baseline_inds))
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),card_inds))
 plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),obl_inds))
-plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),middle_inds))
+plt.plot(ori_axis,np.isin(np.arange(0,np.size(ori_axis),1),twent_inds))
 plt.legend(['baseline','cardinals','obliques','22'])
 plt.title('bins for getting anisotropy index')
 
 
 #%% plot Cardinal (V+H) anisotropy W single samples, overlay networks, one subplot per spatial freq
-
-tr = 0
 plt.rcParams.update({'font.size': 10})
 plt.close('all')
 fig=plt.figure()
@@ -214,18 +148,11 @@ for sf in sf2plot:
       
       # loop over network layers
       for ww1 in range(np.size(layers2plot)):
-  
-        disc_vals = np.zeros([nSamples, 360])    
-        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+
         for kk in range(nSamples):
   
-          w = bigw[tr][kk][layers2plot[ww1]][pp]
-    
-          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-  
-          # these are each 360 long (go around twice because of phase)
-          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-          
+          disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
+       
           # take the bins of interest to get anisotropy
           base_discrim=  disc[baseline_inds]
           peak_discrim = disc[card_inds]
@@ -259,7 +186,7 @@ for sf in sf2plot:
       plt.ylabel('Normalized Euclidean Distance difference')
     
 # finish up the entire plot
-plt.suptitle('Cardinals versus baseline\n%s'%legend_strs[tr])  
+plt.suptitle('Cardinals versus baseline\n%s'%title_str)  
 fig.set_size_inches(18,8)
 
 #%% plot Oblique (45+135) anisotropy W single samples, overlay networks, one subplot per spatial freq
@@ -284,18 +211,11 @@ for sf in sf2plot:
       
       # loop over network layers
       for ww1 in range(np.size(layers2plot)):
-  
-        disc_vals = np.zeros([nSamples, 360])    
-        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+
         for kk in range(nSamples):
   
-          w = bigw[tr][kk][layers2plot[ww1]][pp]
-    
-          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-  
-          # these are each 360 long (go around twice because of phase)
-          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-          
+          disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
+       
           # take the bins of interest to get anisotropy
           base_discrim=  disc[baseline_inds]
           peak_discrim = disc[obl_inds]
@@ -329,7 +249,7 @@ for sf in sf2plot:
       plt.ylabel('Normalized Euclidean Distance difference')
     
 # finish up the entire plot
-plt.suptitle('Obliques versus baseline\n%s'%legend_strs[tr])  
+plt.suptitle('Obliques versus baseline\n%s'%title_str) 
 fig.set_size_inches(18,8)
                     
                     
@@ -348,28 +268,21 @@ for sf in sf2plot:
     handles = []
     
     # loop over network training schemes (upright versus rot images etc)
-    for tr in range(nTrainingSchemes):
+    for pp in range(nParts):
       
       # matrix to store anisotropy index for each layer    
       aniso_vals = np.zeros([nSamples,np.size(layers2plot)])
       
       # loop over network layers
       for ww1 in range(np.size(layers2plot)):
-  
-        disc_vals = np.zeros([nSamples, 360])    
-        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+
         for kk in range(nSamples):
   
-          w = bigw[tr][kk][layers2plot[ww1]][0]
-    
-          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-  
-          # these are each 360 long (go around twice because of phase)
-          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-          
+          disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
+       
           # take the bins of interest to get anisotropy
           base_discrim=  disc[baseline_inds]
-          peak_discrim = disc[middle_inds]
+          peak_discrim = disc[twent_inds]
           
           # final value for this layer: difference divided by sum 
           aniso_vals[kk,ww1] = (np.mean(peak_discrim) - np.mean(base_discrim))/(np.mean(peak_discrim) + np.mean(base_discrim))
@@ -377,10 +290,10 @@ for sf in sf2plot:
       # put the line for this spatial frequency onto the plot      
       vals = np.mean(aniso_vals,0)
       errvals = np.std(aniso_vals,0)
-      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[3,tr,:])
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[3,pp,:])
       ax.add_line(myline)   
       handles.append(myline)
-      plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=cols_sf[3,tr,:])
+      plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=cols_sf[3,pp,:])
 
 
     # finish up this subplot 
@@ -388,7 +301,7 @@ for sf in sf2plot:
     xlims = [-1, np.size(layers2plot)]
     
     if sf==sf2plot[-1]:
-      plt.legend(handles,legend_strs)
+      plt.legend(handles,part_strs)
     
     plt.plot(xlims, [0,0], 'k')
     plt.xlim(xlims)
@@ -400,7 +313,7 @@ for sf in sf2plot:
       plt.ylabel('Normalized Euclidean Distance difference')
     
 # finish up the entire plot
-plt.suptitle('22 versus baseline')  
+plt.suptitle('22 versus baseline\n%s'%title_str) 
 fig.set_size_inches(18,8)
 
 #%% plot Cardinal (0+90) MINUS Oblique (45+135) anisotropy W single samples, overlay networks, one subplot per spatial freq
@@ -418,25 +331,18 @@ for sf in sf2plot:
     handles = []
     
     # loop over network training schemes (upright versus rot images etc)
-    for tr in range(nTrainingSchemes):
+    for pp in range(nParts):
       
       # matrix to store anisotropy index for each layer    
       aniso_vals = np.zeros([nSamples,np.size(layers2plot)])
       
       # loop over network layers
       for ww1 in range(np.size(layers2plot)):
-  
-        disc_vals = np.zeros([nSamples, 360])    
-        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+
         for kk in range(nSamples):
   
-          w = bigw[tr][kk][layers2plot[ww1]][0]
-    
-          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-  
-          # these are each 360 long (go around twice because of phase)
-          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-          
+          disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
+       
           # take the bins of interest to get anisotropy
           base_discrim=  disc[obl_inds]
           peak_discrim = disc[card_inds]
@@ -447,10 +353,10 @@ for sf in sf2plot:
       # put the line for this spatial frequency onto the plot      
       vals = np.mean(aniso_vals,0)
       errvals = np.std(aniso_vals,0)
-      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[3,tr,:])
+      myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = cols_sf[3,pp,:])
       ax.add_line(myline)   
       handles.append(myline)
-      plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=cols_sf[3,tr,:])
+      plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=cols_sf[3,pp,:])
 
 
     # finish up this subplot 
@@ -458,7 +364,7 @@ for sf in sf2plot:
     xlims = [-1, np.size(layers2plot)]
     
     if sf==sf2plot[-1]:
-      plt.legend(handles,legend_strs)
+      plt.legend(handles,part_strs)
     
     plt.plot(xlims, [0,0], 'k')
     plt.xlim(xlims)
@@ -470,11 +376,11 @@ for sf in sf2plot:
       plt.ylabel('Normalized Euclidean Distance difference')
     
 # finish up the entire plot
-plt.suptitle('Cardinals versus obliques')  
+plt.suptitle('Cardinals versus obliques\n%s'%title_str)  
 fig.set_size_inches(18,8)
 
 #%% plot cardinal versus baseline, one training scheme at a time
-tr=1
+pp=0
 plt.rcParams.update({'font.size': 16})
 plt.close('all')
 fig=plt.figure()
@@ -493,17 +399,11 @@ for sf in sf2plot:
     
     # loop over network layers
     for ww1 in range(np.size(layers2plot)):
-
-      disc_vals = np.zeros([nSamples, 360])    
-      # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+     
+      # looping here over "samples"
       for kk in range(nSamples):
 
-        w = bigw[tr][kk][layers2plot[ww1]][0]
-  
-        inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-
-        # these are each 360 long (go around twice because of phase)
-        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+        disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
         
         # take the bins of interest to get anisotropy
         base_discrim=  disc[baseline_inds]
@@ -529,7 +429,7 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinal anisotropy' % (legend_strs[tr]))
+plt.title('%s\n%s\nCardinal anisotropy' % (title_str,part_strs[pp]))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
@@ -541,7 +441,7 @@ new_pos = curr_pos + [0, 0.2, 0, -0.2]
 ax.set_position(new_pos)
 
 #%% plot oblique versus baseline, one training scheme at a time
-tr=1
+pp=1
 plt.rcParams.update({'font.size': 16})
 plt.close('all')
 fig=plt.figure()
@@ -558,19 +458,13 @@ for sf in sf2plot:
     # matrix to store anisotropy index for each layer    
     aniso_vals = np.zeros([nSamples,np.size(layers2plot)])
     
-    # loop over network layers
+  # loop over network layers
     for ww1 in range(np.size(layers2plot)):
-
-      disc_vals = np.zeros([nSamples, 360])    
-      # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+     
+      # looping here over "samples"
       for kk in range(nSamples):
 
-        w = bigw[tr][kk][layers2plot[ww1]][0]
-  
-        inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-
-        # these are each 360 long (go around twice because of phase)
-        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+        disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
         
         # take the bins of interest to get anisotropy
         base_discrim=  disc[baseline_inds]
@@ -596,7 +490,7 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nOblique anisotropy' % (legend_strs[tr]))
+plt.title('%s\n%s\nOblique anisotropy' % (title_str,part_strs[pp]))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
@@ -608,7 +502,7 @@ new_pos = curr_pos + [0, 0.2, 0, -0.2]
 ax.set_position(new_pos)
 
 #%% plot card versus obliques, one training scheme at a time
-tr=0
+pp=0
 plt.rcParams.update({'font.size': 16})
 plt.close('all')
 fig=plt.figure()
@@ -625,19 +519,13 @@ for sf in sf2plot:
     # matrix to store anisotropy index for each layer    
     aniso_vals = np.zeros([nSamples,np.size(layers2plot)])
     
-    # loop over network layers
+   # loop over network layers
     for ww1 in range(np.size(layers2plot)):
-
-      disc_vals = np.zeros([nSamples, 360])    
-      # looping here over "samples", going to get discriminability function for each, then average to smooth it.
+     
+      # looping here over "samples"
       for kk in range(nSamples):
 
-        w = bigw[tr][kk][layers2plot[ww1]][0]
-  
-        inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-
-        # these are each 360 long (go around twice because of phase)
-        ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
+        disc = np.squeeze(all_discrim[pp][kk,layers2plot[ww1],sf,:])
         
         # take the bins of interest to get anisotropy
         base_discrim=  disc[obl_inds]
@@ -663,7 +551,7 @@ plt.plot(xlims, [0,0], 'k')
 plt.xlim(xlims)
 plt.ylim(ylims)
 plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
-plt.title('%s\nCardinals versus obliques' % (legend_strs[tr]))
+plt.title('%s\n%s\nCardinals versus obliques' % (title_str,part_strs[pp]))
 plt.ylabel('Normalized Euclidean Distance difference')
 plt.xlabel('Layer number')
 
@@ -675,7 +563,7 @@ new_pos = curr_pos + [0, 0.2, 0, -0.2]
 ax.set_position(new_pos)
 
 #%% plot average discriminability curves, overlay spatial frequencies
-tr=2
+pp=0
 
 plt.close('all')
 plt.figure()
@@ -691,21 +579,8 @@ for ww1 in layers2plot:
     # loop over SF, making a line for each
     for sf in range(np.size(sf2plot)):
       
-        all_disc = []
-        
-        # looping here over "samples", going to get discriminability function for each, then average to smooth it.
-        for kk in range(nSamples):
-
-          w = bigw[tr][kk][ww1][0]
-    
-          # which stimuli are of interest here?
-          inds = np.where(np.all([sflist==sf2plot[sf],contrastlist==cc,noiselist==nn],axis=0))[0]
-
-          # these are each 360 long (go around twice because of phase)
-          ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-         
-          all_disc.append(disc)
-          
+        all_disc= np.squeeze(all_discrim[pp][:,ww1,sf,:])
+                
         plt.subplot(np.ceil(len(layers2plot)/4), 4, ww1+1)
     
         # average over samples to get what we will plot
@@ -733,10 +608,10 @@ for ww1 in layers2plot:
         plt.axvline(ll,color='k')
         
 # finish up the entire plot   
-plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations' % (legend_strs[tr]))
+plt.suptitle('%s\n%s\nDiscriminability (std. euc distance) between pairs of orientations' % (title_str,part_strs[pp]))
   
 #%% plot discriminability curves, overlay samples (one spatial freq only)
-tr=2
+pp=0
 sf=5
 
 plt.close('all')
@@ -747,20 +622,8 @@ layers2plot = np.arange(0,nLayers,1)
 # loop over layers, making a subplot for each
 for ww1 in layers2plot:
 
-    all_disc = []
-    
-    # looping here over "samples", going to get discriminability function for each, then average to smooth it.
-    for kk in range(nSamples):
-
-      w = bigw[tr][kk][ww1][0]
-
-      # find stimuli of interest to use
-      inds = np.where(np.all([sflist==sf,contrastlist==cc,noiselist==nn],axis=0))[0]
-
-      # these are each 360 long (go around twice because of phase)
-      ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-     
-      all_disc.append(disc)
+    all_disc= np.squeeze(all_discrim[pp][:,ww1,sf,:])
+          
         
     # average over samples to get what we will plot
     # first reshape to [nSamples x 180 x 2], folding the 360 axis in half        
@@ -792,31 +655,20 @@ for ww1 in layers2plot:
         plt.axvline(ll,color='k')
 
 # finish up the entire plot   
-plt.suptitle('%s\nDiscriminability (std. euc distance) between pairs of orientations\nSF %.2f cpp' % (legend_strs[tr],sf_vals[sf]))
+plt.suptitle('%s\n%s\nDiscriminability (std. euc distance) between pairs of orientations\nSF %.2f cpp' % (title_str,part_strs[pp],sf_vals[sf]))
 
 #%% plot discriminability curves, overlay training schemes, one layer and SF only
-tr=2
+#pp=2
 sf=5
-ww1=15
+ww1=12
 
 plt.close('all')
 plt.figure()
 
-for tr in range(nTrainingSchemes):
+for pp in range(nParts):
   
-  all_disc = []
-  # looping here over "samples", going to get discriminability function for each, then average to smooth it.
-  for kk in range(nSamples):
-  
-    w = bigw[tr][kk][ww1][0]
-  
-    # find stimuli of interest to use
-    inds = np.where(np.all([sflist==sf,contrastlist==cc,noiselist==nn],axis=0))[0]
-  
-    # these are each 360 long (go around twice because of phase)
-    ori_axis, disc = classifiers.get_discrim_func(w[inds,:],orilist_adj[inds])
-   
-    all_disc.append(disc)
+  all_disc= np.squeeze(all_discrim[pp][:,ww1,sf,:])
+          
       
   # average over samples to get what we will plot
   # first reshape to [nSamples x 180 x 2], folding the 360 axis in half        
@@ -828,9 +680,9 @@ for tr in range(nTrainingSchemes):
   meandisc = np.mean(disc,0)
   errdisc = np.std(disc,0)
 
-  plt.errorbar(ori_axis[0:180],meandisc,errdisc,color=cols_sf[3,tr,:])
+  plt.errorbar(ori_axis[0:180],meandisc,errdisc,color=cols_sf[3,pp,:])
 
-plt.legend(legend_strs)
+plt.legend(part_strs)
 # finish up the plot
 if ww1==layers2plot[-1]:
     plt.xlabel('actual orientation of grating')
@@ -842,4 +694,4 @@ else:
 for ll in np.arange(0,181,45):
     plt.axvline(ll,color='k')
    
-plt.suptitle('%s\nSF %.2f cpp' % (layer_labels[ww1],sf_vals[sf]))
+plt.suptitle('%s\n%s\nSF %.2f cpp' % (title_str,layer_labels[ww1],sf_vals[sf]))

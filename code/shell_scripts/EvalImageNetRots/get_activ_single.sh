@@ -123,7 +123,8 @@ then
 		python reduce_activations.py \
 		 --activ_path=${save_eval_dir} \
 		 --reduced_path=${reduced_dir} \
-		 --n_components_keep=500 \
+		 --min_components_keep=10 \
+		 --pctVar=95 \
 		 --num_batches=96 \
 		 --model_name=${which_model}
 	else

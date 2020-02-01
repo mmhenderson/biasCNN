@@ -23,17 +23,17 @@ tf.app.flags.DEFINE_string(
     'model_name','', 'The name of the current model.')
 
 tf.app.flags.DEFINE_integer(
-    'min_components_keep',10, 'The minimum number of components to save.')
+    'n_components_keep',500, 'The number of components to save.')
 
 tf.app.flags.DEFINE_integer(
-        'pctVar', 95, 'The percent of variance to explain')
+        'pctVar', 80, 'The percent of variance to explain (only affects print statements)')
 
 tf.app.flags.DEFINE_integer(
-        'num_batches', 96, 'How many batches the dataset is divided into.')
+        'num_batches', 80, 'How many batches the dataset is divided into.')
 
 FLAGS = tf.app.flags.FLAGS
 
-min_components_keep = FLAGS.min_components_keep
+n_components_keep = FLAGS.n_components_keep
 pctVar = FLAGS.pctVar
 num_batches = FLAGS.num_batches
    
@@ -89,8 +89,6 @@ def main(_):
     path2load = FLAGS.activ_path
     path2save = FLAGS.reduced_path
     
-    n_components_keep = 600
-    print('N_COMPONENTS_KEEP = %d\n'%n_components_keep)
     if tf.gfile.Exists(path2save):
         print('deleting contents of %s' % path2save)
         shutil.rmtree(path2save, ignore_errors = True)
@@ -106,45 +104,40 @@ def main(_):
             file = os.path.join(path2load, 'batch' + str(bb) +'_' + layers2load[ll] +'.npy')
             print('loading from %s\n' % file)
             w = np.squeeze(np.load(file))
-            # w will be nIms x nFeatures
             w = np.reshape(w, [np.shape(w)[0], np.prod(np.shape(w)[1:])])
-            
             if bb==0:
                 allw = w
             else:
                 allw = np.concatenate((allw, w), axis=0)
     
-            
-#            if bb==0:
-#              # preallocate the array now (it's big esp for first layers)
-#              batch_size=np.shape(w)[0]
-#              allw = np.zeros([num_batches*batch_size,np.shape(w)[1]])
-#  
-#            batch_inds = np.arange(bb*batch_size, (bb+1)*batch_size,1)
-#            allw[batch_inds,:] = w
+            file = os.path.join(path2load, 'batch' + str(bb) + '_labels_orig.npy')    
+            feat = np.expand_dims(np.load(file),1)
+         
+            if bb==0:
+                allfeat = feat
+            else:
+                allfeat = np.concatenate((allfeat,feat),axis=0) 
+    
+            file = os.path.join(path2load, 'batch' + str(bb) + '_labels_predicted.npy')    
+            pred = np.expand_dims(np.load(file),1)
+         
+            if bb==0:
+                allpred = pred
+            else:
+                allpred = np.concatenate((allpred,pred),axis=0) 
     
          #%% Run  PCA on this weight matrix to reduce its size
         
-       
         pca = decomposition.PCA(n_components = np.min((n_components_keep, np.shape(allw)[1])))
-        print('\n STARTING PCA WITH %d COMPONENTS MAX\n'%(n_components_keep))
-        print('size of allw before reducing is %d by %d'%(np.shape(allw)[0],np.shape(allw)[1]))
         weights_reduced = pca.fit_transform(allw)   
         
         var_expl = pca.explained_variance_ratio_
-        
-        n_comp_needed = np.where(np.cumsum(var_expl)>pctVar/100)
-        if np.size(n_comp_needed)==0:
-          n_comp_needed = n_components_keep
-          print('need >%d components to capture %d percent of variance' % (n_comp_needed, pctVar))
+        if np.max(np.cumsum(var_expl))>pctVar/100:
+            nCompNeeded = np.where(np.cumsum(var_expl)>pctVar/100)[0][0]
+            print('need %d components to capture %d percent of variance, saving first %d\n' % (nCompNeeded, pctVar, np.min((n_components_keep, np.shape(allw)[1]))))
         else:
-          n_comp_needed = n_comp_needed[0][0]
-          print('need %d components to capture %d percent of variance' % (n_comp_needed, pctVar))
-          
-        if n_comp_needed<min_components_keep:
-            n_comp_needed = min_components_keep
-      
-        print('saving %d components\n'%n_comp_needed)
+            print('need > %d components to capture %d percent of variance, saving first %d\n' % (np.min((n_components_keep, np.shape(allw)[1])), pctVar, np.min((n_components_keep, np.shape(allw)[1]))))
+    
         #%% Save the result as a single file
         
         fn2save = os.path.join(path2save, 'allStimsReducedWts_' + layers2load[ll] +'.npy')
@@ -155,6 +148,16 @@ def main(_):
         fn2save = os.path.join(path2save, 'allStimsVarExpl_' + layers2load[ll] +'.npy')
             
         np.save(fn2save, var_expl)
+        print('saving to %s\n' % (fn2save))
+        
+        fn2save = os.path.join(path2save, 'allStimsLabsPredicted_' + layers2load[ll] +'.npy')
+            
+        np.save(fn2save, allpred)
+        print('saving to %s\n' % (fn2save))
+        
+        fn2save = os.path.join(path2save, 'allStimsLabsOrig_' + layers2load[ll] +'.npy')
+            
+        np.save(fn2save, allfeat)
         print('saving to %s\n' % (fn2save))
         
 if __name__ == '__main__':
