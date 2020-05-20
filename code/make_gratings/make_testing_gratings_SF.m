@@ -1,7 +1,7 @@
 % make a bunch of gratings at different orientations, save as images in my
 % folder under biasCNN project
 clear
-close all
+close all hidden
 
 rndseed = 837987;
 rng(rndseed)
@@ -12,17 +12,38 @@ filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-2));
 
 % define where to save the newly created images
-image_save_path = fullfile(root,'biasCNN/images/gratings/SpatFreqGratings/');
+image_save_path = fullfile(root,'biasCNN/images/gratings/CosGratings_Smooth/');
 if ~isdir(image_save_path)
     mkdir(image_save_path)
 end
 
-mask_file = fullfile(root,'biasCNN/code/image_proc_code/Smoothed_mask.png');
+% this is the height and width of the final images
+image_size = 224;
 
-% this is a mask of range 0-255 - use this to window the image
-mask_image = imread(mask_file);     
-mask_image = repmat(mask_image,1,1,3);
-mask_image = double(mask_image)./255; % change to 0-1 range
+% making a circular mask with cosine fading to background
+cos_mask = zeros(image_size);
+values = image_size./2*linspace(-1,1,image_size);
+[gridx,gridy] = meshgrid(values,values);
+r = sqrt(gridx.^2+gridy.^2);
+% creating three ring sections based on distance from center
+outer_range = 100;
+inner_range = 50;
+% inner values: set to 1
+cos_mask(r<inner_range) = 1;
+% middle values: create a smooth fade
+faded_inds = r>=inner_range & r<outer_range;
+cos_mask(faded_inds) = 0.5*cos(pi/(outer_range-inner_range).*(r(faded_inds)-inner_range)) + 0.5;
+% outer values: set to 0
+cos_mask(r>=outer_range) = 0;
+
+mask_image = repmat(cos_mask,1,1,3);
+
+% mask_file = fullfile(root,'biasCNN/code/image_proc_code/Smoothed_mask.png');
+% 
+% % this is a mask of range 0-255 - use this to window the image
+% mask_image = imread(mask_file);     
+% mask_image = repmat(mask_image,1,1,3);
+% mask_image = double(mask_image)./255; % change to 0-1 range
 
 % also want to change the background color from 0 (black) to a mid gray color 
 % (mean of each color channel). These values match vgg_preprocessing_biasCNN.py, 
@@ -34,8 +55,6 @@ B_MEAN = 104;
 mask_to_add = cat(3, R_MEAN*ones(224,224,1),G_MEAN*ones(224,224,1),B_MEAN*ones(224,224,1));
 mask_to_add = mask_to_add.*(1-mask_image);
 
-% this is the height and width of the final images
-image_size = 224;
 
 %% enter parameters here
 
@@ -57,7 +76,7 @@ noise_levels = [0.01];
 contrast_levels = [0.8];
 
 % how many random instances do you want to make?
-numInstances = 4;
+numInstances = 1;
 
 % two opposite phases
 phase_levels = [0,180];
@@ -67,71 +86,143 @@ phase_levels = [0,180];
 X=-0.5*image_size+.5:1:.5*image_size-.5; Y=-0.5*image_size+.5:1:.5*image_size-.5;
 [x,y] = meshgrid(X,Y);
 
+%% psychtoolbox stuff
+try
 
-%% make and save the individual images
-nn=1;
+    KbName('UnifyKeyNames')
+    %use number pad - change this for scanner 
+    p.keys=[KbName('b'),KbName('y')];
+    p.escape = KbName('escape');
+    % p.space = KbName('space');
+    % p.start = KbName('t');
+    Screens = Screen('Screens'); %look at available screens
+    ScreenNumber = Screens(1); %pick first screen 
+    ScreenSizePixels = Screen('Rect', ScreenNumber);
+    tmprect = get(0, 'ScreenSize');
+    CenterXPix = ScreenSizePixels(3)/2;
+    CenterYPix = ScreenSizePixels(4)/2;
+    MyGrey = 128;
+    AssertOpenGL;
+    PsychJavaTrouble;
+    [w] = Screen('OpenWindow',ScreenNumber, MyGrey, [], [],2,[],1);
+    white=WhiteIndex(ScreenNumber);
+    black=BlackIndex(ScreenNumber);
+    HideCursor;
+    FlushEvents('keyDown');
+    OriginalCLUT = [];
+    ListenChar(2)
 
-for cc=1:length(contrast_levels)
 
-    for ff = 1:length(freq_levels_cpp)
+    PatchSizePix = image_size;
+    GratingRect = [CenterXPix-PatchSizePix/2 CenterYPix-PatchSizePix/2 CenterXPix+PatchSizePix/2 CenterYPix+PatchSizePix/2];
 
-        thisdir = sprintf('%sSF_%.2f_Contrast_%.2f/', image_save_path, freq_levels_cpp(ff), contrast_levels(cc));
-        if ~isdir(thisdir)
-            mkdir(thisdir)
-        end
+    %% make and save the individual images
+    nn=1;
 
-        this_freq_cpp = freq_levels_cpp(ff);
+    for cc=1:length(contrast_levels)
 
-        orient_vals = linspace(0,179,180);
+        for ff = 1:length(freq_levels_cpp)
 
-        for oo=1:length(orient_vals)
-            
-            for pp=1:length(phase_levels)
+            thisdir = sprintf('%sSF_%.2f_Contrast_%.2f/', image_save_path, freq_levels_cpp(ff), contrast_levels(cc));
+            if ~isdir(thisdir)
+                mkdir(thisdir)
+            end
 
-                phase_vals = ones(numInstances,1)*phase_levels(pp)*pi/180;
+            this_freq_cpp = freq_levels_cpp(ff);
 
-                for ii = 1:numInstances
+            orient_vals = linspace(0,179,180);
 
-                    %% make the full field grating
-                    % range is [-1,1] to start
-                    sine = (sin(this_freq_cpp*2*pi*(y.*sin(orient_vals(oo)*pi/180)+x.*cos(orient_vals(oo)*pi/180))-phase_vals(ii)));
+            for oo=1:length(orient_vals)
 
-                    % make the values range from 1 +/-noise to
-                    % -1 +/-noise
-                    sine = sine+ randn(size(sine))*noise_levels(nn);
+                for pp=1:length(phase_levels)
 
-                    % now scale it down (note the noise also gets scaled)
-                    sine = sine*contrast_levels(cc);
+                    phase_vals = ones(numInstances,1)*phase_levels(pp)*pi/180;
 
-                    % shouldnt ever go outside the range [-1,1] so values won't
-                    % get cut off (requires that noise is low if contrast is
-                    % high)
-                    assert(max(sine(:))<=1 && min(sine(:))>=-1)
+                    for ii = 1:numInstances
 
-                    % change the scale from [-1, 1] to [0,1]
-                    % the center is exactly 0.5 - note the values may not
-                    % span the entire range [0,1] but will be centered at
-                    % 0.5.
-                    stim_scaled = (sine+1)./2;
+                        %% make the full field grating
+                        % range is [-1,1] to start
+                        sine = (sin(this_freq_cpp*2*pi*(y.*sin(orient_vals(oo)*pi/180)+x.*cos(orient_vals(oo)*pi/180))-phase_vals(ii)));
 
-                    % convert from [0,1] to [0,255]
-                    stim_scaled = stim_scaled.*255;
-                    
-                    % now multiply it by the donut (circle) to get gaussian envelope
-                    stim_masked = stim_scaled.*mask_image;
-                    
-                    % finally add a mid-gray background color.
-                    stim_masked_adj = uint8(stim_masked + mask_to_add);
-                   
-                    assert(all(squeeze(stim_masked_adj(1,1,:))==[R_MEAN;G_MEAN;B_MEAN]))
-                    
-                    fn2save = fullfile(thisdir,sprintf('Gaussian_phase%d_ex%d_%ddeg.png',phase_levels(pp),ii,orient_vals(oo)));
+                        % make the values range from 1 +/-noise to
+                        % -1 +/-noise
+                        sine = sine+ randn(size(sine))*noise_levels(nn);
 
-                    imwrite(stim_masked_adj, fn2save)
-                    fprintf('saving to %s...\n', fn2save)
-                    
+                        % now scale it down (note the noise also gets scaled)
+                        sine = sine*contrast_levels(cc);
+
+                        % shouldnt ever go outside the range [-1,1] so values won't
+                        % get cut off (requires that noise is low if contrast is
+                        % high)
+                        assert(max(sine(:))<=1 && min(sine(:))>=-1)
+
+                        % change the scale from [-1, 1] to [0,1]
+                        % the center is exactly 0.5 - note the values may not
+                        % span the entire range [0,1] but will be centered at
+                        % 0.5.
+                        stim_scaled = (sine+1)./2;
+
+                        % convert from [0,1] to [0,255]
+                        stim_scaled = stim_scaled.*255;
+
+                        % now multiply it by the donut (circle) to get gaussian envelope
+                        stim_masked = stim_scaled.*mask_image;
+
+                        % finally add a mid-gray background color.
+                        stim_masked_adj = uint8(stim_masked + mask_to_add);
+
+                        [resp, timeStamp] = checkForResp([p.keys],p.escape);
+                        if resp==-1; escaperesponse(OriginalCLUT); end
+                        
+                        GratingTexture = Screen('MakeTexture', w, stim_masked_adj);
+
+                        Screen('BlendFunction', w, GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+                        Screen('DrawTexture',w,GratingTexture,[],GratingRect,0,0);
+                        Screen('DrawingFinished', w);
+                        Screen('Flip', w);
+                        current_time = GetSecs;
+                        tic
+                        imageArray=Screen('GetImage', w, GratingRect, [], 1, 3);
+
+                        assert(all(squeeze(stim_masked_adj(1,1,:))==[R_MEAN;G_MEAN;B_MEAN]))
+
+                        fn2save = fullfile(thisdir,sprintf('Gaussian_phase%d_ex%d_%ddeg.png',phase_levels(pp),ii,orient_vals(oo)));
+
+                        
+                        fprintf('saving to %s...\n', fn2save)
+                        imwrite(imageArray, fn2save)
+                        toc
+%                         while GetSecs<current_time+0.05
+                        [resp, timeStamp] = checkForResp([p.keys],p.escape);
+                        if resp==-1; escaperesponse(OriginalCLUT); end
+%                         end
+                        
+                    end
                 end
             end
         end
     end
+
+
+    Screen('CloseAll');
+    clear screen
+    ListenChar(1);
+    ShowCursor;
+    
+catch err
+     if exist('OriginalCLUT','var') && ~isempty(OriginalCLUT)
+        if exist('ScreenNumber','var')
+            Screen('LoadCLUT', ScreenNumber, OriginalCLUT);
+        else
+            Screen('LoadCLUT', 0, OriginalCLUT);
+        end
+    end
+    Screen('CloseAll');                
+    ShowCursor;
+    if IsWin
+        ShowHideWinTaskbarMex;     
+    end
+    ListenChar(1)
+    rethrow(err)
+    
 end

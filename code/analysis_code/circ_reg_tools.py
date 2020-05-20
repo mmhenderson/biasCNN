@@ -9,6 +9,8 @@ Created on Mon Oct  8 15:49:48 2018
 import numpy as np
 import scipy
 import sklearn
+from scipy.stats import pearsonr
+from scipy.stats import chi2
 
 def circ_encoder(trndat,trnlabs,tstdat,tstlabs):
     
@@ -152,3 +154,43 @@ def circ_corr_coef(x, y):
     corr_coef = 4*(A*B-C*D) / np.sqrt((np.power(n,2) - np.power(E,2) - np.power(Fl,2))*(np.power(n,2) - np.power(G,2) - np.power(H,2)));
    
     return corr_coef
+
+def circ_corrcc(alpha, x):
+    """Correlation coefficient between one circular and one linear random
+    variable.
+    
+    Args:
+        alpha: vector
+            Sample of angles in radians
+
+        x: vector
+            Sample of linear random variable
+
+    Returns:
+        rho: float
+            Correlation coefficient
+
+        pval: float
+            p-value
+
+    Code taken from the Circular Statistics Toolbox for Matlab
+    By Philipp Berens, 2009
+    Python adaptation by Etienne Combrisson
+    (copied from brainpipe toolbox)
+    """
+    if len(alpha) is not len(x):
+        raise ValueError('The length of alpha and x must be the same')
+    n = len(alpha)
+
+    # Compute correlation coefficent for sin and cos independently
+    rxs = pearsonr(x,np.sin(alpha))[0]
+    rxc = pearsonr(x,np.cos(alpha))[0]
+    rcs = pearsonr(np.sin(alpha),np.cos(alpha))[0]
+
+    # Compute angular-linear correlation (equ. 27.47)
+    rho = np.sqrt((rxc**2 + rxs**2 - 2*rxc*rxs*rcs)/(1-rcs**2));
+
+    # Compute pvalue
+    pval = 1 - chi2.cdf(n*rho**2,2);
+    
+    return rho, pval

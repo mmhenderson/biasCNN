@@ -13,8 +13,10 @@ step_num=${2}
 which_hyperpars=${3}
 # where is the checkpoint file, and where will i also save the logs for evaluation?
 log_dir=${4}
+# what dataset?
+dataset_name=${5}
 # what is my file path root?
-ROOT=${5}
+ROOT=${6}
 
 echo "rot=$rot"
 echo "step_num=$step_num"
@@ -27,10 +29,9 @@ slimpath=${ROOT}tensorflow/models/research/slim/
 
 # these things will always be the same
 which_model=vgg_16
-dataset_name=SpatFreqGratings
 
 # the specific dataset to evaluate on (same one as training)
-dataset_dir=${ROOT}biasCNN/datasets/gratings/SpatFreqGratings/
+dataset_dir=${ROOT}biasCNN/datasets/gratings/${dataset_name}
 
 # this specifies the exact file for the trained model we want to look at.
 load_log_dir=${log_dir}model.ckpt-${step_num}	

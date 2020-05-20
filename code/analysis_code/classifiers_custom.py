@@ -105,7 +105,8 @@ def class_norm_euc_dist(trndat, tstdat, labels_train):
         neach[cc] = len(np.where(labels_train==conds[cc])[0])
         
     # use this to get the pooled variance for each voxel
-    
+
+
 def get_norm_euc_dist(dat1,dat2):
     
     """Calculate the normalized euclidean distance (d') between the means of
@@ -163,8 +164,139 @@ def get_euc_dist(dat1,dat2):
     eucDist = np.sqrt(np.sum(sq))
 
     return eucDist
+  
+def get_fisher_info(data, ori_labs, delta=1):
+    """ calculate the fisher information across orientation space (estimate the 
+    slope of each unit's tuning at each point, square, divide by variance, and sum)
+    """
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    fi = np.zeros([np.size(ori_axis),1])
+    deriv2 = np.zeros([np.size(ori_axis),1])
+    varpooled = np.zeros([np.size(ori_axis),1])
+    
+    max_ori = np.max(ori_axis)+1
+    # steps left and right should sum to delta
+    steps_left = np.int8(np.floor(delta/2))
+    steps_right = np.int8(np.ceil(delta/2))
+    
+    for ii in np.arange(0,np.size(ori_axis)):
+        
+        # want to get the slope at this point. Take data from two orientations that are delta deg apart
+        inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
+        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
+        
+        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+        nreps = np.size(inds_left)
+        
+        dat1 = data[inds_left,:]
+        dat2 = data[inds_right,:]
+        # variance of respones within each unit, for these two stimulus
+        # values of interest only.
+        var1 = np.var(dat1,axis=0)
+        var1 = np.transpose(np.expand_dims(var1,axis=1))
+        var2 = np.var(dat2,axis=0)
+        var2 = np.transpose(np.expand_dims(var2,axis=1))
+        neach = np.tile(nreps,(2,1))
+        pooled_var = np.sum(np.concatenate((var1,var2),0)*np.tile(neach-1,(1,np.shape(data)[1])),0)/np.sum(neach-1);
+        varpooled[ii] = np.sum(pooled_var)
+        
+        # J(theta) = f'(theta).^2 / variance(f(theta));
+        diff2 = np.power(np.mean(dat1,0)-np.mean(dat2,0),2)
+        deriv2[ii] = np.sum(diff2)
+        
+        fi_allneurons = diff2/pooled_var
+        
+        fi[ii] = np.sum(fi_allneurons)
 
-def get_discrim_func(data, ori_labs):
+    # to be perfectly correct -when delta is odd, then the center of each comparison is technically 0.5 degrees off of integer orientation.
+    if np.mod(delta,2):
+      ori_axis = np.mod(ori_axis+0.5, max_ori)
+    return ori_axis, fi, deriv2, varpooled
+  
+def get_discrim_func(data, ori_labs, step_size=1):
+    
+    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
+    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
+    """
+    
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    disc = np.zeros([np.size(ori_axis),1])
+    max_ori = np.max(ori_axis)+1
+    
+    steps_left = np.int8(np.floor(step_size/2))
+    steps_right = np.int8(np.ceil(step_size/2))
+    
+    
+    for ii in np.arange(0,np.size(ori_axis)):
+        
+        # find gratings at the orientations of interest
+        inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
+        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
+        
+        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+        
+        if np.size(inds_left)==1:
+          dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
+        else:
+          dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
+
+        disc[ii] = dist
+
+    ori_axis = np.mod(ori_axis+0.5, max_ori)
+    return ori_axis, disc
+ 
+def get_discrim_func_binned(data, ori_labs, bin_size=5):
+    
+    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
+    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
+    """
+    
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    max_ori = np.max(ori_axis)+1      
+    assert(np.mod(max_ori,bin_size)==0)
+    n_bins = np.int64(np.size(ori_axis)/bin_size)
+    
+    # shift over so that bins are centered on cardinals
+#    ori_shifted = ori_axis
+    ori_shifted = np.mod(ori_axis-np.floor(bin_size/2), max_ori)
+    ori_bins = np.reshape(ori_shifted, [bin_size,n_bins],order='F')
+   
+    disc = np.zeros([np.size(ori_axis),1])
+    
+    # this is still the same orientation axis as the non-binned version, we'll just put in duplicate values because the bins are non-overlapping.
+    ori_axis = np.mod(ori_axis+0.5, max_ori)
+    
+    for bb in range(n_bins):
+      
+      # find gratings at the orientations of interest
+      inds_left = np.where(np.isin(ori_labs, ori_bins[:,bb]))[0]
+      
+      if bb<n_bins-1:
+        inds_right = np.where(np.isin(ori_labs, ori_bins[:,bb+1]))[0]
+      else:
+        inds_right = np.where(np.isin(ori_labs, ori_bins[:,0]))[0]
+      assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+      
+      if np.size(inds_left)==1:
+          dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
+      else:
+          dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
+
+      # this same value will go into the array in multiple positions - there are in total bin_size positions to place it in. 
+      center_ori = ori_bins[bin_size-1,bb]+0.5
+      ori_to_use = np.mod(np.arange(center_ori - np.floor(bin_size/2), center_ori+np.ceil(bin_size/2), 1), max_ori)
+      inds_real = np.where(np.isin(ori_axis, ori_to_use))
+      
+      disc[inds_real] = dist        
+   
+   
+    return ori_axis, disc
+  
+  
+def get_discrim_func_not_normalized(data, ori_labs):
     
     """ Get the discriminability between neighboring orientation bins, as a function of orientation.
     Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
@@ -183,10 +315,10 @@ def get_discrim_func(data, ori_labs):
         
         assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
         
-        if np.size(inds_left)==1:
-            dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
-        else:
-            dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
+#        if np.size(inds_left)==1:
+        dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
+#        else:
+#            dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
 
         disc[ii] = dist
 

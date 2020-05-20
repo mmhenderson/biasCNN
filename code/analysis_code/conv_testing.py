@@ -8,51 +8,149 @@ Created on Wed Jan 22 16:07:15 2020
 
 import numpy as np
 import matplotlib.pyplot as plt
+import conv_ops
+import os
+from PIL import Image
+import scipy
 
-def pad(activ,pad_with,n2pad):
-  # pad the array 
+root ='/mnt/neurocube/local/serenceslab/maggie/biasCNN/'
+
+#%% pass a couple of gratings through a random netork
+
+layer_names = ['conv1_conv1_1','conv1_conv1_2','pool1',
+ 'conv2_conv2_1','conv2_conv2_2','pool2',
+ 'conv3_conv3_1','conv3_conv3_2','conv3_conv3_3','pool3',
+ 'conv4_conv4_1','conv4_conv4_2','conv4_conv4_3','pool4',
+ 'conv5_conv5_1','conv5_conv5_2','conv5_conv5_3','pool5',
+ 'fc6']
+ 
+image_set = 'CosGratings'
+Orients = [0,1,44,45,46,89,90,91,134,135,136,179]
+nOrients = np.size(Orients)
+SF = 0.08
+Contrast = 0.80
+layer2plot = 12
+
+num_in_channels=   [3, 64,64,64, 128,128,128,256,256,256,256,512,512,512,512,512,512,512,512]
+num_out_channels = [64,64,64,128,128,128,256,256,256,256,512,512,512,512,512,512,512,512,4096]
+
+layer_weights = []
+
+plt.close('all')
+plt.figure();
+
+for ll in range(np.size(layer_names)):
   
-  activ_padded = np.concatenate((pad_with*np.ones([np.shape(activ)[0],n2pad]),activ,pad_with*np.ones([np.shape(activ)[0],n2pad])),axis=1);
-  activ_padded = np.concatenate((pad_with*np.ones([n2pad,np.shape(activ_padded)[1]]),activ_padded,pad_with*np.ones([n2pad,np.shape(activ_padded)[1]])),axis=0);
+  if 'conv' in layer_names[ll]:
+    weights_rand = np.random.normal(size=[3,3,num_in_channels[ll],num_out_channels[ll]])
+    
+  elif 'pool' in layer_names[ll]:
+    
+    weights_rand = []
+    
+  elif 'fc6' in layer_names[ll]:
+    
+    weights_rand = np.random.normal(size=[7,7,num_in_channels[ll],num_out_channels[ll]])
+
+  layer_weights.append(weights_rand)
+
+
+for oo in range(np.size(Orients)):
   
-  return activ_padded
-
-def conv_mean(activ,kernel_size,stride):
-  # pretend to do a convolution by taking the mean of elements in kernel area
+  image_file = os.path.join(root,'images','gratings',image_set,
+                            'SF_%0.2f_Contrast_%0.2f'%(SF,Contrast),
+                            'Gaussian_phase0_ex1_%ddeg.png'%Orients[oo])
+  print('loading from %s'%image_file)
+  im = Image.open(image_file)
+  im = np.reshape(np.array(im.getdata()),[224,224,3])
   
-  half_size = np.int8(np.floor(kernel_size/2))
-  activ_conv = np.zeros([np.shape(activ)[0]-half_size*2,np.shape(activ)[1]-half_size*2])
-  xx=-1  
-  for ii in np.arange(half_size,np.shape(activ)[0]-half_size,stride):
-    xx=xx+1
-    yy=-1
-    for jj in np.arange(half_size,np.shape(activ)[1]-half_size,stride):
-      yy=yy+1
-      vals = activ[ii-half_size:ii+half_size+1,jj-half_size:jj+half_size+1]
-       
-      activ_conv[xx,yy] = np.mean(vals)
-       
-  return activ_conv
+  activ = im
+  
+  for ll in range(np.size(layer_names)):
+    
+    if 'conv' in layer_names[ll]:
+      weights_rand = layer_weights[ll]
+      activ = conv_ops.conv(activ,weights_rand,1)
+      
+    elif 'pool' in layer_names[ll]:
+      
+      activ = conv_ops.pool(activ,2)
+      
+    elif 'fc6' in layer_names[ll]:
+      weights_rand = layer_weights[ll]
+      activ = conv_ops.conv(activ,weights_rand,1)    
+  
+      
+#    print('output of %s is size [%d by %d by %d]'%(layer_names[ll],np.shape(activ)[0],np.shape(activ)[1],np.shape(activ)[2]))
+  
+    if ll==layer2plot:
+      
+      plt.subplot(int(np.ceil(np.sqrt(nOrients))),int(np.ceil(np.sqrt(nOrients))),oo+1)
+      plt.pcolormesh(activ[:,:,0])
+      plt.axis('square')
+      plt.title('%d deg'%Orients[oo])
+      
+      if oo==0:
+        activ_patterns = np.zeros([np.size(Orients), np.size(activ)])
+      
+      activ_patterns[oo,:] = np.ravel(activ)
+     
+      
+plt.suptitle('%s, first map'%layer_names[layer2plot])
 
-def pool(activ,pool_size):
-    # pool over pixels
+# plot a dissimilarity matrix, all units of the same layer
+plt.figure();
+plt.title('distances between pairs of gratings\n%s'%layer_names[layer2plot])
+distmat = scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(activ_patterns));
+plt.pcolormesh(distmat)
+plt.axis('square')
+plt.xticks(np.arange(0,np.size(Orients))+0.5, Orients)
+plt.yticks(np.arange(0,np.size(Orients))+0.5, Orients)
+plt.colorbar()
+#%% trying to see what it looks like to pass an image through a random netork
+
+layer_names = ['conv1_conv1_1','conv1_conv1_2','pool1',
+ 'conv2_conv2_1','conv2_conv2_2','pool2',
+ 'conv3_conv3_1','conv3_conv3_2','conv3_conv3_3','pool3',
+ 'conv4_conv4_1','conv4_conv4_2','conv4_conv4_3','pool4',
+ 'conv5_conv5_1','conv5_conv5_2','conv5_conv5_3','pool5',
+ 'fc6']
+ 
+num_out_channels = [64,64,64,128,128,128,256,256,256,256,512,512,512,512,512,512,512,512,4096]
+
+plt.close('all')
+
+activ = np.ones([224,224,3])
+plt.figure();
+
+plt.subplot(6,4,1)
+plt.pcolormesh(activ[:,:,0])
+plt.axis('square')
+plt.title('original image')
+
+for ll in range(np.size(layer_names)):
+  
+  if 'conv' in layer_names[ll]:
+    weights_rand = np.random.normal(size=[3,3,np.shape(activ)[2],num_out_channels[ll]])
+    activ = conv_ops.conv(activ,weights_rand,1)
     
-    new_size = np.int64((np.ceil(np.shape(activ)[0]/pool_size),np.ceil(np.shape(activ)[1]/pool_size)))
+  elif 'pool' in layer_names[ll]:
     
-    activ_pool = np.zeros(new_size)
-    xx=-1  
-    for ii in np.arange(pool_size,np.shape(activ)[0],pool_size):
-      xx=xx+1
-      yy=-1
-      for jj in np.arange(pool_size,np.shape(activ)[1],pool_size):
-        yy=yy+1
-        vals = activ[ii-pool_size:ii,jj-pool_size:jj]
-         
-        activ_pool[xx,yy] = np.mean(vals)
-         
-    return activ_pool
+    activ = conv_ops.pool(activ,2)
+    
+  elif 'fc6' in layer_names[ll]:
+    weights_rand = np.random.normal(size=[7,7,np.shape(activ)[2],num_out_channels[ll]])
+    activ = conv_ops.conv(activ,weights_rand,1)    
 
     
+  print('output of %s is size [%d by %d by %d]'%(layer_names[ll],np.shape(activ)[0],np.shape(activ)[1],np.shape(activ)[2]))
+
+
+  plt.subplot(6,4,ll+1)
+  plt.pcolormesh(activ[:,:,0])
+  plt.axis('square')
+  plt.title('%s'%layer_names[ll])
+
 #%% trying to see how many pixels would get contaminated by edge artifacts at each layer.
     
 layer_names = ['conv1_conv1_1','conv1_conv1_2','pool1',
@@ -66,11 +164,11 @@ layer_names = ['conv1_conv1_1','conv1_conv1_2','pool1',
  
 plt.close('all')
 
-activ = np.ones([224,224])
+activ = np.ones([224,224,1])
 plt.figure();
 
 plt.subplot(6,4,1)
-plt.pcolormesh(activ)
+plt.pcolormesh(activ[:,:,0])
 plt.axis('square')
 plt.title('original')
 
@@ -78,15 +176,15 @@ for ll in range(np.size(layer_names)):
   
   if 'conv' in layer_names[ll]:
     
-    activ = conv_mean(pad(activ,0,1),3,1)
+    activ = conv_ops.conv_mean(conv_ops.pad(activ,0,1),3,1)
     
   elif 'pool' in layer_names[ll]:
     
-    activ = pool(activ,2)
+    activ = conv_ops.pool(activ,2)
     
   elif 'fc6' in layer_names[ll]:
     
-    activ = conv_mean(activ,7,1)
+    activ = conv_ops.conv_mean(activ,7,1)
 
   # take cross sections to check for nonzero edge pixels 
   center = np.int64(np.shape(activ)[1]/2)   
@@ -108,6 +206,6 @@ for ll in range(np.size(layer_names)):
   print(np.max([nedges_top,nedges_bottom,nedges_left,nedges_right]))
 
   plt.subplot(6,4,ll+2)
-  plt.pcolormesh(activ)
+  plt.pcolormesh(activ[:,:,0])
   plt.axis('square')
   plt.title(layer_names[ll])

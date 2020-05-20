@@ -4,172 +4,204 @@ clear
 close all
 
 % rot_list = [45];
-rot_list = [45];
+rot_list = [0,22, 45];
+% Switch these into my usual coordinate system: start at 0 degrees, moving
+% in the clockwise direction. This is how gratings were drawn so it will
+% match those images. The images were actually rotated in a
+% counter-clockwie direction, which corresponds to a negative rotation in
+% this coord system.
+new_card_axes = mod([0-rot_list', 90-rot_list'],180);
 
 root = pwd;
 filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-1));
 
-image_path = fullfile(root,'images','ImageNet','ILSVRC2012');
-save_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
+fig_folder = fullfile(root, 'figures','ImageStats');
+stat_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-sets2do = [1:1000];
-nSets = length(sets2do);
-%% find the names of all image sets (these are identical across rotations)
-% want to make sure we grab the same ones in the same order across all
-% rotations, so make the list now.
-set_folders = dir(fullfile(image_path, sprintf('train_rot_0'),'n*'));
-set_folders = {set_folders.name}; 
+plotFisherAll = 1;
+plotPriorAll = 1;
+plotOriAll=1;
+plotMeanOriEachSF=1;
+saveFigs=1;
 
+%% get information about the filters that were used
+freq_list = logspace(log10(0.02), log10(.2),4);
+[wavelength_list,~] = sort(1./freq_list,'ascend');
+ori_list = 5:5:180;
+resize_factor = 1;
+GaborBank = gabor(wavelength_list.*resize_factor,ori_list);
+% based on the GaborBank - list the orientations and SF of the filters
+% note that this might be sorted differently than what we put in, this
+% order is the correct one.
+orilist_bank = [GaborBank.Orientation];
+% this is the orientation of the filter, switched into the same coordinate
+% system as the grating images I drew (clockwise from 0, where 0=vertical).
+orilist_bank_fliptoCW = 180 - orilist_bank;
+sflist_bank = 1./[GaborBank.Wavelength];
+wavelist_bank = [GaborBank.Wavelength];
+
+% reshaped list of the ori and SF that correspond to each filter
+nSF_filt = numel(wavelength_list);
+nOri_filt = numel(ori_list);
+orilist_out = reshape(orilist_bank_fliptoCW, nSF_filt, nOri_filt);
+sflist_out = reshape(sflist_bank, nSF_filt, nOri_filt);
+
+ori_axis = orilist_out(1,:);
+sf_axis = sflist_out(:,1);
+nSF_filt = length(sf_axis);
+nOri_filt = length(ori_axis);
+
+legend_labs=[];
+for sf=1:nSF_filt
+    legend_labs{sf} = sprintf('%.2f cpp',freq_list(sf));
+end
+
+%% load the images
 for rr=1:length(rot_list)
 
-    ori_mag_list = [];
-    set_list = [];
+    fn2load = fullfile(stat_path, sprintf('ImageStats_train_rot_%d',rot_list(rr)), 'AllIms_Ori_MeanSD.mat');
+    fprintf('loading %s\n',fn2load);
+    load(fn2load);
 
-    nImsPerSet = zeros(nSets, 1);
-    for ss=sets2do
-        
-        set_file = dir(fullfile(save_path,sprintf('ImageStats_train_rot_%d',rot_list(rr)),sprintf('%s*.mat',set_folders{ss})));
+    fn2load = fullfile(stat_path, sprintf('ImageStats_train_rot_%d',rot_list(rr)), 'AllIms_OriSF_MeanSD.mat');
+    fprintf('loading %s\n',fn2load);
+    load(fn2load);
 
-        set_file = set_file(1);
-        
-        fn2load = fullfile(set_file.folder, set_file.name);
-        fprintf('loading %s\n',fn2load);
-        load(fn2load)
-        if isempty(image_stats)
-            fprintf('NO IMAGES PRESENT\n')
-            continue
+    
+    %% plot stats with error bars
+    if plotOriAll
+        figure;
+        set(gcf,'DefaultLegendAutoUpdate','off');
+        hold all;
+        set(gcf,'Color','w')
+     
+        bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
+        plot(ori_axis,meanvals,'Color','k')
+        title(sprintf('ImageNet Orientation Content\n%d deg CCW',rot_list(rr)));
+        xlabel('degrees');
+        ylabel('magnitude (z-score)')
+        xlim([0,180])
+        ylim([-2.5, 2.5])
+        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[-2,0,2]);
+
+        line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
+        line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
+
+        if saveFigs
+            
+            handle = gcf;
+            prepFigForExport(handle,1);
+            set(handle.Children(1),'FontSize',30)
+            set(handle,'Position',[0,0,1200,1200])
+            saveas(handle,fullfile(fig_folder,sprintf('OriContentAll_rot%d.pdf',rot_list(rr))),'pdf');
         end
-        empty =  find(cellfun(@isempty, {image_stats.mean_mag}));
-        nIms = length(image_stats) - numel(empty);
-        nImsPerSet(ss) = nIms;
-        
-        if ss==sets2do(1)
-            ori_list = image_stats(1).ori_list;
-            wavelength_list = image_stats(1).wavelength_list;
-            freq_list = 1./wavelength_list;
-            nSF = length(image_stats(1).wavelength_list);
-            nOri = length(image_stats(1).ori_list);
-            mean_mag = zeros(nSets,nSF,nOri);
-            var_mag = zeros(nSets,nSF,nOri);
-        end
-
-        all_mag = [image_stats.mean_mag];
-        all_mag = reshape(all_mag, nSF, nOri, nIms);
-
-        mean_mag(ss,:,:) = mean(all_mag,3);   
-
-        ims_by_ori = permute(squeeze(mean(all_mag,1)),[2,1]);
-        ims_by_ori = zscore(ims_by_ori,[],2);
-        
-        % concatenate to a long list, nTotalIms x nOri
-        ori_mag_list = [ori_mag_list; ims_by_ori];
-        
-        set_list=  [set_list; ss*ones(nIms,1)];
-
-    end
-
-    nImsTotal = sum(nImsPerSet);
-    assert(size(ori_mag_list,1)==nImsTotal);
-
-    clear legend_labs
-    for sf=1:nSF
-        legend_labs{sf} = sprintf('%.2f cpp',freq_list(sf));
     end
     
-%% plot stats with error bars
+    %% plot predicted fisher information
+    if plotFisherAll
+        figure;
+        set(gcf,'DefaultLegendAutoUpdate','off');
+        hold all;
+        set(gcf,'Color','w')
+        
+        % fisher info should be prior^2 (Wei and Stocker 2015 Nat Neuro)
+        prior =meanvals-min(meanvals);
+        prior = prior./sum(prior);
+        
+        
+%         bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
+        plot(ori_axis,prior,'Color','k')
+        title(sprintf('Prior Distribution\n%d deg CCW',rot_list(rr)));
+        xlabel('degrees');
+        ylabel('Probability')
+        xlim([0,180])
+        ylim([-0.1, 0.2])
+        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0]);
 
-    figure;
-    set(gcf,'DefaultLegendAutoUpdate','off');
-    hold all;
-    set(gcf,'Color','w')
-    meanvals = mean(ori_mag_list,1);
+        line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
+        line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
 
-    stdvals = std(ori_mag_list,[],1);
-    plot(ori_list,ori_mag_list(datasample(1:nImsTotal,100),:),'Color',[0.5,0.5,0.5],'LineStyle','-')
-    errorbar(ori_list, meanvals, stdvals,'Color','k','LineWidth',2);
-     title(sprintf('Orientation content: Images rotated %d deg\n%d images (mean+/-std)', rot_list(rr), nImsTotal));
-    xlabel('degrees');
-    ylabel('average magnitude (z-score)')
-    xlim([min(ori_list),max(ori_list)])
-    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
-
-    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
-    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
-    %% one example image
-    % this plot should be shifted when the image is rotated
-    figure;
-    set(gcf,'DefaultLegendAutoUpdate','off');
-    hold all;
-    set(gcf,'Color','w')
-
-    plot(ori_list,ori_mag_list(1,:),'Color',[0.5,0.5,0.5],'LineStyle','-')
-
-    title(sprintf('Orientation content: Images rotated %d deg\none example image', rot_list(rr)));
-    xlabel('degrees');
-    ylabel('average magnitude')
-    xlim([min(ori_list),max(ori_list)])
-    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
-
-    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
-    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
-
-    %% one example image - each SF separately
-    % this plot should be shifted when the image is rotated
-    
-    figure;
-    set(gcf,'DefaultLegendAutoUpdate','off');
-    hold all;
-    set(gcf,'Color','w')
-    cols = parula(nSF);
-    for sf = 1:nSF
-        vals = squeeze(all_mag(sf,:,1));       
-        vals = zscore(vals,[],2);
-        plot(ori_list,vals,'Color',cols(sf,:),'LineStyle','-')
-
+        if saveFigs
+            
+            handle = gcf;
+            prepFigForExport(handle,1);
+            set(handle.Children(1),'FontSize',30)
+            set(handle,'Position',[0,0,1200,1200])
+            saveas(handle,fullfile(fig_folder,sprintf('PriorDist_rot%d.pdf',rot_list(rr))),'pdf');
+        end
     end
-    title(sprintf('Orientation content: Images rotated %d deg\none example image', rot_list(rr)));
-    xlabel('degrees');
-    ylabel('average magnitude')
-    xlim([min(ori_list),max(ori_list)])
-    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
-    legend(legend_labs)
-    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
-    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
+    
+    %% plot predicted fisher information
+    if plotPriorAll
+        figure;
+        set(gcf,'DefaultLegendAutoUpdate','off');
+        hold all;
+        set(gcf,'Color','w')
+        
+        % fisher info should be prior^2 (Wei and Stocker 2015 Nat Neuro)
+        prior =meanvals-min(meanvals);
+        prior = prior./sum(prior);
+        fisher = prior.^2;
+        
+        
+%         bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
+        plot(ori_axis,fisher,'Color','k')
+        title(sprintf('Fisher information (Prior^2)\n%d deg CCW',rot_list(rr)));
+        xlabel('degrees');
+        ylabel('Fisher info')
+        xlim([0,180])
+        ylim([-0.01, 0.02])
+        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0]);
 
+        line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
+        line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
+
+        if saveFigs
+            
+            handle = gcf;
+            prepFigForExport(handle,1);
+            set(handle.Children(1),'FontSize',30)
+            set(handle,'Position',[0,0,1200,1200])
+            saveas(handle,fullfile(fig_folder,sprintf('FisherInfoPred_rot%d.pdf',rot_list(rr))),'pdf');
+        end
+    end
+    
     %% plot the mean stats, separated by spatial frequency
+    if plotMeanOriEachSF
+        figure;set(gcf,'Color','w')
+        set(gcf,'DefaultLegendAutoUpdate','off');
+        hold all;
+        cols = parula(nSF_filt);
 
-    figure;set(gcf,'Color','w')
-    set(gcf,'DefaultLegendAutoUpdate','off');
-    hold all;
-    cols = parula(nSF);
+        for sf = 1:nSF_filt
+            subplot(2,2,sf);hold all;
+                        
+            mvals = meanvals_bysf(:,sf)';
+            svals = stdvals_bysf(:,sf)';
+            bandedError_MMH(ori_axis,mvals, svals, [0,0,1],0.2);
+            plot(ori_axis,meanvals,'Color','k')
 
-    ori_lines = squeeze(mean(mean_mag,1));
-    ori_lines = zscore(ori_lines,[],2);
-    for sf = 1:nSF
-        plot(ori_list,ori_lines(sf,:),'Color',cols(sf,:),'LineStyle','-')
+            title(legend_labs{sf});
+            xlabel('degrees');
+            ylabel('magnitude (z-score)')
+            xlim([0,180])
+            ylim([-2.5, 2.5])
+            set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[-2,0,2]);
+
+            line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
+            line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
+
+        end
+
+        suptitle((sprintf('ImageNet Orientation Content\n%d deg CCW',rot_list(rr))));      
+        if saveFigs
+           
+            handle = gcf;
+            prepFigForExport(handle,1);
+            set(handle,'Position',[0,0,1200,1200])
+            saveas(handle,fullfile(fig_folder,sprintf('OriContentEachSF_rot%d.pdf',rot_list(rr))),'pdf');
+        end
     end
     
-    title(sprintf('Orientation content: Images rotated %d deg', rot_list(rr)));
-    xlabel('degrees');
-    ylabel('average magnitude (z-score)')
-    xlim([min(ori_list),max(ori_list)])
-    set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135]);
-    legend(legend_labs)
-    line([90+rot_list(rr), 90+rot_list(rr)], get(gca,'YLim'),'Color','k');
-    line([0+rot_list(rr), 0+rot_list(rr)], get(gca,'YLim'),'Color','k');
-
-    %% plot SF distribution
-    figure ;hold all;
-    set(gcf,'DefaultLegendAutoUpdate','off');
-    wave_hist = squeeze(mean(mean(mean_mag,1),3));
-    [~,peak] = max(wave_hist);
-    plot(freq_list, wave_hist,'Color','k')
-    % line([freq_list(peak),freq_list(peak)],get(gca,'YLim'),'Color','r')
-    title(sprintf('Spatial frequency content: ims rotated %d deg', rot_list(rr)));
-    xlabel('frequency (cycles/pix)');
-    ylabel('average magnitude')
-    xlim([min(freq_list),max(freq_list)])
-    suptitle(sprintf('all images (%d)',nImsTotal))
-
 end

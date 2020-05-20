@@ -58,7 +58,20 @@ if model_name=='vgg_16':
     nLayers = len(layers2load)
     for nn in range(nLayers-1):
         layers2load[nn] = 'vgg_16_' + layers2load[nn]
-
+        
+elif model_name=='vgg16_simul':
+        
+    # list of all the endpoints in this network.
+    layers2load = ['conv1_1','conv1_2',
+     'conv2_1','conv2_2',
+     'conv3_1','conv3_2','conv3_3',
+     'conv4_1','conv4_2','conv4_3',
+     'conv5_1','conv5_2','conv5_3',
+     'fc6',
+     'pool1','pool2','pool3','pool4','pool5']
+    
+    nLayers = len(layers2load)
+    print('loading %d layers for %s\n'%(nLayers,model_name))
 elif model_name=='inception_v3':
     
     
@@ -144,7 +157,9 @@ def main(_):
         if n_comp_needed<min_components_keep:
             n_comp_needed = min_components_keep
       
-        print('saving %d components\n'%n_comp_needed)
+        weights_reduced = weights_reduced[:,0:n_comp_needed]
+      
+        print('saving %d components\n'%np.shape(weights_reduced)[1])
         #%% Save the result as a single file
         
         fn2save = os.path.join(path2save, 'allStimsReducedWts_' + layers2load[ll] +'.npy')

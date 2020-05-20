@@ -61,7 +61,7 @@ function get_orientation_stats_imagenet_rots(root, numcores)
     tic
 
     GaborBank = gabor(wavelength_list.*resize_factor,ori_list);
-    freq_inds = repelem(1:length(freq_list),numel(ori_list));
+   
     sizeLargestKernel = size(GaborBank(end).SpatialKernel);
     % Gabor always returns odd length kernels
     padding_needed = (sizeLargestKernel-1)/2;

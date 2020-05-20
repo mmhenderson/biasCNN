@@ -76,7 +76,7 @@ else
 	num_reduced_files=${#reduced_files[@]}
 	echo "	there are $num_reduced_files files in reduced folder"
 fi
-if (( $num_reduced_files < 88 ))
+if (( $num_reduced_files < 44 ))
 then
 	doReduce=1
 else
@@ -136,7 +136,7 @@ fi
 reduced_files=($(ls ${reduced_dir}/*.npy))
 num_reduced_files=${#reduced_files[@]}
 echo "	there are $num_reduced_files files in reduced folder"
-if (( $num_reduced_files < 88 ))
+if (( $num_reduced_files < 44 ))
 then
 	reallyDone=0
 else
