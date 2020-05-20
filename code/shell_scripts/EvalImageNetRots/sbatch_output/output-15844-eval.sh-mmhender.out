@@ -1,3 +1,0 @@
-rot=/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/EvalImageNetRots/eval_vgg16_SquareGratings_cluster.sh
-step_num=0
-which_hyperpars=689475
