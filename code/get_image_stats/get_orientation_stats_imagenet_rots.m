@@ -1,8 +1,10 @@
 function get_orientation_stats_imagenet_rots(root, numcores)
-% get the orientation content of a subset of the images from ImageNET database
-% making sure that our image set rotations affected the prior in the
+% Get the orientation content of modified versions of ImageNET database
+% Making sure that rotations affected the prior in the
 % expected way (peak at cardinals, or cardinals+rotation)
+% save the result
 
+% MMH March 2020
     %% set up paths/parameters
 
     if nargin==0
@@ -122,7 +124,6 @@ function get_orientation_stats_imagenet_rots(root, numcores)
             %% loop over images and process
             clear image_stats
             parfor ii = 1:length(imlist)
-    %         parfor ii =1:10
 
                 im_file = fullfile(imlist(ii).folder, imlist(ii).name);
                 fprintf('loading image %d of %d\n',ii,length(imlist));

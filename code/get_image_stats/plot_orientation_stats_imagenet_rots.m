@@ -1,5 +1,11 @@
-%% plot the orientation content of a subset of the images used in the ImageNET database
-% this includes all images in the DET 2014 training set
+%% Plot the orientation content of each modified version of ImageNet dataset
+% Verify that rotations change the prior in the expected way (peaks at
+% cardinals or cardinals + rotation).
+% This script load the files saved by
+% analyze_orientation_stats_imagenet_rots.m
+
+% MMH March 2020
+%%
 clear
 close all
 

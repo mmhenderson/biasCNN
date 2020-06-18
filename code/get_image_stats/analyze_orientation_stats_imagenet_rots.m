@@ -1,6 +1,12 @@
-%% analyze the mean and standard dev of orientation content from ImageNet 
-%images, using output of get_orientation_stats_imagenet_rots.m
+%% Calculate the mean and standard deviation of orientation content for all 
+% the modified ImageNet images.
+% This script loads the files that are save by 
+% get_orientation_stats_imagenet_rots.m
+% Plot the output of this script with
+% plot_orientation_stats_imagenet_rots.m
 
+% MMH March 2020
+%%
 clear
 close all
 
