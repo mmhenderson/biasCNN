@@ -306,6 +306,9 @@ def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, para
   save_name =os.path.join(save_path,'TotalUnits_eval_at_ckpt_%s0000.npy'%(ckpt_str[0:2]))
   print('saving to %s\n'%save_name)
   np.save(save_name,nTotalUnits)
+
+
+  
   
  #%% main function to decide between subfunctions
   

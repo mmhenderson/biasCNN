@@ -155,42 +155,61 @@ def circ_corr_coef(x, y):
    
     return corr_coef
 
-def circ_corrcc(alpha, x):
-    """Correlation coefficient between one circular and one linear random
-    variable.
+  
+def divergence_from_uniform(bin_centers, n_per_bin):
+  """ Calculate non-uniformity of a distribution. 
+  
+  Inputs:
+    bin_centers: the orientations of binned data, range [0,2pi]
+    n_per_bin: the number of observations in each bin.
     
-    Args:
-        alpha: vector
-            Sample of angles in radians
-
-        x: vector
-            Sample of linear random variable
-
-    Returns:
-        rho: float
-            Correlation coefficient
-
-        pval: float
-            p-value
-
-    Code taken from the Circular Statistics Toolbox for Matlab
-    By Philipp Berens, 2009
-    Python adaptation by Etienne Combrisson
-    (copied from brainpipe toolbox)
+  Outputs:
+    KL divergence between the given distribution and a uniform distribution
+    
     """
-    if len(alpha) is not len(x):
-        raise ValueError('The length of alpha and x must be the same')
-    n = len(alpha)
+  if np.any(bin_centers<0) or np.any(bin_centers>2*np.pi):
+    raise ValueError('angle values must be between 0-2pi')
+  num_bins=np.size(bin_centers)
+  assert(np.size(n_per_bin)==num_bins)
+  
+  # first get the Shannon entropy of the distribution
+  probs = n_per_bin/np.sum(n_per_bin)
+  # zero probabilities contribute a zero to the sum (in the limit of large n), so remove them now
+  probs = probs[probs!=0]
+  entropy = (-1)*np.sum(probs*np.log2(probs))
+  
+  # divergence of this distribution from uniform
+  div_KL_from_uniform = np.log2(num_bins) - entropy
+  
+  return div_KL_from_uniform
+  
 
-    # Compute correlation coefficent for sin and cos independently
-    rxs = pearsonr(x,np.sin(alpha))[0]
-    rxc = pearsonr(x,np.cos(alpha))[0]
-    rcs = pearsonr(np.sin(alpha),np.cos(alpha))[0]
-
-    # Compute angular-linear correlation (equ. 27.47)
-    rho = np.sqrt((rxc**2 + rxs**2 - 2*rxc*rxs*rcs)/(1-rcs**2));
-
-    # Compute pvalue
-    pval = 1 - chi2.cdf(n*rho**2,2);
+def hermans_rasson_stat(ang_vals):
+  """ Calculate Hermans-Rasson test statistic (from Landler, Ruxton & Malkemper, 2019 BMC Ecology)
+  Doesn't require unimodality.
+  
+  Inputs:
+    All values in radians ([0,2pi]) range
     
-    return rho, pval
+  Outputs:
+    Test statistic for the Hermans-Rasson test, describing amount of non-uniformity in distribution.
+  """
+  
+  if np.any(ang_vals<0) or np.any(ang_vals>2*np.pi):
+        raise ValueError('angle values must be between 0-2pi')
+  n=np.size(ang_vals)
+  ang_vals=np.expand_dims(ang_vals,1)
+  
+  sin_vals=np.abs(np.sin(ang_vals-np.transpose(ang_vals)))
+  sum_sin=np.sum(sin_vals)
+  
+#  sum_sin = 0
+##  sinvals=np.zeros((n,n))
+#  for ii in range(n):
+#    for jj in np.arange(ii+1,n):
+#     
+#      sum_sin = sum_sin + 2*np.abs(np.sin(ang_vals[ii] - ang_vals[jj]))
+  
+  stat=(n/np.pi) - (1/(2*n))*sum_sin
+  
+  return stat

@@ -6,11 +6,18 @@
 #SBATCH --open-mode=append
 #SBATCH --output=./sbatch_output/output-%A-%x-%u.out 
 
+rot=45_cos
 model=vgg_16
 params=params1
-rot=45_cos
-from_scratch=0
+from_scratch=1
+declare -a inits=(1 3)
+max_steps=500000
 
 source ~/anaconda3/bin/activate
-/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_net_cluster.sh $model $params $rot $from_scratch 
 
+for init_num in ${inits[@]}
+do
+
+	/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_net_cluster.sh $model $params $rot $init_num $max_steps
+
+done

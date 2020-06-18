@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=bigmem_long
+#SBATCH --partition=general
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
@@ -16,7 +16,7 @@ ROOT=/cube/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-dataset_root=FiltImsCos
+dataset_root=FiltIms11Cos
 which_model=vgg_16
 # num of versions of this dataset 
 declare -a sets=(1 2 3 4)

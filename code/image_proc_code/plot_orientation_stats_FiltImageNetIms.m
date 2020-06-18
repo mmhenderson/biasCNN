@@ -5,10 +5,12 @@ close all
 
 % list the ground truth spat freq for gratings
 meas_sflist = round([0.0125    0.0228    0.0414    0.0754    0.1373    0.2500],2);
+% meas_sflist = round([0.002],3);
+meas_sflist = [1/224];
 % true_sf2plot = [3];
 
-image_set='FiltIms11Cos_SF_0.25_rand1';
-% image_set = 'FiltIms9AllSFCos_rand1';
+% image_set='FiltIms11Cos_SF_0.25_rand1';
+image_set = 'FiltIms14AllSFCos_rand1';
 image_set_plot =image_set;
 image_set_plot(image_set_plot=='_') = ' ';
 
@@ -51,7 +53,9 @@ nOri_filt = length(meas_ori_list);
 
 %% load the image stats
 
-image_file = fullfile(im_stat_path, sprintf('AllIms_allstats_highdensity.mat'));
+% image_file = fullfile(im_stat_path, sprintf('AllIms_allstats_highdensity.mat'));
+% image_file = fullfile(im_stat_path, sprintf('AllIms_allstats_highdensity2.mat'));
+image_file = fullfile(im_stat_path, sprintf('AllIms_allstats_highdensity3.mat'));
 load(image_file)
 
 nOri_true=180;
@@ -119,6 +123,27 @@ set(gca','YTick',[1:45:nOri_true],'YTickLabel',true_ori_vals_deg(1:45:nOri_true)
     
 title(sprintf('%s\nMeasured orientation content of images at various orientations\n(averaged over filter SF)',image_set_plot));
 
+%% plot ori content versus filter orientation
+figure;hold all;
+set(gcf,'Color','w')
+vals = squeeze(mean(mean(orisf_mag_list(:,:,:,:),2),4));
+vals = zscore(vals,[],1);
+for sf=1:nSF_filt
+    subplot(2,3,sf);hold all;
+
+    plot(true_ori_vals_deg,vals(:,sf));
+    xlabel('Average response');
+    xlabel('True orientation');
+    % title(sprintf('Filtered at %d deg',meas_ori_list(oo)));
+    xlim([0.5, nOri_true+0.5]);
+    % ylim([0.5, nOri_true+0.5]);
+    set(gca,'XTick',[1:45:nOri_true],'XTickLabel',true_ori_vals_deg(1:45:nOri_true))
+    title(sprintf('filtered at %.3f cpp',sflist_bank(sf)));
+end
+% set(gca','YTick',[1:45:nOri_true],'YTickLabel',true_ori_vals_deg(1:45:nOri_true))
+    
+suptitle(sprintf('%s\nMeasured orientation content of images at various orientations\n(averaged over filter orient)',image_set_plot));
+
 %% plot ori content versus filter orientation - each SF separately
 
 figure;hold all;
@@ -140,7 +165,7 @@ for sf=1:length(sf_axis)
     set(gca','XTick',[1:6:nOri_filt],'XTickLabel',meas_ori_list(1:6:nOri_filt))
     set(gca','YTick',[1:45:nOri_true],'YTickLabel',true_ori_vals_deg(1:45:nOri_true))
 
-    title(sprintf('filtered at %.2f',sf_axis(sf)));
+    title(sprintf('filtered at %.3f',sf_axis(sf)));
 
 end
 suptitle(sprintf('%s\nMeas orientation content of images at various orientations',image_set_plot));
@@ -177,7 +202,7 @@ for sf = 1:length(sf_axis)
 
     subplot(2,3,sf);hold all
 %     cols = parula(nOri_true);
-    title(sprintf('filtered at %.2f',sf_axis(sf)));
+    title(sprintf('filtered at %.3f',sf_axis(sf)));
     xlabel('degrees');
     ylabel('average magnitude')
     xlim([min(meas_ori_list),max(meas_ori_list)])
@@ -208,7 +233,7 @@ cols = parula(nOri_true);
 title(sprintf('%s\nSF content, all images',image_set_plot));
 xlabel('SF (cpp)');
 ylabel('average magnitude')
-xlim([min(sf_axis),max(sf_axis)])
+xlim([min(sf_axis)-0.01,max(sf_axis)+0.01])
 ll=[];ii=0;
 for oo = 1:22:nOri_true
     vals = squeeze(sf_mag_list(oo,:,:));

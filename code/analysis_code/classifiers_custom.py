@@ -199,6 +199,8 @@ def get_fisher_info(data, ori_labs, delta=1):
         var2 = np.transpose(np.expand_dims(var2,axis=1))
         neach = np.tile(nreps,(2,1))
         pooled_var = np.sum(np.concatenate((var1,var2),0)*np.tile(neach-1,(1,np.shape(data)[1])),0)/np.sum(neach-1);
+        # if any values are zero for variance - replace them with very small number here.
+        pooled_var[pooled_var==0] = 10**(-12)
         varpooled[ii] = np.sum(pooled_var)
         
         # J(theta) = f'(theta).^2 / variance(f(theta));

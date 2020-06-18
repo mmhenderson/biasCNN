@@ -25,15 +25,18 @@ import classifiers_custom as classifiers
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 os.chdir(os.path.join(root, 'code', 'analysis_code'))
 
-#dataset_all = 'FiltImsAllSFSquare'
-#dataset_all = 'FiltIms9AllSFCos'
-dataset_all = 'CosGratings'
-training_str_list = ['scratch_imagenet_rot_0_stop_early']
+#dataset_all = 'FiltIms14AllSFCos'
+dataset_all = 'FiltIms11Cos'
+#dataset_all = 'CosGratings'
+#training_str_list=['scratch_imagenet_rot_45_square']
+training_str_list = ['scratch_imagenet_rot_45_stop_early']
 #training_str_list = ['scratch_imagenet_rot_0_stop_early','pretrained','scratch_imagenet_rot_22_cos','scratch_imagenet_rot_45_cos']
-#training_str_list = ['scratch_imagenet_rot_45_cos']
+#training_str_list = ['pretrained']
 nSets = 4;
-loopSF = 0;
+loopSF = 1;
 sf_vals = [0.01, 0.02, 0.04, 0.08, 0.14, 0.25]
+#sf_vals = [0.01, 0.02, 0.04, 0.08, 0.14]
+
 
 model='vgg16'
 param_str='params1'
@@ -44,14 +47,14 @@ delta_vals = np.arange(1,10,1)
 
 #%% use if all spatial frequencies are in one dataset
   
-def get_discrim_func(dataset_all, model, param_str, training_str, ckpt_str):
+def get_discrim_func(dataset, model, param_str, training_str, ckpt_str):
 
-  save_path = os.path.join(root,'code','fisher_info',model,training_str,param_str,dataset_all)
+  save_path = os.path.join(root,'code','fisher_info',model,training_str,param_str,dataset)
   if not os.path.exists(save_path):
     os.makedirs(save_path)
 
   # define folder corresponding to this data set
-  dataset_dir = os.path.join(root, 'activations', model, training_str, param_str, dataset_all)
+  dataset_dir = os.path.join(root, 'activations', model, training_str, param_str, dataset)
   
   # find the exact name of the checkpoint file of interest
   ckpt_dirs = os.listdir(os.path.join(root, 'activations', model, training_str, param_str,dataset_dir))
@@ -80,7 +83,7 @@ def get_discrim_func(dataset_all, model, param_str, training_str, ckpt_str):
    
   nLayers = info['nLayers']
   nSF = info['nSF']
-  if 'AllSF' in dataset_all:
+  if 'AllSF' in dataset:
     sf2do = [0]
   else:
     sf2do = np.arange(0,nSF);
@@ -132,9 +135,9 @@ def get_discrim_func(dataset_all, model, param_str, training_str, ckpt_str):
 
 #%% use if spatial frequencies are in different datasets
   
-def get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str, ckpt_str):
+def get_discrim_func_sfloop(sf_vals, dataset, model, param_str, training_str, ckpt_str):
     
-  save_path = os.path.join(root,'code','fisher_info',model,training_str,param_str,dataset_all)
+  save_path = os.path.join(root,'code','fisher_info',model,training_str,param_str,dataset)
   if not os.path.exists(save_path):
     os.makedirs(save_path)
 
@@ -142,14 +145,14 @@ def get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str
   nSF = len(sf_vals)
   for sf in range(nSF):
     
-    if 'FiltIms' in dataset_all:
+    if 'FiltIms' in dataset:
       # define folder corresponding to this data set
-      dataset_root = dataset_all.split('_')[0]
-      ss = dataset_all[-1]
+      dataset_root = dataset.split('_')[0]
+      ss = dataset[-1]
       dataset_dir = os.path.join(root, 'activations', model, training_str, param_str, '%s_SF_%.2f_rand%s'%(dataset_root, sf_vals[sf],ss))
     else:
       # define folder corresponding to this data set
-      dataset_dir = os.path.join(root, 'activations', model, training_str, param_str, '%s_SF_%.2f'%(dataset_all, sf_vals[sf]))
+      dataset_dir = os.path.join(root, 'activations', model, training_str, param_str, '%s_SF_%.2f'%(dataset, sf_vals[sf]))
       
     # find the exact name of the checkpoint file of interest
     ckpt_dirs = os.listdir(os.path.join(root, 'activations', model, training_str, param_str,dataset_dir))
@@ -180,6 +183,8 @@ def get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str
     # initialize my array here
     if sf==0:  
       fisher_info = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])
+      deriv2 = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])
+      varpooled = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])
   
     # loop over layers and get discriminability curve for each.
     for ll in range(nLayers):
@@ -192,18 +197,32 @@ def get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str
       
         for dd in range(np.size(delta_vals)):
           
-          ori_axis, fi, deriv2, varpooled = classifiers.get_fisher_info(dat,orilist_adj,delta=delta_vals[dd])
+          ori_axis, fi, d, v = classifiers.get_fisher_info(dat,orilist_adj,delta=delta_vals[dd])
           if nOri==360:
             fi = np.reshape(fi,[2,180])
             fi = np.mean(fi,axis=0)
+            d = np.reshape(d,[2,180])
+            d = np.mean(d,axis=0)
+            v = np.reshape(v,[2,180])
+            v = np.mean(v,axis=0)
+            
           fisher_info[ll,sf,:,dd] = np.squeeze(fi)
-          
+          deriv2[ll,sf,:,dd] = np.squeeze(d)
+          varpooled[ll,sf,:,dd] = np.squeeze(v)
        
   # checkpoint number gets rounded here to make it easier to find later
   save_name =os.path.join(save_path,'Fisher_info_eval_at_ckpt_%s0000_all_units.npy'%(ckpt_num[0:2]))
   print('saving to %s\n'%save_name)
   np.save(save_name,fisher_info)
 
+  save_name =os.path.join(save_path,'Deriv_sq_eval_at_ckpt_%s0000_all_units.npy'%(ckpt_num[0:2]))
+  print('saving to %s\n'%save_name)
+  np.save(save_name,deriv2)
+  
+  save_name =os.path.join(save_path,'Pooled_var_eval_at_ckpt_%s0000_all_units.npy'%(ckpt_num[0:2]))
+  print('saving to %s\n'%save_name)
+  np.save(save_name,varpooled)
+  
 #%% main function to decide between subfunctions
   
 if __name__=='__main__':
@@ -218,30 +237,32 @@ if __name__=='__main__':
       ckpt_str = '400000'
       
     if loopSF==1:
-      if nSets==1:
-        get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str, ckpt_str)
-      else:
-        for ss in range(nSets):        
-          if ss==0 and 'FiltIms' not in dataset_all:
-            curr_dataset=dataset_all
-          elif 'FiltIms' in dataset_all:
-            curr_dataset='%s_rand%d'%(dataset_all,ss+1)
-          else:
-            curr_dataset='%s%d'%(dataset_all,ss)
-          get_discrim_func_sfloop(sf_vals, curr_dataset, model, param_str, training_str, ckpt_str)
+     
+#      if nSets==1:
+#        get_discrim_func_sfloop(sf_vals, dataset_all, model, param_str, training_str, ckpt_str)
+#      else:
+      for ss in range(nSets):        
+        if ss==0 and 'FiltIms' not in dataset_all:
+          curr_dataset=dataset_all
+        elif 'FiltIms' in dataset_all:
+          curr_dataset='%s_rand%d'%(dataset_all,ss+1)
+        else:
+          curr_dataset='%s%d'%(dataset_all,ss)
+        get_discrim_func_sfloop(sf_vals, curr_dataset, model, param_str, training_str, ckpt_str)
     else:    
-      if nSets>1:
-        for ss in range(nSets):
-          
-          if ss==0 and 'FiltIms' not in dataset_all:
-            curr_dataset=dataset_all
-          elif 'FiltIms' in dataset_all:
-            curr_dataset='%s_rand%d'%(dataset_all,ss+1)
-          else:
-            curr_dataset='%s%d'%(dataset_all,ss)
-          
-          get_discrim_func(curr_dataset, model, param_str, training_str, ckpt_str)
-      
-      else:
-        get_discrim_func(dataset_all, model, param_str, training_str, ckpt_str)
+#      if nSets>1:
+      for ss in range(nSets):
+        
+        if ss==0 and 'FiltIms' not in dataset_all:
+          curr_dataset=dataset_all
+        elif 'FiltIms' in dataset_all:
+          curr_dataset='%s_rand%d'%(dataset_all,ss+1)
+        else:
+          curr_dataset='%s%d'%(dataset_all,ss)
+        
+       
+        get_discrim_func(curr_dataset, model, param_str, training_str, ckpt_str)
+        
+#      else:
+#        get_discrim_func(dataset_all, model, param_str, training_str, ckpt_str)
   

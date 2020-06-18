@@ -5,13 +5,15 @@
 which_model=$1
 params=$2
 rot=$3
-from_scratch=$4
+init_num=$4
+max_steps=$5
 
 echo "script=$0"
 echo "which_model=$which_model"
 echo "params=$params"
 echo "rot=$rot"
-echo "from_scratch=$4"
+echo "init_num=$4"
+echo "max_steps=$5"
 
 # Specify the directory i am working in
 #ROOT=/usr/local/serenceslab/maggie/
@@ -31,7 +33,7 @@ set -e
 flipLR=False
 random_scale=False
 is_windowed=True
-max_number_of_steps=1000000
+max_number_of_steps=$max_steps
 max_checkpoints_to_keep=5
 keep_checkpoint_every_n_hours=0.5
 batch_size=32
@@ -59,24 +61,49 @@ then
 	exit
 fi
 
-log_dir="${log_path}"'scratch_imagenet_rot_'"${rot}"'/'"${params}"
-
-# check if this version of the model has been trained already, if it has, then make a brand new folder to restart it
-if [ -d ${log_dir} ] && [[ $from_scratch == 1 ]]
+if (( $init_num==0 ))
 then
-	echo logdir exists already
-	declare -a init_num=1
-	log_dir_new=${log_dir}_init${init_num}
-	while [ -d ${log_dir_new} ]
-	do
-		init_num=$((init_num+1))
-		log_dir_new=${log_dir}_init${init_num}
-	done
-	log_dir=${log_dir_new}
-	echo new version will be ${log_dir}
+	log_dir="${log_path}"'scratch_imagenet_rot_'"${rot}"'/'"${params}"'/'
+else
+	log_dir="${log_path}"'scratch_imagenet_rot_'"${rot}"'/'"${params}"'_init'"${init_num}"'/'
 fi
 
-mkdir -p ${log_dir}
+# check if dir exists already
+if [ -d ${log_dir} ]
+then
+	# see how far this iteration has already gotten
+	allckptfiles=$(ls ${log_dir}model.ckpt-*.meta) 
+	declare -a all_numbers=()
+	for file in ${allckptfiles[@]}
+	do
+		second_part=${file/*ckpt-}
+		number=${second_part/.*}
+		all_numbers+=($number)
+	done
+
+	# check if there's a checkpoint past the desired max number
+	finished=0
+	for number in ${all_numbers[@]}
+	do		
+		if (( $number>=$max_steps )) 
+		then		
+			echo "number=${number}"	
+			finished=1
+		fi
+	done
+	echo "finished=${finished}"
+	if (( $finished==1 ))
+	then
+		echo "${log_dir}"
+		echo "already done up to step $max_steps. Aborting..."
+		exit
+	fi
+else
+	# make a brand new directory
+	mkdir -p ${log_dir}
+fi
+
+# finally, get ready to start training...
 echo saving to ${log_dir}
 
 split_name=train

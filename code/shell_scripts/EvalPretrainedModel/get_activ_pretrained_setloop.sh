@@ -16,7 +16,7 @@ ROOT=/cube/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-dataset_root=FiltIms2AllSFCos
+dataset_root=FiltIms14AllSFCos
 which_model=vgg_16
 # num of versions of this dataset (phases are different)
 declare -a sets=(1 2 3 4)

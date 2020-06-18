@@ -38,7 +38,7 @@ def get_info(model, dataset):
         info['layer_labels'] = layer_labels
         info['layer_labels_full'] = layer_labels
         
-    elif 'vgg16'==model:
+    elif 'vgg16' in model and 'simul' not in model:
         
         # list of all the endpoints in this network (these are the exact strings we need to use to load files)
         layer_labels_full = ['vgg_16_conv1_conv1_1','vgg_16_conv1_conv1_2','vgg_16_pool1',

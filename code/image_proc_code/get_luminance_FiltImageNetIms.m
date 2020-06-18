@@ -12,9 +12,9 @@ root = pwd;
 filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-1));
 
-image_set='FiltIms14AllSFCos';
+% image_set='FiltIms14AllSFCos';
 % image_set = 'FiltIms7AllSFSquare';
-% image_set='FiltIms13Cos_SF_0.01';
+image_set='FiltIms11Square_SF_0.01';
 image_set_plot =image_set;
 image_set_plot(image_set_plot=='_') = ' ';
 % image_set='FiltNoiseSquare_SF_0.01';

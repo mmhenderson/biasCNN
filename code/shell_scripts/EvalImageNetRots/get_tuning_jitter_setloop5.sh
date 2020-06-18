@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=bigmem_long
+#SBATCH --partition=general
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
@@ -11,22 +11,22 @@ set -e
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
 ROOT=/cube/neurocube/local/serenceslab/maggie/
 #ROOT=/mnt/neurocube/local/serenceslab/maggie/
-rand_seed_jitter=232445
+rand_seed_jitter=634545
 
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-rot=45_cos
+rot=45_stop_early
 which_hyperpars=params1
-dataset_root=FiltIms11Cos_SF_0.02
+dataset_root=FiltIms11Cos_SF_0.08
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 #declare -a sf_vals=(0.14)
 #declare -a sf_vals=(0.01 0.02 0.04 0.08 0.14 0.25)
 
 # what steps to evaluate at? will find checkpoint closest to this.
-step_approx=400000
+step_approx=0
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}

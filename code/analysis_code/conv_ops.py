@@ -89,5 +89,63 @@ def max_pool(activ,pool_size):
           activ_pool[xx,yy,pp] = np.max(vals)
            
     return activ_pool
+  
+def max_pool_sd(activ,pool_size):
+    # pool over pixels
+    
+    new_size = np.int64((np.ceil(np.shape(activ)[0]/pool_size),np.ceil(np.shape(activ)[1]/pool_size), np.shape(activ)[2]))
+    
+    activ_pool = np.zeros(new_size)
+    sd_vals = np.zeros(new_size)
+    for pp in range(np.shape(activ)[2]):
+      xx=-1  
+      for ii in np.arange(pool_size,np.shape(activ)[0],pool_size):
+        xx=xx+1
+        yy=-1
+        for jj in np.arange(pool_size,np.shape(activ)[1],pool_size):
+          yy=yy+1
+          vals = activ[ii-pool_size:ii,jj-pool_size:jj,pp]
+           
+          activ_pool[xx,yy,pp] = np.max(vals)
+          sd_vals[xx,yy,pp] = np.std(vals)
+          
+    return activ_pool, sd_vals
+  
+def min_pool(activ,pool_size):
+    # pool over pixels
+    
+    new_size = np.int64((np.ceil(np.shape(activ)[0]/pool_size),np.ceil(np.shape(activ)[1]/pool_size), np.shape(activ)[2]))
+    
+    activ_pool = np.zeros(new_size)
+    for pp in range(np.shape(activ)[2]):
+      xx=-1  
+      for ii in np.arange(pool_size,np.shape(activ)[0],pool_size):
+        xx=xx+1
+        yy=-1
+        for jj in np.arange(pool_size,np.shape(activ)[1],pool_size):
+          yy=yy+1
+          vals = activ[ii-pool_size:ii,jj-pool_size:jj,pp]
+           
+          activ_pool[xx,yy,pp] = np.min(vals)
+           
+    return activ_pool
 
+def mean_pool(activ,pool_size):
+    # pool over pixels
+    
+    new_size = np.int64((np.ceil(np.shape(activ)[0]/pool_size),np.ceil(np.shape(activ)[1]/pool_size), np.shape(activ)[2]))
+    
+    activ_pool = np.zeros(new_size)
+    for pp in range(np.shape(activ)[2]):
+      xx=-1  
+      for ii in np.arange(pool_size,np.shape(activ)[0],pool_size):
+        xx=xx+1
+        yy=-1
+        for jj in np.arange(pool_size,np.shape(activ)[1],pool_size):
+          yy=yy+1
+          vals = activ[ii-pool_size:ii,jj-pool_size:jj,pp]
+           
+          activ_pool[xx,yy,pp] = np.mean(vals)
+           
+    return activ_pool
 

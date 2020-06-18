@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=bigmem_long
+#SBATCH --partition=general
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
@@ -16,9 +16,9 @@ ROOT=/cube/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-rot=0_stop_early
+rot=45_stop_early
 which_hyperpars=params1
-dataset_root=FiltImsCos
+dataset_root=FiltIms11Cos
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 declare -a sf_vals=(0.01 0.02 0.04 0.08 0.14 0.25)

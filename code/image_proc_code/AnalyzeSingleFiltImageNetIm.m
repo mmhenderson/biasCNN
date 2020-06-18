@@ -9,10 +9,10 @@ close all
 root = pwd;
 filesepinds = find(root==filesep);
 root = root(1:filesepinds(end-1));
-
-image_set = 'FiltIms9AllSFCos_rand1';
+% 
+% image_set = 'FiltIms11AllSFCos_rand1';
 %
-% image_set = 'FiltIms5Cos_SF_0.01_rand1';
+image_set = 'FiltIms11Cos_SF_0.01_rand1';
 
 
 image_path = fullfile(root, 'images','gratings',image_set);
@@ -22,13 +22,9 @@ if ~isfolder(save_path)
     mkdir(save_path)
 end
 
-plotFiltOut = 1;
 %%
-% 
-% # ITEM1
-% # ITEM2
-% 
-plotSF = 1;
+plotFiltOut = 1;
+plotSF = 0;
 plotOri = 1;
 plotImageOrig = 1;
 
@@ -38,15 +34,15 @@ true_orilist = 0:179;
 
 % Going to analyze one grating here - what are its SF and orient index?
 % truesf2do = [4];
-trueori2do = [60];
-ex2do=3;
+trueori2do = [51];
+ex2do=5;
 %% specify the spatial frequencies and orientations to filter at
 meas_sflist = round([0.0125    0.0228    0.0414    0.0754    0.1373    0.2500],2);
-sf2filter = meas_sflist([1:2]);
+sf2filter = meas_sflist([1:6]);
 nSF_filt = length(sf2filter);
 
-ori2filter = true_orilist([5:5:180]);
-% ori2filter = true_orilist([22,45,67,90,112,135,157,180]);
+% ori2filter = true_orilist([5:5:180]);
+ori2filter = true_orilist([0,22,45,67,90,112,135,157]+19);
 nOri_filt = length(ori2filter);
 
 %% more parameters for the images
@@ -170,7 +166,7 @@ params.wavelength_list = wavelist_bank; % these don't get used for anything
                     hold all;
                     imagesc(mag(:,:,filt_ff,filt_oo));
                     if filt_ff == 1
-                        title(sprintf('%.0f deg' ,orilist_out(filt_ff,filt_oo)));
+                        title(sprintf('%.0f deg\nmean=%.2f' ,orilist_out(filt_ff,filt_oo),mean(mean(mag(:,:,filt_ff,filt_oo)))));
                     end
                      if filt_oo == 1
                         ylabel(sprintf('%.2f cpp' ,sflist_out(filt_ff,filt_oo)));

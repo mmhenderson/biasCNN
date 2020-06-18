@@ -11,15 +11,16 @@ set -e
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
 ROOT=/cube/neurocube/local/serenceslab/maggie/
 #ROOT=/mnt/neurocube/local/serenceslab/maggie/
-rand_seed_jitter=745455
+rand_seed_jitter=734545
+
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-rot=0_stop_early
+rot=0_stop_early_init_ones
 which_hyperpars=params1
-dataset_root=FiltIms11Cos_SF_0.14
-which_model=vgg_16
+dataset_root=FiltIms14AllSFCos
+which_model=vgg_16_avgpool
 declare -a sets=(1 2 3 4)
 #declare -a sf_vals=(0.14)
 #declare -a sf_vals=(0.01 0.02 0.04 0.08 0.14 0.25)

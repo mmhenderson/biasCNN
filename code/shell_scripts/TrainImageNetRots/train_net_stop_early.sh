@@ -3,9 +3,12 @@
 # train VGG16 model on the desired dataset
 echo "starting script"
 
-which_model=vgg_16
+which_model=vgg_16_avgpool
 params=params1
-rot=0_stop_early_init_ones
+# extension the log gets saved with
+rot_save=0_stop_early_init_ones
+# extension of the dataset that gets used (really doesn't matter)
+dataset_rot=0
 from_scratch=1
 weight_init=ones
 
@@ -17,7 +20,7 @@ ROOT=/mnt/neurocube/local/serenceslab/maggie/
 slimpath=${ROOT}tensorflow/models/research/slim/
 # where am i loading tfrecord files from?
 dataset_path=${ROOT}biasCNN/datasets/ImageNet/ILSVRC2012/
-dataset_dir=${dataset_path}/tfrecord_rot_0/
+dataset_dir=${dataset_path}/tfrecord_rot_${dataset_rot}/
 # where am i saving log files to?
 log_path=${ROOT}biasCNN/logs/${which_model//_/}/ImageNet/
 
@@ -55,7 +58,7 @@ then
 	exit
 fi
 
-log_dir="${log_path}"'scratch_imagenet_rot_'"${rot}"'/'"${params}"
+log_dir="${log_path}"'scratch_imagenet_rot_'"${rot_save}"'/'"${params}"
 
 # check if this version of the model has been trained already, if it has, then make a brand new folder to restart it
 if [ -d ${log_dir} ] && [[ $from_scratch == 1 ]]

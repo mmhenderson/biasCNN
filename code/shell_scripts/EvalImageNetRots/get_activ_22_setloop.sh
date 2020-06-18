@@ -16,9 +16,9 @@ ROOT=/cube/neurocube/local/serenceslab/maggie/
 overwrite=0
 TEST=0
 
-rot=22_cos
+rot=22_square
 which_hyperpars=params1
-dataset_root=FiltIms2AllSFCos
+dataset_root=FiltIms14AllSFCos
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 #declare -a sf_vals=(0.14)

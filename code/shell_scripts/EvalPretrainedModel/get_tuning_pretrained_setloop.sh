@@ -11,12 +11,13 @@ set -e
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
 ROOT=/cube/neurocube/local/serenceslab/maggie/
 #ROOT=/mnt/neurocube/local/serenceslab/maggie/
+rand_seed_jitter=865767
 
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-dataset_root=FiltIms2AllSFCos
+dataset_root=FiltIms11Cos_SF_0.25
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 
@@ -47,7 +48,7 @@ model_short=${which_model//_/}
 nSamples=${#sets[@]}
 which_hyperpars=params1
 step_num=0
-python analyze_orient_tuning.py ${ROOT} ${model_short} ${training_str} ${dataset_root} ${nSamples} ${which_hyperpars} ${step_num}
+python analyze_orient_tuning_jitter.py ${ROOT} ${model_short} ${training_str} ${dataset_root} ${nSamples} ${which_hyperpars} ${step_num} ${rand_seed_jitter}
 
 echo "finished analyzing/fitting tuning curves!"
 
