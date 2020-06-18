@@ -2,8 +2,8 @@
 """
 Spyder Editor
 
-rotate images from the ILSVRC2012-CLS dataset by specified increments, so that 
-we can re-train a neural network with rotated images and see how cardinal biases change. 
+Rotate images from the ILSVRC2012-CLS dataset by specified increments,
+to use as a training set for CNN.
 
 MMH 10/29/2019
 
@@ -16,6 +16,7 @@ import glob
 from PIL import Image
 import shutil
 
+#%% Path information
 # find my root directory and define some paths here
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
 
@@ -26,6 +27,7 @@ image_folder = os.path.join(root, 'biasCNN','images','ImageNet','ILSVRC2012')
 synsets = glob.glob(os.path.join(image_folder, 'validation','n*'))
 synsets = [synsets[ss].split('/')[-1] for ss in range(np.size(synsets))]
 
+#%% Image information
 # final size the images get saved at
 final_size = [224, 224]
 
@@ -62,27 +64,17 @@ _B_MEAN = 104
 mask_to_add = np.concatenate((_R_MEAN*np.ones([224,224,1]), _G_MEAN*np.ones([224,224,1]),_B_MEAN*np.ones([224,224,1])), axis=2)
 mask_to_add = mask_to_add*(1-mask_image)
 
-# which rotations to do here?
+#%% which rotations to do here?
 rots = [0,22,45]
 
 n_synset_train = 1300
 n_synset_val = 50
 
-
+#%% loop over rotations - create the new images
 for rr in rots:
         
-    rot_folder_val = os.path.join(image_folder, 'validation_rot_%d'%rr)
-        
-    if not os.path.isdir(rot_folder_val):
-        os.mkdir(rot_folder_val)
-        
-    rot_folder_train = os.path.join(image_folder, 'train_rot_%d'%rr)
-        
-    if not os.path.isdir(rot_folder_train):
-        os.mkdir(rot_folder_train)
-        
+    # loop over synsets
     for ss in synsets:
-#    for ss in synsets[0:1]:
         
         #%% first do validation images
         
@@ -216,16 +208,4 @@ for rr in rots:
             image_final = Image.fromarray(image_rot_masked_adj.astype('uint8'))            
             image_final.save(os.path.join(rot_subfolder, image_name),format='JPEG')
             
-                        
-            #%% extra code for visualizing
-            
-            #            #%%
-#            plt.figure();plt.imshow(image_rot)
-#            plt.plot(crop_start[1],crop_start[0],'ro')           
-#            plt.plot(crop_stop[1],crop_start[0],'ro')
-#            plt.plot(crop_stop[1],crop_stop[0],'ro')
-#            plt.plot(crop_start[1],crop_stop[0],'ro')
-#            #%%
-#            plt.figure();plt.imshow(image_rot_cropped)
-#            
-#            
+   

@@ -13,8 +13,9 @@
 # limitations under the License.
 # ==============================================================================
 """Make the dataset (tfrecord) files for grating stimuli. 
-    This script will load gratings with no noise. These will be used for model TRAINING.
-    The training images are completely distinct - even the 0 noise condition has different randomized phase for training and testing sets.
+    This script will process orientation-filtered ImageNet ims. 
+    These will be used for model evaluation - estimating Fisher information 
+    and tuning properties.
 """
 
 from __future__ import absolute_import
@@ -23,14 +24,25 @@ from __future__ import print_function
 
 import math
 import os
-import random
+#import random
 import sys
 import numpy as np
 import shutil
-
 import tensorflow as tf
 
 from slim.datasets import dataset_utils
+
+# find my root directory and define some paths here
+root = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+slimpath = os.path.join(root, 'tensorflow/models/research/slim/')
+os.chdir(slimpath)
+
+
+nSets = 4
+dataset_root= 'FiltIms13Cos'
+# information about the stimuli. 
+sf_vals = np.logspace(np.log10(0.0125),np.log10(0.250),6)
+nSF = np.size(sf_vals)
 
 #%% set up some useful constants and parameters
 
@@ -43,27 +55,18 @@ _RANDOM_SEED = 0
 # The number of shards per dataset split.
 _NUM_SHARDS = 10
 
-dataset_dir = '/usr/local/serenceslab/maggie/biasCNN/datasets/oriTrn9/'
-image_dir = '/usr/local/serenceslab/maggie/biasCNN/images/grating_ims_9/'
-  
-dataset_name = 'oriTrn9'
-# information about the stimuli.
-sf_vals = [2.20]
-stim_types = ['Gaussian']
+
 nOri=180
-nSF=1
-nPhase=12
-nType=1
+nEx=48;
 
 # list all the image features in a big matrix, where every row is unique.
-typelist = np.expand_dims(np.repeat(np.arange(nType), nPhase*nOri*nSF), 1)
-orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nSF*nPhase), [1,nType]))
-sflist=np.transpose(np.tile(np.repeat(np.arange(nSF),nPhase),[1,nOri*nType]))
-phaselist=np.transpose(np.tile(np.arange(nPhase),[1,nOri*nSF*nType]))
+exlist = np.transpose(np.tile(np.repeat(np.arange(nEx), nOri), [1,1]))
+orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),1), [1,nEx]))
 
-featureMat = np.concatenate((typelist,orilist,sflist,phaselist),axis=1)
+featureMat = np.concatenate((exlist,orilist),axis=1)
 
 assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
+
 #%%
 
 class ImageReader(object):
@@ -118,23 +121,24 @@ def _get_filenames_and_classes(image_dir):
      
   all_labels = []
   all_filenames = []
+#  for nn in np.arange(nNoiseLevels):
   for ii in np.arange(0,np.size(model_labels)):
-    subfolder = "SF_%.2f_training" % (sf_vals[int(sflist[ii])])
-    filename = "Gaussian_fixedphase%d_%ddeg.png" % (phaselist[ii]+1, orilist[ii])
+    subfolder = "AllIms" 
+    filename = "FiltImage_ex%d_%ddeg.png" % (exlist[ii]+1, orilist[ii])
     full_fn = os.path.join(image_dir, subfolder, filename)
 
     all_labels.append(model_labels[ii])
     all_filenames.append(full_fn)
-  
+      
   return all_filenames, all_labels, class_names
 
-def _get_dataset_filename(dataset_dir, split_name, num_shards, shard_id):
+def _get_dataset_filename(dataset_name, dataset_dir, split_name, num_shards, shard_id):
   output_filename = '%s_%s_%05d-of-%05d.tfrecord' % (
       dataset_name, split_name, shard_id, num_shards)
   return os.path.join(dataset_dir, output_filename)
 
 
-def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shards):
+def _convert_dataset(dataset_name, split_name, filenames, class_labels, dataset_dir, num_shards):
   """Converts the given filenames to a TFRecord dataset.
 
   Args:
@@ -147,7 +151,7 @@ def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shard
   
   print(split_name)
   
-  assert (split_name in ['train', 'validation'])
+  assert (split_name in ['train', 'validation'] or 'batch' in split_name) 
 
   num_per_shard = int(math.ceil(len(filenames) / float(num_shards)))
 
@@ -158,7 +162,7 @@ def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shard
 
       for shard_id in range(num_shards):
         output_filename = _get_dataset_filename(
-            dataset_dir, split_name, num_shards, shard_id)
+            dataset_name, dataset_dir, split_name, num_shards, shard_id)
 
         with tf.python_io.TFRecordWriter(output_filename) as tfrecord_writer:
           start_ndx = shard_id * num_per_shard
@@ -187,75 +191,73 @@ def _convert_dataset(split_name, filenames, class_labels, dataset_dir, num_shard
   sys.stdout.flush()
 
 
-
 def main(argv):
   """Runs the download and conversion operation.
 
   Args:
     dataset_dir: The dataset directory where the dataset is stored.
   """
-  
-  
-  # if the folder already exists, we'll automatically delete it and make it again.
-  if tf.gfile.Exists(dataset_dir):
-    print('deleting')
-#        tf.gfile.DeleteRecursively(FLAGS.log_dir)
-    shutil.rmtree(dataset_dir, ignore_errors = True)
-    tf.gfile.MkDir(dataset_dir)
-  else:
-    tf.gfile.MkDir(dataset_dir)
 
- 
-#%% get the information for ALL my images (all categories, exemplars, rotations)
+#  for ss in np.arange(2,nSets):
+  for ss in range(nSets):
     
-  all_filenames, all_labels, class_names = _get_filenames_and_classes(image_dir)
- 
-# save out this list just as a double check that this original order is correct
-  np.save(dataset_dir + 'all_filenames.npy', all_filenames)
-  np.save(dataset_dir + 'all_labels.npy', all_labels)
-  np.save(dataset_dir + 'featureMat.npy', featureMat)
+    for sf in range(nSF):
+      
+      dataset_name = '%s_SF_%.2f_rand%d'%(dataset_root,sf_vals[sf],ss+1)
+     
+      dataset_dir = os.path.join(root, 'biasCNN/datasets/gratings/',dataset_name)
+      image_dir = os.path.join(root, 'biasCNN/images/gratings/',dataset_name)
   
-#%% Define my training and validation sets. 
-# Random 10 percent is validation
-
-  random.seed(_RANDOM_SEED)   
-  
-  fullseq = np.arange(0,np.size(all_labels))
-  random.shuffle(fullseq)
-  
-  num_val = int(np.ceil(np.size(all_labels)*_PCT_VAL))
-  
-  valinds_num = fullseq[:num_val]
-  trninds_num = fullseq[num_val:]
-  
-  training_filenames = []
-  validation_filenames = []
-  training_labels = []
-  validation_labels=[]
+      # if the folder already exists, we'll automatically delete it and make it again.
+      if tf.gfile.Exists(dataset_dir):
+        print('deleting')
+    #        tf.gfile.DeleteRecursively(FLAGS.log_dir)
+        shutil.rmtree(dataset_dir, ignore_errors = True)
+        tf.gfile.MakeDirs(dataset_dir)
+      else:
+        tf.gfile.MakeDirs(dataset_dir)
     
-  for ii in trninds_num:
-      training_filenames.append(all_filenames[ii])
-      training_labels.append(all_labels[ii])
+     
+    #%% get the information for ALL my images (all categories, exemplars, rotations)
+        
+      all_filenames, all_labels, class_names = _get_filenames_and_classes(image_dir)
+     
+    # save out this list just as a double check that this original order is correct
+      np.save(os.path.join(dataset_dir, 'all_filenames.npy'), all_filenames)
+      np.save(os.path.join(dataset_dir, 'all_labels.npy'), all_labels)
+      np.save(os.path.join(dataset_dir,'featureMat.npy'), featureMat)
     
-  for ii in valinds_num:
-      validation_filenames.append(all_filenames[ii])
-      validation_labels.append(all_labels[ii])
-           
- 
+      # Save the test set as a couple "batches" of images. 
+      # Doing this manually makes it easy to load them and get their weights later on. 
+      n_total_val = np.size(all_labels)
+      max_per_batch = int(90);
+      num_batches = np.ceil(n_total_val/max_per_batch)
+      
+      for bb in np.arange(0,num_batches):
+         
+          bb=int(bb)
+          name = 'batch' + str(bb)
+          
+          if (bb+1)*max_per_batch > np.size(all_filenames):
+              batch_filenames = all_filenames[bb*max_per_batch:-1]
+              batch_labels = all_labels[bb*max_per_batch:-1]
+          else:     
+              batch_filenames =all_filenames[bb*max_per_batch:(bb+1)*max_per_batch]
+              batch_labels = all_labels[bb*max_per_batch:(bb+1)*max_per_batch]
     
-  # First, convert the training and validation sets. these will be automatically
-  # divided into num_shards (5 sets), which speeds up the training procedure.
-  _convert_dataset('train', training_filenames, training_labels, dataset_dir,num_shards=_NUM_SHARDS)
-  _convert_dataset('validation', validation_filenames, validation_labels, dataset_dir,num_shards=_NUM_SHARDS)
+              assert np.size(batch_labels)==max_per_batch
+    
+          _convert_dataset(dataset_name, name, batch_filenames, batch_labels, dataset_dir,num_shards=1)
+      
+          np.save(os.path.join(dataset_dir, name + '_filenames.npy'), batch_filenames)
+          np.save(os.path.join(dataset_dir, name + '_labels.npy'), batch_labels)
+    
+      # Finally, write the labels file:
+      labels_to_class_names = dict(zip(range(len(class_names)), class_names))
+      dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
+    
+      print('\nFinished converting the grating dataset, with orientation labels!')
 
-
-  # Finally, write the labels file:
-  labels_to_class_names = dict(zip(range(len(class_names)), class_names))
-  dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
-
-#  _clean_up_temporary_files(dataset_dir)
-  print('\nFinished converting the grating dataset, with orientation labels!')
-
-
+    
 if __name__ == "__main__":
   tf.app.run()
