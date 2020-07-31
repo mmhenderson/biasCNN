@@ -86,7 +86,7 @@ def get_fisher_info(activ_path,save_path,model_name,dataset_name,num_batches):
           
           for dd in range(np.size(delta_vals)):
               
-            ori_axis, fi, d, v = classifiers.get_fisher_info(allw[inds,:],orilist_adj[inds],delta=delta_vals[dd])
+            ori_axis, fi, d, v = classifiers.get_fisher_info_poisson(allw[inds,:],orilist_adj[inds],delta=delta_vals[dd])
             if nOri==360:
               fi = np.reshape(fi,[2,180])
               fi = np.mean(fi,axis=0)
@@ -106,16 +106,16 @@ def get_fisher_info(activ_path,save_path,model_name,dataset_name,num_batches):
       else:
         print('skipping %s, no units left\n'%layers2load[ll])
   #%% save everything into one big file
-  save_name =os.path.join(save_path,'Fisher_info_all_units.npy')
+  save_name =os.path.join(save_path,'Fisher_info_poisson_all_units.npy')
   print('saving to %s\n'%save_name)
   np.save(save_name,fisher_info)
   
   # also saving these intermediate values (numerator and denominator of FI expressions)
-  save_name =os.path.join(save_path,'Deriv_sq_all_units.npy')
+  save_name =os.path.join(save_path,'Deriv_sq_poisson_all_units.npy')
   print('saving to %s\n'%save_name)
   np.save(save_name,deriv2)
   
-  save_name =os.path.join(save_path,'Pooled_var_all_units.npy')
+  save_name =os.path.join(save_path,'Pooled_var_poisson_all_units.npy')
   print('saving to %s\n'%save_name)
   np.save(save_name,varpooled)
   

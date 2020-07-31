@@ -27,10 +27,8 @@ slim = tf.contrib.slim
 model='vgg16';  
 root = '/usr/local/serenceslab/maggie/biasCNN/';
 param_str='params1'
-#training_str='pretrained'
-#training_str = 'scratch_imagenet_rot_45_cos'
-training_str = 'scratch_imagenet_rot_45_stop_early'
-ckpt_num_approx='0'
+training_str = 'scratch_imagenet_rot_45_cos'
+ckpt_num_approx='400000'
 
 #%%
 def get_weights_trained_vgg16(training_str,param_str,ckpt_num_approx):

@@ -4,11 +4,14 @@
 Created on Mon Oct  8 15:49:48 2018
 
 @author: mmhender
+
+Various functions to clasiffy stimulus or calculate information content about 
+stimulus from neural activation patterns.
+
 """
 
 import numpy as np
 import scipy
-import sklearn
 
 def ideal_observer_gaussian(trndat, tstdat, labels_train):
     
@@ -180,6 +183,11 @@ def get_fisher_info(data, ori_labs, delta=1):
     steps_left = np.int8(np.floor(delta/2))
     steps_right = np.int8(np.ceil(delta/2))
     
+    # if data values are very big, adjust so they don't give infinity values.
+    if np.any(np.isinf(data**2)):
+      print('found large values in data, dividing all data values by median')
+      data = data/np.percentile(data,50)
+      
     for ii in np.arange(0,np.size(ori_axis)):
         
         # want to get the slope at this point. Take data from two orientations that are delta deg apart
@@ -203,8 +211,12 @@ def get_fisher_info(data, ori_labs, delta=1):
         pooled_var[pooled_var==0] = 10**(-12)
         varpooled[ii] = np.sum(pooled_var)
         
+        # for Gaussian distributed noise:
         # J(theta) = f'(theta).^2 / variance(f(theta));
         diff2 = np.power(np.mean(dat1,0)-np.mean(dat2,0),2)
+        if np.any(np.isinf(diff2)):
+          print('warning: some squared slope vals are infinite')
+          
         deriv2[ii] = np.sum(diff2)
         
         fi_allneurons = diff2/pooled_var
@@ -215,6 +227,144 @@ def get_fisher_info(data, ori_labs, delta=1):
     if np.mod(delta,2):
       ori_axis = np.mod(ori_axis+0.5, max_ori)
     return ori_axis, fi, deriv2, varpooled
+
+def get_fisher_info_poisson(data, ori_labs, delta=1):
+    """ calculate the fisher information across orientation space (estimate the 
+    slope of each unit's tuning at each point, square, divide by variance, and sum)
+    """
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    fi = np.zeros([np.size(ori_axis),1])
+    deriv2 = np.zeros([np.size(ori_axis),1])
+    f_theta = np.zeros([np.size(ori_axis),1])
+    
+    max_ori = np.max(ori_axis)+1
+    # steps left and right should sum to delta
+    steps_left = np.int8(np.floor(delta/2))
+    steps_right = np.int8(np.ceil(delta/2))
+    
+    # if data values are very big, adjust so they don't give infinity values.
+    if np.any(np.isinf(data**2)):
+      print('found large values in data, dividing all data values by median')
+      data = data/np.percentile(data,50)
+      
+    for ii in np.arange(0,np.size(ori_axis)):
+        
+        # want to get the slope at this point. Take data from two orientations that are delta deg apart
+        inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
+        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
+        
+        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+        
+        dat1 = data[inds_left,:]
+        dat2 = data[inds_right,:]
+ 
+        # for Poisson distributed noise:
+        # J(theta) = f'(theta).^2 / f(theta);
+        # get f_theta) based on the mean activation for both orients
+        f = np.mean(np.concatenate((dat1,dat2),axis=0),axis=0)
+        # if any values are zero for f - replace them with very small number here.
+        f[f==0] = 10**(-12)
+        f_theta[ii] = np.sum(f)
+        
+        diff2 = np.power(np.mean(dat1,0)-np.mean(dat2,0),2)
+        if np.any(np.isinf(diff2)):
+          print('warning: some squared slope vals are infinite')
+          
+        deriv2[ii] = np.sum(diff2)
+        
+        fi_allneurons = diff2/f
+        
+        fi[ii] = np.sum(fi_allneurons)
+
+    # to be perfectly correct -when delta is odd, then the center of each comparison is technically 0.5 degrees off of integer orientation.
+    if np.mod(delta,2):
+      ori_axis = np.mod(ori_axis+0.5, max_ori)
+    return ori_axis, fi, deriv2, f_theta
+  
+def get_fisher_info_covariance(data, ori_labs, delta=1, units_per_iter=100, niter=10000):
+    """ calculate the fisher information across orientation space (estimate the 
+    slope of each unit's tuning at each point, multiply by covariance matrix)
+    """
+    
+    nunits = np.shape(data)[1]
+    if nunits<=units_per_iter:
+      # small number of units, able to do one pass over all data
+      niter=1
+      inds2samp_all = np.expand_dims(np.arange(0,nunits,1),axis=0)
+    else:
+      # going to iterate over random subsets of the data, because too 
+      # many units to get full covariance matrix at once
+      inds2samp_all = [np.random.choice(nunits,units_per_iter,replace=False) for ii in range(niter)] 
+      
+    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
+    assert np.all(np.expand_dims(ia,1)==ori_labs)
+    fi = np.zeros([np.size(ori_axis),niter])
+    fi_std = np.zeros([np.size(ori_axis),niter])
+    
+    max_ori = np.max(ori_axis)+1
+    # steps left and right should sum to delta
+    steps_left = np.int8(np.floor(delta/2))
+    steps_right = np.int8(np.ceil(delta/2))
+    
+    # if data values are very big, adjust so they don't give infinity values.
+    if np.any(np.isinf(data**2)):
+      print('found large values in data, dividing all data values by median')
+      data = data/np.percentile(data,50)
+    
+    for xx in range(niter):
+      
+      inds2samp = inds2samp_all[xx]
+      dat_samp = data[:,inds2samp]
+      
+      for ii in np.arange(0,np.size(ori_axis)):
+          
+          # want to get the slope at this point. Take data from two orientations that are delta deg apart
+          inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
+          inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
+          
+          assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
+          
+          dat1 = dat_samp[inds_left,:]
+          dat2 = dat_samp[inds_right,:]
+            
+          # ignore any units with no response variance across these two orients - they won't contribute to FI (add zero)
+          constant_inds = np.all(np.equal(np.concatenate((dat1,dat2),axis=0), np.tile(np.expand_dims(dat1[0,:], axis=0), [np.shape(dat1)[0]*2, 1])),axis=0)  
+#          print('removing %d zero units at orient %d, iter %d\n'%(np.sum(constant_inds),ii,xx))
+          dat1 = dat1[:,~constant_inds]
+          dat2 = dat2[:,~constant_inds]
+          
+          covar = np.cov(np.concatenate((dat1,dat2),axis=0),rowvar=False)
+          
+          deriv = np.mean(dat1,0)-np.mean(dat2,0)/delta
+          if np.any(np.isinf(deriv)):
+            print('warning: some slope vals are infinite')
+                            
+          # FI = f'(theta)^T * covariance.^(-1) * f'(theta)
+          deriv = np.expand_dims(deriv,1)
+          c_inv = np.linalg.pinv(covar)
+          fi_allneurons = np.transpose(deriv) @ c_inv @ deriv
+          
+          fi[ii,xx] = fi_allneurons[0][0]
+
+    # remove any iterations that failed
+    if np.any(np.isnan(fi)):
+        iter_has_nans = np.any(np.isnan(fi),axis=0)
+        print('warning: %d total nan elements found, in %d/%d iterations'%(np.sum(np.isnan(fi)), np.sum(iter_has_nans),niter))
+        # if there are any good iterations, keep those only.
+        if np.sum(iter_has_nans)<niter:
+            print('ignoring results for %d/%d iterations'%(np.sum(iter_has_nans),niter))
+            fi = fi[:,~iter_has_nans]
+        
+    # average the results over sampling iterations
+    fi_std = np.std(fi,axis=1)
+    fi = np.mean(fi,axis=1)
+        
+    # to be perfectly correct -when delta is odd, then the center of each comparison is technically 0.5 degrees off of integer orientation.
+    if np.mod(delta,2):
+      ori_axis = np.mod(ori_axis+0.5, max_ori)
+      
+    return ori_axis, fi, fi_std
   
 def get_discrim_func(data, ori_labs, step_size=1):
     
