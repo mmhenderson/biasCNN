@@ -11,162 +11,6 @@ stimulus from neural activation patterns.
 """
 
 import numpy as np
-import scipy
-
-def ideal_observer_gaussian(trndat, tstdat, labels_train):
-    
-    """Compute the likelihood function in stimulus space for each trial in 
-    tstdat, using data in trndat and labels to train the model.
-
-    Args:
-      trndat: [nTrialsTrn x nWeights] (voxels, spike rates, neural network weights)
-      tstdat: [nTrialsTst x nWeights] 
-      labels_train: [nTrialsTrn x 1] (labels for the TRAINING data)
-
-    Returns:
-       likelihoods: [nTrialsTst x nLabels] (likelihood function, evaluated at each unique location in labels vector)
-       labels_predicted: [nTrialsTst x 1] the most likely label for each trial in test.
-    """
- 
-    
-    conds=np.unique(labels_train)
-    nconds=len(conds)
-    npred=np.shape(trndat)[1];
-    
-    ntrials_tst = np.shape(tstdat)[0]
-   
-    likelihoods=np.zeros([ntrials_tst,nconds])
-    log_likelihoods=np.zeros([ntrials_tst,nconds])
-
-    mus=np.zeros([nconds,npred])
-    sigmas=np.zeros([nconds,npred])
-   
-    for cc in range(nconds):
-
-        mus[cc,:] = np.mean(trndat[np.where(labels_train==conds[cc])[0], :], axis=0)
-        sigmas[cc,:] = np.std(trndat[np.where(labels_train==conds[cc])[0], :], axis=0)
-          
-    lik_tmp = np.zeros([ntrials_tst, nconds, npred])
-    ll_tmp = np.zeros([ntrials_tst, nconds, npred])
-    
-    for pp in range(npred):
-          
-        # compute likelihood of this cond for each test data pattern 
-        lik = scipy.stats.norm.pdf(tstdat[:,pp][:,None],mus[:,pp],sigmas[:,pp])    
-        
-        lik_tmp[:,:,pp] = lik
-        
-        ll_tmp[:,:,pp] = np.log(lik)
-
-    likelihoods = np.prod(lik_tmp,axis=2)
-    log_likelihoods = np.sum(ll_tmp, axis=2)
-            
-        
-#    vals1 = np.argmax(log_likelihoods, axis=1)
-#    vals2 = np.argmax(likelihoods, axis=1)
-#    print(len(np.where(vals1!=vals2)))
-#    assert np.array_equal(np.argmax(log_likelihoods, axis=1), np.argmax(likelihoods, axis=1))
-    column_inds = np.argmax(log_likelihoods, axis=1)
-    labels_predicted = np.zeros(np.shape(column_inds))
-    
-    # make sure these map back into native label space
-    un = np.unique(column_inds)
-    for uu in range(len(un)):
-       
-        labels_predicted[np.where(column_inds==un[uu])] = conds[un[uu]]
-
-    return likelihoods, log_likelihoods, labels_predicted
-    
-def class_norm_euc_dist(trndat, tstdat, labels_train):
-    
-    """Classify the data in trndat according to labels in labels_train, using
-    the normalized Euclidean distance.
-
-    Args:
-      trndat: [nTrialsTrn x nWeights] (voxels, spike rates, neural network weights)
-      tstdat: [nTrialsTst x nWeights] 
-      labels_train: [nTrialsTrn x 1] (labels for the TRAINING data)
-
-    Returns:
-       normEucDist: [nTrialsTst x nLabels] (distance to each label category)
-       labels_predicted: [nTrialsTst x 1] the most likely label for each trial in test.
-    """
-
-    conds=np.unique(labels_train)
-    nconds=len(conds)
-    npred=np.shape(trndat)[1];
-    
-    # first, go through each condition, get its mean, variance and number of
-    # samples in training set
-    meanrespeach = np.zeros([nconds,npred])
-    vareach = np.zeros([nconds,npred])
-    neach = np.zeros([nconds,1])
-    for cc in range(nconds):
-        # find the trials of interest in training set    
-        meanrespeach[cc,:] = np.mean(trndat[np.where(labels_train==conds[cc])[0],:],axis=0)
-        vareach[cc,:] = np.var(trndat[np.where(labels_train==conds[cc])[0],:],axis=0)
-        neach[cc] = len(np.where(labels_train==conds[cc])[0])
-        
-    # use this to get the pooled variance for each voxel
-
-
-def get_norm_euc_dist(dat1,dat2):
-    
-    """Calculate the normalized euclidean distance (d') between the means of
-    two clouds of data points.
-
-    Args:
-      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
-      dat2: [nPts2 x nWeights] 
-     
-    Returns:
-       normEucDist (single value)
-    """
-
-    assert type(dat1)==np.ndarray
-    assert type(dat2)==np.ndarray
-    assert np.shape(dat1)[1]==np.shape(dat2)[1]
-    
-    npts1 = np.shape(dat1)[0]
-    npts2 = np.shape(dat2)[0]
-
-    var1 = np.var(dat1,0)
-    var2 = np.var(dat2,0)
-    
-    pooled_var = (var1*(npts1-1)+var2*(npts2-1))/(npts1-1+npts2-1)
-    
-    mean1 = np.mean(dat1,0)
-    mean2 = np.mean(dat2,0)
-    
-    sq = np.power(mean1-mean2,2)/pooled_var
-    normEucDist = np.sqrt(np.sum(sq))
-
-    return normEucDist
-
-def get_euc_dist(dat1,dat2):
-    
-    """Calculate the euclidean distance (d') between the means of
-    two clouds of data points.
-
-    Args:
-      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
-      dat2: [nPts2 x nWeights] 
-     
-    Returns:
-       eucDist (single value)
-    """
-
-    assert type(dat1)==np.ndarray
-    assert type(dat2)==np.ndarray
-    assert np.shape(dat1)[1]==np.shape(dat2)[1]
-    
-    mean1 = np.mean(dat1,0)
-    mean2 = np.mean(dat2,0)
-    
-    sq = np.power(mean1-mean2,2)
-    eucDist = np.sqrt(np.sum(sq))
-
-    return eucDist
   
 def get_fisher_info(data, ori_labs, delta=1):
     """ calculate the fisher information across orientation space (estimate the 
@@ -228,251 +72,61 @@ def get_fisher_info(data, ori_labs, delta=1):
       ori_axis = np.mod(ori_axis+0.5, max_ori)
     return ori_axis, fi, deriv2, varpooled
 
-def get_fisher_info_poisson(data, ori_labs, delta=1):
-    """ calculate the fisher information across orientation space (estimate the 
-    slope of each unit's tuning at each point, square, divide by variance, and sum)
+
+def get_norm_euc_dist(dat1,dat2):
+    
+    """Calculate the normalized euclidean distance (d') between the means of
+    two clouds of data points.
+
+    Args:
+      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
+      dat2: [nPts2 x nWeights] 
+     
+    Returns:
+       normEucDist (single value)
     """
-    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==ori_labs)
-    fi = np.zeros([np.size(ori_axis),1])
-    deriv2 = np.zeros([np.size(ori_axis),1])
-    f_theta = np.zeros([np.size(ori_axis),1])
-    
-    max_ori = np.max(ori_axis)+1
-    # steps left and right should sum to delta
-    steps_left = np.int8(np.floor(delta/2))
-    steps_right = np.int8(np.ceil(delta/2))
-    
-    # if data values are very big, adjust so they don't give infinity values.
-    if np.any(np.isinf(data**2)):
-      print('found large values in data, dividing all data values by median')
-      data = data/np.percentile(data,50)
-      
-    for ii in np.arange(0,np.size(ori_axis)):
-        
-        # want to get the slope at this point. Take data from two orientations that are delta deg apart
-        inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
-        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
-        
-        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
-        
-        dat1 = data[inds_left,:]
-        dat2 = data[inds_right,:]
- 
-        # for Poisson distributed noise:
-        # J(theta) = f'(theta).^2 / f(theta);
-        # get f_theta) based on the mean activation for both orients
-        f = np.mean(np.concatenate((dat1,dat2),axis=0),axis=0)
-        # if any values are zero for f - replace them with very small number here.
-        f[f==0] = 10**(-12)
-        f_theta[ii] = np.sum(f)
-        
-        diff2 = np.power(np.mean(dat1,0)-np.mean(dat2,0),2)
-        if np.any(np.isinf(diff2)):
-          print('warning: some squared slope vals are infinite')
-          
-        deriv2[ii] = np.sum(diff2)
-        
-        fi_allneurons = diff2/f
-        
-        fi[ii] = np.sum(fi_allneurons)
 
-    # to be perfectly correct -when delta is odd, then the center of each comparison is technically 0.5 degrees off of integer orientation.
-    if np.mod(delta,2):
-      ori_axis = np.mod(ori_axis+0.5, max_ori)
-    return ori_axis, fi, deriv2, f_theta
-  
-def get_fisher_info_covariance(data, ori_labs, delta=1, units_per_iter=100, niter=10000):
-    """ calculate the fisher information across orientation space (estimate the 
-    slope of each unit's tuning at each point, multiply by covariance matrix)
+    assert type(dat1)==np.ndarray
+    assert type(dat2)==np.ndarray
+    assert np.shape(dat1)[1]==np.shape(dat2)[1]
+    
+    npts1 = np.shape(dat1)[0]
+    npts2 = np.shape(dat2)[0]
+
+    var1 = np.var(dat1,0)
+    var2 = np.var(dat2,0)
+    
+    pooled_var = (var1*(npts1-1)+var2*(npts2-1))/(npts1-1+npts2-1)
+    
+    mean1 = np.mean(dat1,0)
+    mean2 = np.mean(dat2,0)
+    
+    sq = np.power(mean1-mean2,2)/pooled_var
+    normEucDist = np.sqrt(np.sum(sq))
+
+    return normEucDist
+
+def get_euc_dist(dat1,dat2):
+    
+    """Calculate the euclidean distance (d') between the means of
+    two clouds of data points.
+
+    Args:
+      dat1: [nPts1 x nWeights] (voxels, spike rates, neural network weights)
+      dat2: [nPts2 x nWeights] 
+     
+    Returns:
+       eucDist (single value)
     """
-    
-    nunits = np.shape(data)[1]
-    if nunits<=units_per_iter:
-      # small number of units, able to do one pass over all data
-      niter=1
-      inds2samp_all = np.expand_dims(np.arange(0,nunits,1),axis=0)
-    else:
-      # going to iterate over random subsets of the data, because too 
-      # many units to get full covariance matrix at once
-      inds2samp_all = [np.random.choice(nunits,units_per_iter,replace=False) for ii in range(niter)] 
-      
-    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==ori_labs)
-    fi = np.zeros([np.size(ori_axis),niter])
-    fi_std = np.zeros([np.size(ori_axis),niter])
-    
-    max_ori = np.max(ori_axis)+1
-    # steps left and right should sum to delta
-    steps_left = np.int8(np.floor(delta/2))
-    steps_right = np.int8(np.ceil(delta/2))
-    
-    # if data values are very big, adjust so they don't give infinity values.
-    if np.any(np.isinf(data**2)):
-      print('found large values in data, dividing all data values by median')
-      data = data/np.percentile(data,50)
-    
-    for xx in range(niter):
-      
-      inds2samp = inds2samp_all[xx]
-      dat_samp = data[:,inds2samp]
-      
-      for ii in np.arange(0,np.size(ori_axis)):
-          
-          # want to get the slope at this point. Take data from two orientations that are delta deg apart
-          inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
-          inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
-          
-          assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
-          
-          dat1 = dat_samp[inds_left,:]
-          dat2 = dat_samp[inds_right,:]
-            
-          # ignore any units with no response variance across these two orients - they won't contribute to FI (add zero)
-          constant_inds = np.all(np.equal(np.concatenate((dat1,dat2),axis=0), np.tile(np.expand_dims(dat1[0,:], axis=0), [np.shape(dat1)[0]*2, 1])),axis=0)  
-#          print('removing %d zero units at orient %d, iter %d\n'%(np.sum(constant_inds),ii,xx))
-          dat1 = dat1[:,~constant_inds]
-          dat2 = dat2[:,~constant_inds]
-          
-          covar = np.cov(np.concatenate((dat1,dat2),axis=0),rowvar=False)
-          
-          deriv = np.mean(dat1,0)-np.mean(dat2,0)/delta
-          if np.any(np.isinf(deriv)):
-            print('warning: some slope vals are infinite')
-                            
-          # FI = f'(theta)^T * covariance.^(-1) * f'(theta)
-          deriv = np.expand_dims(deriv,1)
-          c_inv = np.linalg.pinv(covar)
-          fi_allneurons = np.transpose(deriv) @ c_inv @ deriv
-          
-          fi[ii,xx] = fi_allneurons[0][0]
 
-    # remove any iterations that failed
-    if np.any(np.isnan(fi)):
-        iter_has_nans = np.any(np.isnan(fi),axis=0)
-        print('warning: %d total nan elements found, in %d/%d iterations'%(np.sum(np.isnan(fi)), np.sum(iter_has_nans),niter))
-        # if there are any good iterations, keep those only.
-        if np.sum(iter_has_nans)<niter:
-            print('ignoring results for %d/%d iterations'%(np.sum(iter_has_nans),niter))
-            fi = fi[:,~iter_has_nans]
-        
-    # average the results over sampling iterations
-    fi_std = np.std(fi,axis=1)
-    fi = np.mean(fi,axis=1)
-        
-    # to be perfectly correct -when delta is odd, then the center of each comparison is technically 0.5 degrees off of integer orientation.
-    if np.mod(delta,2):
-      ori_axis = np.mod(ori_axis+0.5, max_ori)
-      
-    return ori_axis, fi, fi_std
-  
-def get_discrim_func(data, ori_labs, step_size=1):
+    assert type(dat1)==np.ndarray
+    assert type(dat2)==np.ndarray
+    assert np.shape(dat1)[1]==np.shape(dat2)[1]
     
-    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
-    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
-    """
+    mean1 = np.mean(dat1,0)
+    mean2 = np.mean(dat2,0)
     
-    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==ori_labs)
-    disc = np.zeros([np.size(ori_axis),1])
-    max_ori = np.max(ori_axis)+1
-    
-    steps_left = np.int8(np.floor(step_size/2))
-    steps_right = np.int8(np.ceil(step_size/2))
-    
-    
-    for ii in np.arange(0,np.size(ori_axis)):
-        
-        # find gratings at the orientations of interest
-        inds_left = np.where(ori_labs==np.mod(ori_axis[ii]-steps_left, max_ori))[0]
-        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+steps_right, max_ori))[0]
-        
-        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
-        
-        if np.size(inds_left)==1:
-          dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
-        else:
-          dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
+    sq = np.power(mean1-mean2,2)
+    eucDist = np.sqrt(np.sum(sq))
 
-        disc[ii] = dist
-
-    ori_axis = np.mod(ori_axis+0.5, max_ori)
-    return ori_axis, disc
- 
-def get_discrim_func_binned(data, ori_labs, bin_size=5):
-    
-    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
-    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
-    """
-    
-    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==ori_labs)
-    max_ori = np.max(ori_axis)+1      
-    assert(np.mod(max_ori,bin_size)==0)
-    n_bins = np.int64(np.size(ori_axis)/bin_size)
-    
-    # shift over so that bins are centered on cardinals
-#    ori_shifted = ori_axis
-    ori_shifted = np.mod(ori_axis-np.floor(bin_size/2), max_ori)
-    ori_bins = np.reshape(ori_shifted, [bin_size,n_bins],order='F')
-   
-    disc = np.zeros([np.size(ori_axis),1])
-    
-    # this is still the same orientation axis as the non-binned version, we'll just put in duplicate values because the bins are non-overlapping.
-    ori_axis = np.mod(ori_axis+0.5, max_ori)
-    
-    for bb in range(n_bins):
-      
-      # find gratings at the orientations of interest
-      inds_left = np.where(np.isin(ori_labs, ori_bins[:,bb]))[0]
-      
-      if bb<n_bins-1:
-        inds_right = np.where(np.isin(ori_labs, ori_bins[:,bb+1]))[0]
-      else:
-        inds_right = np.where(np.isin(ori_labs, ori_bins[:,0]))[0]
-      assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
-      
-      if np.size(inds_left)==1:
-          dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
-      else:
-          dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
-
-      # this same value will go into the array in multiple positions - there are in total bin_size positions to place it in. 
-      center_ori = ori_bins[bin_size-1,bb]+0.5
-      ori_to_use = np.mod(np.arange(center_ori - np.floor(bin_size/2), center_ori+np.ceil(bin_size/2), 1), max_ori)
-      inds_real = np.where(np.isin(ori_axis, ori_to_use))
-      
-      disc[inds_real] = dist        
-   
-   
-    return ori_axis, disc
-  
-  
-def get_discrim_func_not_normalized(data, ori_labs):
-    
-    """ Get the discriminability between neighboring orientation bins, as a function of orientation.
-    Assume that ori_labs spans a circular space, where the max and the min value are 1 deg apart.
-    """
-    
-    ori_axis,ia = np.unique(ori_labs, return_inverse=True)
-    assert np.all(np.expand_dims(ia,1)==ori_labs)
-    disc = np.zeros([np.size(ori_axis),1])
-    max_ori = np.max(ori_axis)+1
-    
-    for ii in np.arange(0,np.size(ori_axis)):
-        
-        # find gratings at the orientations of interest
-        inds_left = np.where(ori_labs==np.mod(ori_axis[ii], max_ori))[0]
-        inds_right = np.where(ori_labs==np.mod(ori_axis[ii]+1, max_ori))[0]
-        
-        assert(np.size(inds_left)==np.size(inds_right) and not np.size(inds_left)==0)
-        
-#        if np.size(inds_left)==1:
-        dist = get_euc_dist(data[inds_right,:],data[inds_left,:])
-#        else:
-#            dist = get_norm_euc_dist(data[inds_right,:],data[inds_left,:])
-
-        disc[ii] = dist
-
-    ori_axis = np.mod(ori_axis+0.5, max_ori)
-    return ori_axis, disc
+    return eucDist

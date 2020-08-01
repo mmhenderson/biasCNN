@@ -4,6 +4,7 @@
 Calculate Fisher information at each layer of a trained network, by loading 
 full activation patterns for each stimulus and computing derivative of each 
 unit's orientation response profile. Save the result to desired path.
+
 """
 import os
 import numpy as np

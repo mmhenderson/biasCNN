@@ -3,6 +3,9 @@
 """
 Estimate the orientation tuning of units at each layer of a trained network, 
 by loading activation patterns from an image set and averaging trials with same orientation.
+After running this, run analyze_orient_tuning_jitter.py to fit parameters to 
+each tuning curve. 
+
 """
 
 import os
@@ -20,21 +23,17 @@ def get_orient_tuning_fn(load_path, save_path, model_name, dataset_name, num_bat
   # extract some things from info  
   sflist = info['sflist']  
   nSF = np.size(np.unique(sflist))
-#  sf_vals = info['sf_vals'][0:nSF]
 
   # get the correct orientation vals to use
   if info['nPhase']==2:
     # make a full 360 deg space
     orilist = deepcopy(info['orilist'])
-#    orilist_orig=deepcopy(info['orilist'])
     phaselist=deepcopy(info['phaselist'])
     orilist[phaselist==1] = orilist[phaselist==1]+180
   else: 
     # use the regular 180 deg space
     orilist = info['orilist'] 
-#    orilist_orig=orilist
-    
-#  exlist=info['exlist']
+
   sflist = info['sflist']
   
   ori_axis = np.unique(orilist);
@@ -61,17 +60,8 @@ def get_orient_tuning_fn(load_path, save_path, model_name, dataset_name, num_bat
           file = os.path.join(load_path, 'batch' + str(bb) +'_' + layers2load[ll] +'.npy')
           print('loading from %s\n' % file)
           w = np.squeeze(np.load(file))
-#          # full W here is NHWC format: Number of images x Height (top to bottom) x Width (left ro right) x Channels.
-#          # new w will be nIms x nFeatures
-#          N = np.shape(w)[0]
-#          H = np.shape(w)[1]
-#          W = np.shape(w)[2]
-#          C = np.shape(w)[3]            
-#          clabs = np.tile(np.expand_dims(np.arange(0,C),axis=1),[H*W,1])
-#          wlabs = np.expand_dims(np.repeat(np.tile(np.expand_dims(np.arange(0,W),axis=1),[H,1]), C),axis=1)
-#          hlabs = np.expand_dims(np.repeat(np.arange(0,H),W*C),axis=1)
-#          coords = np.concatenate((hlabs,wlabs,clabs),axis=1)      
-#          assert np.array_equal(coords, np.unique(coords, axis=0))
+          # full W here is NHWC format: Number of images x Height (top to bottom) x Width (left ro right) x Channels.
+          # new w will be nIms x nFeatures
           w = np.reshape(w, [np.shape(w)[0], np.prod(np.shape(w)[1:])])
           
           if bb==0:

@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan  9 10:53:36 2019
-
-@author: mmhender
-
-Some code to extract list of tensors, their sizes, and their weights from network after some amount of training. 
+Some code to tensors with their weights from network after some amount of training. 
 
 """
 

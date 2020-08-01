@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Get parameters for a network presented with oriented images.
+Get parameters for a network and information about the dataset used to evaluate.
+Note this does not actually load activations, it is incorrectly named.
+
 """
 
 #%% Set up paths and general parameters

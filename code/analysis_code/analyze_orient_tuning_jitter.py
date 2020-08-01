@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Sep  9 15:30:56 2018
+Perform curve fitting for orientation tuning functions. 
+Before running this, need to run get_orient_tuning.py
+Plot the output of this code with plot_unit_tuning.py
 
-@author: mmhender
 """
 
 import os
@@ -208,11 +209,11 @@ def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, para
     np.random.seed(rand_seed+ll)  
     jitter_by = np.random.randint(0,nOri,size=[nSF,nUnits])
     
-    nPars = 4;  #center,k,baseline
+    nPars = 4;  #center,k,amplitude,baseline
     nUnits = np.shape(resp_units)[1]  # note that nUnits is smaller now than it was above, counting only responsive ones.
     # record r2 and parameters of the final fit
     r2 = np.zeros((nUnits,nSF))
-    fit_pars = np.zeros((nUnits,nSF,nPars+1))
+    fit_pars = np.zeros((nUnits,nSF,nPars+1)) # last element here is FWHM
     # as a check for tuning consistency - calculate r2 for the fit to each individual sample.
     r2_each_sample = np.zeros((nUnits, nSF, nSamples))
     
