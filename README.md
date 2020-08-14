@@ -1,8 +1,7 @@
 # biasCNN
 Evaluating low-level perceptual biases in convolutional neural networks.
 
-code/analysis_code
-  Contains all code to compute Fisher information and single-unit tuning properties.
+code/analysis_code - Contains all code to compute Fisher information and single-unit tuning properties.
   
 code/eval_models
   Shell scripts to launch model evaluation.
