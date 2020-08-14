@@ -1,13 +1,13 @@
 # biasCNN
 Evaluating low-level perceptual biases in convolutional neural networks.
 
-### code
+#### code
 
-#### analysis_code 
-   Contains all code to compute Fisher information and single-unit tuning properties.
+## analysis_code 
+- Contains all code to compute Fisher information and single-unit tuning properties.
   
-#### eval_models
-   Shell scripts to launch model evaluation.
+## eval_models
+- Shell scripts to launch model evaluation.
   
 #### get_image_stats
    Analyze and plot the distribution of orientations in upright and rotated training images.
