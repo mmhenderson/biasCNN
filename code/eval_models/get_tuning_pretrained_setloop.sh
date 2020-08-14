@@ -9,15 +9,17 @@
 set -e
 
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
-ROOT=/cube/neurocube/local/serenceslab/maggie/
-#ROOT=/mnt/neurocube/local/serenceslab/maggie/
+CWD=$(pwd)
+cd ../../
+ROOT=$(pwd)
+
 rand_seed_jitter=865767
 
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-dataset_root=FiltIms11Cos_SF_0.25
+dataset_root=FiltIms14AllSFCos
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 
@@ -25,7 +27,7 @@ declare -a sets=(1 2 3 4)
 model_short=${which_model//_/}
 
 # this specifies the exact file for the trained model we want to look at.
-ckpt_file=${ROOT}biasCNN/checkpoints/vgg16_ckpt/vgg_16.ckpt
+ckpt_file=${ROOT}/checkpoints/vgg16_ckpt/vgg_16.ckpt
 
 echo "evaluating pretrained model"
 
@@ -35,12 +37,12 @@ do
 	dataset_name=${dataset_root}_rand${set}	
 	
 	#source ~/anaconda3/bin/activate
-	${ROOT}biasCNN/code/shell_scripts/EvalPretrainedModel/get_tuning_pretrained_single.sh ${which_model} ${dataset_name} ${ROOT} ${ckpt_file} ${overwrite} ${TEST}
+	${CWD}/get_tuning_pretrained_single.sh ${which_model} ${dataset_name} ${ROOT} ${ckpt_file} ${overwrite} ${TEST}
 
 done
 
 # now do the analysis of these tuning curves, combining across all the image sets...
-codepath=${ROOT}biasCNN/code/analysis_code/
+codepath=${ROOT}/code/analysis_code/
 cd ${codepath}
 
 training_str=pretrained

@@ -32,8 +32,11 @@ echo "	overwrite=$overwrite"
 echo "	test=$TEST"
 
 # PATHS
-codepath=${ROOT}biasCNN/code/analysis_code/
-slimpath=${ROOT}tensorflow/models/research/slim/
+codepath=${ROOT}/code/analysis_code/
+slimpath=${ROOT}/code/tf_code/
+
+echo "	codepath=$codepath"
+echo "	slimpath=$slimpath"
 
 # this specifies the exact file for the trained model we want to look at.
 model_short=${which_model//_/}
@@ -41,14 +44,14 @@ model_short=${which_model//_/}
 load_log_dir=${log_dir}model.ckpt-${step_num}
 
 # where the evaluation image dataset is located
-dataset_dir=${ROOT}biasCNN/datasets/gratings/${dataset_name}
+dataset_dir=${ROOT}/datasets/gratings/${dataset_name}
 if [ ! -d ${dataset_dir} ]
 then
 	raise error "dataset not found"
 fi
 
 # where we save the large complete activation files
-save_eval_dir=${ROOT}biasCNN/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
+save_eval_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
 if [[ ! -d ${save_eval_dir} ]] || [[ -z $(ls -A ${save_eval_dir}) ]]
 then
 	mkdir -p ${save_eval_dir}
@@ -66,7 +69,7 @@ else
 fi
 
 # where we save the results of Fisher info
-fish_dir=${ROOT}biasCNN/code/fisher_info/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
+fish_dir=${ROOT}/code/fisher_info/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
 if [[ ! -d ${fish_dir} ]] || [[ -z $(ls -A ${fish_dir}) ]]
 then
 	mkdir -p ${fish_dir}
@@ -85,7 +88,7 @@ fi
 
 
 # where we save the tuning curves
-tuning_dir=${ROOT}biasCNN/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_orient_tuning
+tuning_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_orient_tuning
 if [[ ! -d ${tuning_dir} ]] || [[ -z $(ls -A ${tuning_dir}) ]]
 then
 	mkdir -p ${tuning_dir}

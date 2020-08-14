@@ -3,12 +3,16 @@
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=xxx@ucsd.edu
 #SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=500000
 #SBATCH -o ./sbatch_output/output-%A-%x-%u.out # STDOUT
 
 set -e
 
 # GET ACTIVATIONS FOR A MODEL ON MULTIPLE DATASETS (EVALUATION IMAGES)
-ROOT=/cube/neurocube/local/serenceslab/maggie/
+CWD=$(pwd)
+cd ../../
+ROOT=$(pwd)
+
 rand_seed_jitter=434895
 
 # am i over-writing old folders, or checking which exist already?
@@ -26,8 +30,7 @@ step_approx=400000
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}
-log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_imagenet_rot_${rot}/${which_hyperpars}/
-#log_dir=${ROOT}/biasCNN/logs/${model_short}/ImageNet/scratch_vgg16_imagenet_rot_${rot}/weightdecay_0.00005_rmspropdecay_0.90_rmspropmomentum_0.80_learningrate_0.005_learningratedecay_0.94_init1/
+log_dir=${ROOT}/logs/${model_short}/ImageNet/scratch_imagenet_rot_${rot}/${which_hyperpars}/
 
 if [ ! -d ${log_dir} ]
 then
@@ -70,12 +73,12 @@ do
 	dataset_name=${dataset_root}_rand${set}	
 	
 	#source ~/anaconda3/bin/activate
-	${ROOT}biasCNN/code/shell_scripts/EvalImageNetRots/get_tuning_and_fisher_info_single.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
+	${CWD}/get_tuning_and_fisher_info_single.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
 
 done
 
 # now do the analysis of these tuning curves, combining across all the image sets...
-codepath=${ROOT}biasCNN/code/analysis_code/
+codepath=${ROOT}/code/analysis_code/
 cd ${codepath}
 
 training_str=scratch_imagenet_rot_${rot}

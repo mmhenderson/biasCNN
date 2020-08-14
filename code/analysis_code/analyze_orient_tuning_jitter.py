@@ -80,7 +80,7 @@ def get_r2(actual,predicted):
 #%% main analysis function
 def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, param_str, ckpt_str, rand_seed):
   
-  save_path = os.path.join(root,'biasCNN','code','unit_tuning',model,training_str,param_str,dataset_all)
+  save_path = os.path.join(root,'code','unit_tuning',model,training_str,param_str,dataset_all)
   if not os.path.exists(save_path):
     os.makedirs(save_path)
     
@@ -124,7 +124,7 @@ def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, para
         else:
           dataset = '%s%d'%(dataset_all,kk)
           
-      file_path = os.path.join(root,'biasCNN','activations',model,training_str,param_str,dataset,
+      file_path = os.path.join(root,'activations',model,training_str,param_str,dataset,
                                'eval_at_ckpt-%s_orient_tuning'%(ckpt_str))
       
       file_name = os.path.join(file_path,'AllUnitsOrientTuning_%s.npy'%(layers2load[ll]))

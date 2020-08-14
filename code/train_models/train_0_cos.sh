@@ -13,11 +13,15 @@ from_scratch=1
 declare -a inits=(0 1 2 3)
 max_steps=500000
 
-source ~/anaconda3/bin/activate
+CWD=$(pwd)
+cd ../../
+ROOT=$(pwd)
+
+source activate cuda9
 
 for init_num in ${inits[@]}
 do
 
-	/cube/neurocube/local/serenceslab/maggie/biasCNN/code/shell_scripts/TrainImageNetRots/train_net_cluster.sh $model $params $rot $init_num $max_steps
+	$CWD/train_net_cluster.sh $model $params $rot $init_num $max_steps $ROOT
 
 done

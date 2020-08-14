@@ -7,24 +7,24 @@ params=$2
 rot=$3
 init_num=$4
 max_steps=$5
+ROOT=$6
 
 echo "script=$0"
 echo "which_model=$which_model"
 echo "params=$params"
 echo "rot=$rot"
-echo "init_num=$4"
-echo "max_steps=$5"
+echo "init_num=$init_num"
+echo "max_steps=$max_steps"
+echo "ROOT=$ROOT"
 
-# Specify the directory i am working in
-#ROOT=/usr/local/serenceslab/maggie/
-ROOT=/cube/neurocube/local/serenceslab/maggie/
 
 # where is all my tensorflow code?
-slimpath=${ROOT}tensorflow/models/research/slim/
+#slimpath=/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/
+slimpath=${ROOT}/code/tf_code/
 # where am i loading tfrecord files from?
-dataset_path=${ROOT}biasCNN/datasets/ImageNet/ILSVRC2012/
+dataset_path=${ROOT}/datasets/ImageNet/ILSVRC2012/
 # where am i saving log files to?
-log_path=${ROOT}biasCNN/logs/${which_model//_/}/ImageNet/
+log_path=${ROOT}/logs/${which_model//_/}/ImageNet/
 
 dataset_name=imagenet
 
@@ -37,6 +37,7 @@ max_number_of_steps=$max_steps
 max_checkpoints_to_keep=5
 keep_checkpoint_every_n_hours=0.5
 batch_size=32
+
 
 if [[ $params == "params1" ]]
 then
@@ -110,6 +111,7 @@ split_name=train
 
 echo ${max_number_of_steps}
 cd ${slimpath}
+pwd
 #Train the network.
 echo python train_image_classifier_biasCNN.py --train_dir=${log_dir} --dataset_name=${dataset_name} --dataset_split_name=${split_name} --dataset_dir=${dataset_dir} --model_name=${which_model} --max_number_of_steps=${max_number_of_steps} --flipLR=${flipLR} --random_scale=${random_scale} --is_windowed=${is_windowed} --weight_decay=${weight_decay} --rmsprop_decay=${rmsprop_decay} --rmsprop_momentum=${rmsprop_momentum} --learning_rate=${learning_rate} --learning_rate_decay_factor=${learning_rate_decay_factor} --max_checkpoints_to_keep=${max_checkpoints_to_keep} --keep_checkpoint_every_n_hours=${keep_checkpoint_every_n_hours} --batch_size=${batch_size}
 

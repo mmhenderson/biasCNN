@@ -13,16 +13,17 @@ from_scratch=1
 weight_init=xavier
 
 # Specify the directory i am working in
-#ROOT=/usr/local/serenceslab/maggie/
-ROOT=/mnt/neurocube/local/serenceslab/maggie/
+CWD=$(pwd)
+cd ../../
+ROOT=$(pwd)
 
 # where is all my tensorflow code?
-slimpath=${ROOT}tensorflow/models/research/slim/
+slimpath=${ROOT}/code/tf_code
 # where am i loading tfrecord files from?
-dataset_path=${ROOT}biasCNN/datasets/ImageNet/ILSVRC2012/
+dataset_path=${ROOT}/datasets/ImageNet/ILSVRC2012/
 dataset_dir=${dataset_path}/tfrecord_rot_${dataset_rot}/
 # where am i saving log files to?
-log_path=${ROOT}biasCNN/logs/${which_model//_/}/ImageNet/
+log_path=${ROOT}/logs/${which_model//_/}/ImageNet/
 
 dataset_name=imagenet
 

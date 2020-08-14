@@ -24,21 +24,24 @@ echo "	overwrite=$overwrite"
 echo "	test=$TEST"
 
 # PATHS
-codepath=${ROOT}biasCNN/code/analysis_code/
-slimpath=${ROOT}tensorflow/models/research/slim/
+codepath=${ROOT}/code/analysis_code/
+slimpath=${ROOT}/code/tf_code/
+
+echo "	codepath=$codepath"
+echo "	slimpath=$slimpath"
 
 # this specifies the exact file for the trained model we want to look at.
 model_short=${which_model//_/}
 
 # where the evaluation image dataset is located
-dataset_dir=${ROOT}biasCNN/datasets/gratings/${dataset_name}
+dataset_dir=${ROOT}/datasets/gratings/${dataset_name}
 if [ ! -d ${dataset_dir} ]
 then
 	raise error "dataset not found"
 fi
 
 # where we save the large complete activation files
-save_eval_dir=${ROOT}biasCNN/activations/${model_short}/pretrained/params1/${dataset_name}/eval_at_ckpt-0_full
+save_eval_dir=${ROOT}/activations/${model_short}/pretrained/params1/${dataset_name}/eval_at_ckpt-0_full
 if [[ ! -d ${save_eval_dir} ]] || [[ -z $(ls -A ${save_eval_dir}) ]]
 then
 	mkdir -p ${save_eval_dir}
@@ -56,7 +59,7 @@ else
 fi
 
 # where we save the tuning curves
-tuning_dir=${ROOT}biasCNN/activations/${model_short}/pretrained/params1/${dataset_name}/eval_at_ckpt-0_orient_tuning
+tuning_dir=${ROOT}/activations/${model_short}/pretrained/params1/${dataset_name}/eval_at_ckpt-0_orient_tuning
 if [[ ! -d ${tuning_dir} ]] || [[ -z $(ls -A ${tuning_dir}) ]]
 then
 	mkdir -p ${tuning_dir}
