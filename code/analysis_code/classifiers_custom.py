@@ -130,3 +130,33 @@ def get_euc_dist(dat1,dat2):
     eucDist = np.sqrt(np.sum(sq))
 
     return eucDist
+
+#def get_mahal_dist(x1,dat2,cov):
+#  
+#    """Calculate the mahalanobis distance between one point and another cloud 
+#    of data points.
+#
+#      Args:
+#      x1: [1 x nWeights] (voxels, spike rates, neural network weights)
+#      dat2: [nPts2 x nWeights] 
+#     
+#      Returns:
+#      mahaDist (single value)
+#    """
+#    
+#    assert type(x1)==np.ndarray
+#    assert type(dat2)==np.ndarray
+#    assert np.shape(x1)[1]==np.shape(dat2)[1]
+#    
+#    cov2 = np.cov(dat2,rowvar=False)
+#    icov2 = np.linalg.inv(cov2)
+#    
+#    mean2 = np.expand_dims(np.mean(dat2,0),0)
+#    
+#    diff_vec = x1-mean2
+#    
+#    mahaDist = np.sqrt(diff_vec @ icov2 @ diff_vec.T)
+#    
+##    mahaDist2 = scipy.spatial.distance.mahalanobis(x1,mean2,icov2)
+#    
+#    return mahaDist

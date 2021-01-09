@@ -68,55 +68,53 @@ else
 	doEval=0
 fi
 
-# where we save the results of Fisher info
-fish_dir=${ROOT}/code/fisher_info/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
-if [[ ! -d ${fish_dir} ]] || [[ -z $(ls -A ${fish_dir}) ]]
+# where we save the reduced activ patterns after PCA
+reduced_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_reduced
+if [[ ! -d ${reduced_dir} ]] || [[ -z $(ls -A ${reduced_dir}) ]]
 then
-	mkdir -p ${fish_dir}
-	num_fish_files=0
+	mkdir -p ${reduced_dir}
+	num_reduced_files=0
 else
-	fish_files=($(ls ${fish_dir}/*.npy))
-	num_fish_files=${#fish_files[@]}
-	echo "	there are $num_fish_files files in FI folder"
+	reduced_files=($(ls ${reduced_dir}/*.npy))
+	num_reduced_files=${#reduced_files[@]}
+	echo "	there are $num_reduced_files files in reduced folder"
 fi
-if (( $num_fish_files < 3 ))
+if (( $num_reduced_files < 42 ))
 then
-	doFish=1
+	doReduce=1
 else
-	doFish=0
-fi
-
-
-# where we save the tuning curves
-tuning_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_orient_tuning
-if [[ ! -d ${tuning_dir} ]] || [[ -z $(ls -A ${tuning_dir}) ]]
-then
-	mkdir -p ${tuning_dir}
-	num_tuning_files=0
-else
-	tuning_files=($(ls ${tuning_dir}/*.npy))
-	num_tuning_files=${#tuning_files[@]}
-	echo "	there are $num_tuning_files files in orient tuning folder"
-fi
-if (( $num_tuning_files < 21 ))
-then
-	doTuning=1
-else
-	doTuning=0
-fi
-
-if [[ $doFish != 1 ]] && [[ $doTuning != 1 ]]
-then
+	doReduce=0
 	doEval=0
 fi
 
+# where we save the results of fisher
+fisher_dir=${ROOT}/code/fisher_info/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_reduced
+if [[ ! -d ${fisher_dir} ]] || [[ -z $(ls -A ${fisher_dir}) ]]
+then
+	mkdir -p ${fisher_dir}
+	num_fisher_files=0
+else
+	fisher_files=($(ls ${fisher_dir}/*.npy))
+	num_fisher_files=${#fisher_files[@]}
+	echo "	there are $num_fisher_files files in fisher folder"
+fi
+if (( $num_fisher_files < 1 ))
+then
+	doFisher=1
+else
+	doFisher=0
+	doReduce=0
+	doEval=0
+fi
+
+
 echo "	do_eval=$doEval"
-echo "	do_fish=$doFish"
-echo "	do_tuning=$doTuning"
+echo "	do_reduce=$doReduce"
+echo "	do_fisher=$doFisher"
 
 echo -e "\nloading dataset from $dataset_dir"
 echo -e "\nloading checkpoint from $load_log_dir"
-echo -e "\nsaving to $save_eval_dir and $fish_dir and $tuning_dir\n"
+echo -e "\nsaving to $save_eval_dir and $reduced_dir and $fisher_dir\n"
 
 # Evaluate the network.
 if [[ $overwrite == 1 ]] || [[ $doEval == 1 ]]
@@ -140,38 +138,45 @@ then
 fi
 
 
-if [[ $overwrite == 1 ]] || [[ $doFish == 1 ]]
+# Reduce the activs with PCA
+if [[ $overwrite == 1 ]] || [[ $doReduce == 1 ]]
 then
 	cd ${codepath}
 	if [[ $TEST != 1 ]]
 	then
 		num_batches=96
-		python get_fisher_info_full.py ${save_eval_dir} ${fish_dir} ${model_short} ${dataset_name} ${num_batches}		 
-	else	
-		echo "calculating Fisher info"
+		min_var_expl=80
+		max_comp_keep=100000
+		min_comp_keep=10
+		python reduce_activations.py ${save_eval_dir} ${reduced_dir} ${model_short} ${dataset_name} ${num_batches} ${min_var_expl} ${max_comp_keep} ${min_comp_keep}
+		
+	else
+		echo "reducing activations"
 	fi
 fi
 
-if [[ $overwrite == 1 ]] || [[ $doTuning == 1 ]]
+# Run fisheroder on reduced activs
+if [[ $overwrite == 1 ]] || [[ $doFisher == 1 ]]
 then
 	cd ${codepath}
 	if [[ $TEST != 1 ]]
 	then
-		num_batches=96		
-		python get_orient_tuning.py ${save_eval_dir} ${tuning_dir} ${model_short} ${dataset_name} ${num_batches}	 
-	else	
-		echo "calculating tuning functions"
+		num_batches=96
+		python get_fisher_info_reduced.py ${reduced_dir} ${fisher_dir} ${model_short} ${dataset_name} ${num_batches}
+		
+	else
+		echo "running fisher"
 	fi
 fi
 
 # make sure the job is really finished
-fish_files=($(ls ${fish_dir}/*.npy))
-num_fish_files=${#fish_files[@]}
-tuning_files=($(ls ${tuning_dir}/*.npy))
-num_tuning_files=${#tuning_files[@]}
-echo "	there are $num_tuning_files files in tuning curve folder"
-echo "	there are $num_fish_files files in fisher info folder"
-if (( $num_fish_files < 3 )) || (( $num_tuning_files < 21 ))
+reduced_files=($(ls ${reduced_dir}/*.npy))
+num_reduced_files=${#reduced_files[@]}
+echo "	there are $num_reduced_files files in reduced activ folder"
+fisher_files=($(ls ${fisher_dir}/*.npy))
+num_fisher_files=${#fisher_files[@]}
+echo "	there are $num_fisher_files files in fisher folder"
+if (( $num_reduced_files < 44 ))
 then
 	reallyDone=0
 else

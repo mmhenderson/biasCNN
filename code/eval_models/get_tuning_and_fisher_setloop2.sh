@@ -26,7 +26,7 @@ which_model=vgg_16
 declare -a sets=(1 2 3 4)
 
 # what steps to evaluate at? will find checkpoint closest to this.
-step_approx=100000
+step_approx=200000
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}

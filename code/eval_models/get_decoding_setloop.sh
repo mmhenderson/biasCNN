@@ -13,20 +13,18 @@ CWD=$(pwd)
 cd ../../
 ROOT=$(pwd)
 
-rand_seed_jitter=234324
-
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-rot=0_cos
+rot=45_cos
 which_hyperpars=params1
 dataset_root=FiltIms14AllSFCos
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 
 # what steps to evaluate at? will find checkpoint closest to this.
-step_approx=100000
+step_approx=400000
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}
@@ -73,17 +71,9 @@ do
 	dataset_name=${dataset_root}_rand${set}	
 	
 	#source ~/anaconda3/bin/activate
-	${CWD}/get_tuning_and_fisher_info_single.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
+	${CWD}/get_decoding_single.sh ${rot} ${step_num} ${which_hyperpars} ${which_model} ${dataset_name} ${ROOT} ${log_dir} ${overwrite} ${TEST}
 
 done
 
-# now do the analysis of these tuning curves, combining across all the image sets...
-codepath=${ROOT}/code/analysis_code/
-cd ${codepath}
-
-training_str=scratch_imagenet_rot_${rot}
-nSamples=${#sets[@]}
-python analyze_orient_tuning_jitter.py ${ROOT} ${model_short} ${training_str} ${dataset_root} ${nSamples} ${which_hyperpars} ${step_num} ${rand_seed_jitter}
-
-echo "finished analyzing/fitting tuning curves!"
+echo "finished!"
 

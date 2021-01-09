@@ -50,24 +50,23 @@ def get_fisher_info(activ_path,save_path,model_name,dataset_name,num_batches):
   for ll in range(nLayers):
     
       #%% load all activations
-      allw = None
       
-      for bb in np.arange(0,num_batches,1):
-  
-#          file = os.path.join(activ_path, 'batch' + str(0) +'_' + layers2load[ll] +'.npy')
-          file = os.path.join(activ_path, 'batch' + str(bb) +'_' + layers2load[ll] +'.npy')
-          print('loading from %s\n' % file)
-          w = np.squeeze(np.load(file))
-          # w will be nIms x nFeatures
-          w = np.reshape(w, [np.shape(w)[0], np.prod(np.shape(w)[1:])])
-          
-          if bb==0:
-              allw = w
-#              allw = w[:,0:3]
-          else:
-              allw = np.concatenate((allw, w), axis=0)
-#              allw = np.concatenate((allw, w[:,0:3]), axis=0)
-              
+      fn = os.path.join(activ_path,'allStimsReducedWts_%s.npy'%layers2load[ll])
+      print('loading reduced activations from %s\n'%fn)
+      allw = np.load(fn)
+      # w is nIms x nFeatures
+        
+      # for a few layers we saved more components than needed to capture 80% var - remove these now.
+      min_var_expl=80
+      fn2 = os.path.join(activ_path,'allStimsVarExpl_%s.npy'%layers2load[ll])
+      var_expl = np.load(fn2)
+      ncomp2keep = np.where(np.cumsum(var_expl)>min_var_expl/100)
+      if np.size(ncomp2keep)==0:
+        ncomp2keep=np.shape(allw)[1]
+      else:
+        ncomp2keep = ncomp2keep[0][0]
+        
+      allw = allw[:,0:ncomp2keep]
       #%% remove any bad units that will mess up Fisher information calculation  
       # first take out all the constant units, leaving only units with variance over images
       constant_inds = np.all(np.equal(allw, np.tile(np.expand_dims(allw[0,:], axis=0), [np.shape(allw)[0], 1])),axis=0)      
@@ -124,7 +123,7 @@ def get_fisher_info(activ_path,save_path,model_name,dataset_name,num_batches):
   
 if __name__ == '__main__':
   
-  activ_path = sys.argv[1] #The path to load the big activation files from.'
+  activ_path = sys.argv[1] #The path to load the activation files from.'
   save_path = sys.argv[2] #The path to save the FI calculation to
   model_name = sys.argv[3] # The name of the current model.
   dataset_name = sys.argv[4] #The name of the dataset.

@@ -61,62 +61,60 @@ else
 	num_big_eval_files=${#big_eval_files[@]}
 	echo "	there are $num_big_eval_files files in big folder"
 fi
-if (( $num_big_eval_files < 2304 ))
+if (( $num_big_eval_files < 2305 ))
 then
 	doEval=1
 else
 	doEval=0
 fi
 
-# where we save the results of Fisher info
-fish_dir=${ROOT}/code/fisher_info/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_full
-if [[ ! -d ${fish_dir} ]] || [[ -z $(ls -A ${fish_dir}) ]]
+# where we save the reduced activ patterns after PCA
+reduced_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_reduced
+if [[ ! -d ${reduced_dir} ]] || [[ -z $(ls -A ${reduced_dir}) ]]
 then
-	mkdir -p ${fish_dir}
-	num_fish_files=0
+	mkdir -p ${reduced_dir}
+	num_reduced_files=0
 else
-	fish_files=($(ls ${fish_dir}/*.npy))
-	num_fish_files=${#fish_files[@]}
-	echo "	there are $num_fish_files files in FI folder"
+	reduced_files=($(ls ${reduced_dir}/*.npy))
+	num_reduced_files=${#reduced_files[@]}
+	echo "	there are $num_reduced_files files in reduced folder"
 fi
-if (( $num_fish_files < 3 ))
+if (( $num_reduced_files < 42 ))
 then
-	doFish=1
+	doReduce=1
 else
-	doFish=0
-fi
-
-
-# where we save the tuning curves
-tuning_dir=${ROOT}/activations/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_orient_tuning
-if [[ ! -d ${tuning_dir} ]] || [[ -z $(ls -A ${tuning_dir}) ]]
-then
-	mkdir -p ${tuning_dir}
-	num_tuning_files=0
-else
-	tuning_files=($(ls ${tuning_dir}/*.npy))
-	num_tuning_files=${#tuning_files[@]}
-	echo "	there are $num_tuning_files files in orient tuning folder"
-fi
-if (( $num_tuning_files < 21 ))
-then
-	doTuning=1
-else
-	doTuning=0
-fi
-
-if [[ $doFish != 1 ]] && [[ $doTuning != 1 ]]
-then
+	doReduce=0
 	doEval=0
 fi
 
+# where we save the results of decoding
+decoding_dir=${ROOT}/code/decoding/${model_short}/scratch_imagenet_rot_${rot}/${which_hyperpars}/${dataset_name}/eval_at_ckpt-${step_num}_reduced
+if [[ ! -d ${decoding_dir} ]] || [[ -z $(ls -A ${decoding_dir}) ]]
+then
+	mkdir -p ${decoding_dir}
+	num_dec_files=0
+else
+	dec_files=($(ls ${decoding_dir}/*.npy))
+	num_dec_files=${#dec_files[@]}
+	echo "	there are $num_dec_files files in decoding folder"
+fi
+if (( $num_dec_files < 1 ))
+then
+	doDecode=1
+else
+	doDecode=0
+	doReduce=0
+	doEval=0
+fi
+
+
 echo "	do_eval=$doEval"
-echo "	do_fish=$doFish"
-echo "	do_tuning=$doTuning"
+echo "	do_reduce=$doReduce"
+echo "	do_decode=$doDecode"
 
 echo -e "\nloading dataset from $dataset_dir"
-echo -e "\nloading checkpoint from $load_log_dir"
-echo -e "\nsaving to $save_eval_dir and $fish_dir and $tuning_dir\n"
+echo -e "\nloading checkpoint from $ckpt_file"
+echo -e "\nsaving to $save_eval_dir and $reduced_dir and $decoding_dir\n"
 
 # Evaluate the network.
 if [[ $overwrite == 1 ]] || [[ $doEval == 1 ]]
@@ -140,38 +138,45 @@ then
 fi
 
 
-if [[ $overwrite == 1 ]] || [[ $doFish == 1 ]]
+# Reduce the activs with PCA
+if [[ $overwrite == 1 ]] || [[ $doReduce == 1 ]]
 then
 	cd ${codepath}
 	if [[ $TEST != 1 ]]
 	then
 		num_batches=96
-		python get_fisher_info_full.py ${save_eval_dir} ${fish_dir} ${model_short} ${dataset_name} ${num_batches}		 
-	else	
-		echo "calculating Fisher info"
+		min_var_expl=80
+		max_comp_keep=100000
+		min_comp_keep=10
+		python reduce_activations.py ${save_eval_dir} ${reduced_dir} ${model_short} ${dataset_name} ${num_batches} ${min_var_expl} ${max_comp_keep} ${min_comp_keep}
+		
+	else
+		echo "reducing activations"
 	fi
 fi
 
-if [[ $overwrite == 1 ]] || [[ $doTuning == 1 ]]
+# Run decoder on reduced activs
+if [[ $overwrite == 1 ]] || [[ $doDecode == 1 ]]
 then
 	cd ${codepath}
 	if [[ $TEST != 1 ]]
 	then
-		num_batches=96		
-		python get_orient_tuning.py ${save_eval_dir} ${tuning_dir} ${model_short} ${dataset_name} ${num_batches}	 
-	else	
-		echo "calculating tuning functions"
+		num_batches=96
+		python run_decoding.py ${reduced_dir} ${decoding_dir} ${model_short} ${dataset_name} ${num_batches}
+		
+	else
+		echo "running decoding"
 	fi
 fi
 
 # make sure the job is really finished
-fish_files=($(ls ${fish_dir}/*.npy))
-num_fish_files=${#fish_files[@]}
-tuning_files=($(ls ${tuning_dir}/*.npy))
-num_tuning_files=${#tuning_files[@]}
-echo "	there are $num_tuning_files files in tuning curve folder"
-echo "	there are $num_fish_files files in fisher info folder"
-if (( $num_fish_files < 3 )) || (( $num_tuning_files < 21 ))
+reduced_files=($(ls ${reduced_dir}/*.npy))
+num_reduced_files=${#reduced_files[@]}
+echo "	there are $num_reduced_files files in reduced activ folder"
+dec_files=($(ls ${decoding_dir}/*.npy))
+num_dec_files=${#dec_files[@]}
+echo "	there are $num_dec_files files in decoding folder"
+if (( $num_reduced_files < 44 ))
 then
 	reallyDone=0
 else
