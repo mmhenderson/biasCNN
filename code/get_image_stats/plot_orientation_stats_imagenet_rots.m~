@@ -25,9 +25,10 @@ root = root(1:filesepinds(end-1));
 fig_folder = fullfile(root, 'figures','ImageStats');
 stat_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 
-plotFisherPredAll = 1;
-plotOriDistAll=1;
-plotOriDistEachSF=1;
+plotFisherAll = 1;
+plotPriorAll = 1;
+plotOriAll=1;
+plotMeanOriEachSF=1;
 saveFigs=1;
 
 %% get information about the filters that were used
@@ -75,7 +76,7 @@ for rr=1:length(rot_list)
 
     
     %% plot stats with error bars
-    if plotOriDistAll
+    if plotOriAll
         figure;
         set(gcf,'DefaultLegendAutoUpdate','off');
         hold all;
@@ -103,26 +104,58 @@ for rr=1:length(rot_list)
         end
     end
     
-    
     %% plot predicted fisher information
-    if plotFisherPredAll
+    if plotFisherAll
         figure;
         set(gcf,'DefaultLegendAutoUpdate','off');
         hold all;
         set(gcf,'Color','w')
         
-        % fisher info should be prior^2 (e.g. Wei and Stocker 2015 Nat Neuro)
         prior = meanvals;
+
+%         bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
+        plot(ori_axis,prior,'Color','k')
+        title(sprintf('Prior Distribution\n%d deg CCW',rot_list(rr)));
+        xlabel('degrees');
+        ylabel('Probability')
+        xlim([0,180])
+        ylim([0.01, 0.05])
+        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0, 0.02, 0.04]);
+
+        line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
+        line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
+
+        if saveFigs
+            
+            handle = gcf;
+            prepFigForExport(handle,1);
+            set(handle.Children(1),'FontSize',30)
+            set(handle,'Position',[0,0,1200,1200])
+            saveas(handle,fullfile(fig_folder,sprintf('PriorDist_rot%d.pdf',rot_list(rr))),'pdf');
+        end
+    end
+    
+    %% plot predicted fisher information
+    if plotPriorAll
+        figure;
+        set(gcf,'DefaultLegendAutoUpdate','off');
+        hold all;
+        set(gcf,'Color','w')
+        
+        % fisher info should be prior^2 (Wei and Stocker 2015 Nat Neuro)
+        prior =meanvals-min(meanvals);
+        prior = prior./sum(prior);
         fisher = prior.^2;
-                
+        
+        
 %         bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
         plot(ori_axis,fisher,'Color','k')
-        title(sprintf('Predicted Fisher information (Prior^2)\n%d deg CCW',rot_list(rr)));
+        title(sprintf('Fisher information (Prior^2)\n%d deg CCW',rot_list(rr)));
         xlabel('degrees');
         ylabel('Fisher info')
         xlim([0,180])
-        ylim([0, 0.002])
-        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0, 0.001, 0.002]);
+        ylim([-0.01, 0.02])
+        set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0]);
 
         line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
         line([new_card_axes(rr,2), new_card_axes(rr,2)], get(gca,'YLim'),'Color','k');
@@ -138,7 +171,7 @@ for rr=1:length(rot_list)
     end
     
     %% plot the mean stats, separated by spatial frequency
-    if plotOriDistEachSF
+    if plotMeanOriEachSF
         figure;set(gcf,'Color','w')
         set(gcf,'DefaultLegendAutoUpdate','off');
         hold all;

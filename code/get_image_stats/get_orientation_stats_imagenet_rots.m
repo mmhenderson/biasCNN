@@ -123,7 +123,7 @@ function get_orientation_stats_imagenet_rots(root, numcores)
 
             %% loop over images and process
             clear image_stats
-            parfor ii = 1:length(imlist)
+            for ii = 1:length(imlist)
 
                 im_file = fullfile(imlist(ii).folder, imlist(ii).name);
                 fprintf('loading image %d of %d\n',ii,length(imlist));
