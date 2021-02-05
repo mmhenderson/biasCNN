@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=bigmem_long
+#SBATCH --partition=general
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=xxx@ucsd.edu
 #SBATCH --mail-type=ALL
@@ -17,10 +17,10 @@ ROOT=$(pwd)
 overwrite=0
 TEST=0
 
-dataset_root=FiltIms14AllSFCos
+dataset_root=FiltIms14AllSFCos_bwk100
 which_model=vgg_16
 # num of versions of this dataset (phases are different)
-declare -a sets=(1 2 3 4)
+declare -a sets=(2 3 4)
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}

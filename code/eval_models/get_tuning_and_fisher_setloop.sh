@@ -13,20 +13,20 @@ CWD=$(pwd)
 cd ../../
 ROOT=$(pwd)
 
-rand_seed_jitter=234324
+rand_seed_jitter=857567
 
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-rot=0_cos
+rot=45_cos
 which_hyperpars=params1
 dataset_root=FiltIms14AllSFCos
 which_model=vgg_16
 declare -a sets=(1 2 3 4)
 
 # what steps to evaluate at? will find checkpoint closest to this.
-step_approx=100000
+step_approx=50000
 
 # first define the folder where all checkpoint for this model will be located
 model_short=${which_model//_/}

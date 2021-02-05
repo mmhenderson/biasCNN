@@ -14,7 +14,8 @@ from matplotlib import cm
 import load_activations
 from copy import deepcopy
 import statsmodels.stats.multitest
-import scipy.stats
+#import scipy.stats
+import matplotlib.lines as mlines
 
 #%% paths
 root = '/usr/local/serenceslab/maggie/biasCNN/';
@@ -26,9 +27,13 @@ figfolder = os.path.join(root, 'figures','FisherInfoPop')
 # loading all networks at once - 
 # [random, trained upright images, trained 22 deg rot images, trained 45 deg rot images, pretrained]
 training_strs=['scratch_imagenet_rot_0_cos_stop_early','scratch_imagenet_rot_0_cos','scratch_imagenet_rot_22_cos','scratch_imagenet_rot_45_cos','pretrained']
+#training_strs=['scratch_imagenet_rot_45_cos']
 ckpt_strs=['0','400000','400000','400000','0']
+#ckpt_strs=['400000']
 nInits_list = [4,4,4,4,1]
+#nInits_list = [1]
 color_inds=[0,1,2,3,4]
+#color_inds=[3]
 
 # define other basic parameters
 nImageSets = 4
@@ -227,18 +232,19 @@ figname = os.path.join(figfolder, '%s_FisherInfo.pdf' % (training_strs[tr]))
 layers2plot = np.arange(0,nLayers)
 # which network to plot here? [0,1,2,3,4] are
 # [random, trained upright images, trained 22 deg rot images, trained 45 deg rot images, pretrained]
-tr=1 # can change this value to plot the models with different training sets 
-if tr==4 or tr==0:
-  init2plot = [0]
-else:
-  init2plot = [0,1,2,3]
+tr=0 # can change this value to plot the models with different training sets 
+#if tr==4:
+init2plot = [0]
+#else:
+#  init2plot = [0,1,2,3]
   
 sf=0
 dd=3
 
 plt.rcParams['pdf.fonttype']=42
+plt.rcParams.update({'font.size': 10})
 plt.rcParams['ps.fonttype']=42    
-plt.rcParams['figure.figsize']=[14,10]
+plt.rcParams['figure.figsize']=[18,10]
 
 plt.close('all')
 
@@ -275,10 +281,15 @@ for ll in range(np.size(layers2plot)):
   # finish up this subplot    
   plt.title('%s' % (layer_labels[layers2plot[ll]]))
 
-  plt.xlabel('Orientation (deg)')
-  plt.xticks(np.arange(0,181,45))
-  plt.xlim([np.min(ori_axis),np.max(ori_axis)])
-  plt.ylabel('FI (a.u.)')
+  if ll==len(layers2plot)-1:
+    plt.xlabel('Orientation (deg)')
+    plt.xticks(np.arange(0,181,45))
+    plt.xlim([np.min(ori_axis),np.max(ori_axis)])
+    plt.ylabel('FI (a.u.)')
+  else:
+    plt.xticks([])
+#    plt.yticks([])
+  
   
   for xx in np.arange(0,181,45):
       plt.axvline(xx,color=[0.8, 0.8, 0.8])
@@ -286,6 +297,27 @@ for ll in range(np.size(layers2plot)):
 # finish up the entire plot   
 plt.suptitle('%s' % (training_strs[tr]))
 
+#%%
+def nonpar_onetailed_ttest(dat1,dat2,niter,rand_seed):
+  
+  # test if dat2>dat1
+  
+  assert(len(dat1)==len(dat2))
+  dat1 = np.expand_dims(np.squeeze(dat1),axis=1)
+  dat2 = np.expand_dims(np.squeeze(dat2),axis=1)
+  np.random.seed(rand_seed)    
+  real = np.mean(dat2) - np.mean(dat1)  
+  rand = np.zeros([niter,1])
+  datcomb = np.append(dat1,dat2)
+  for ii in range(niter):
+    
+    randorder = np.random.permutation(len(datcomb))
+    datrand = np.reshape(datcomb[randorder],[len(dat1),2])
+    rand[ii] = np.diff(np.mean(datrand,axis=0))
+  
+  p = np.mean(rand>real)
+
+  return p
 #%% Plot FIB: comparing pretrained model versus random model. 
 # do stats comparing the values between trained and random models.
 
@@ -313,7 +345,8 @@ pvals_trained_vs_random=np.zeros([1, nLayers])
 nTotalComp = np.size(pvals_trained_vs_random)
 # matrix to store anisotropy index for each layer    
 aniso_vals = np.zeros([len(tr2plot),1,nImageSets,np.size(layers2plot)])
-
+rand_seed = 398459
+niter=10000
 # loop over network layers
 for ww1 in range(np.size(layers2plot)):
   # loop over networks with each training set
@@ -337,13 +370,18 @@ for ww1 in range(np.size(layers2plot)):
   real_vals_rand = np.squeeze(aniso_vals[0,:,:,ww1])
   real_vals_trained = np.squeeze(aniso_vals[1,:,:,ww1])
 
-  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=False)
+  rand_seed = rand_seed+1
+  p = nonpar_onetailed_ttest(real_vals_rand,real_vals_trained,niter,rand_seed)
+  pvals_trained_vs_random[0,ww1] = p
+#  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=False)
+#  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=True)
   # making this one-tailed
-  if t<0:
-    p_one_tailed = p/2
-  else:
-    p_one_tailed = 1-p/2
-  pvals_trained_vs_random[0,ww1] = p_one_tailed
+#  p_one_tailed=p
+#  if t<0:
+#    p_one_tailed = p/2
+#  else:
+#    p_one_tailed = 1-p/2
+#  pvals_trained_vs_random[0,ww1] = p_one_tailed
    
 # do FDR correction on all these pairwise comparisons
 [is_sig_fdr, pvals_fdr] = statsmodels.stats.multitest.fdrcorrection(np.ravel(pvals_trained_vs_random),alpha)
@@ -402,7 +440,8 @@ pvals_trained_vs_random=np.zeros([1, nLayers])
 nTotalComp = np.size(pvals_trained_vs_random)
 # matrix to store anisotropy index for each layer    
 aniso_vals = np.zeros([nTrainingSchemes,nInits,nImageSets,np.size(layers2plot)])
-
+rand_seed = 456546
+niter=10000
 # loop over network layers
 for ww1 in range(np.size(layers2plot)):
   # loop over networks with each training set
@@ -429,13 +468,18 @@ for ww1 in range(np.size(layers2plot)):
   real_vals_rand = np.reshape(aniso_vals[0,:,:,ww1], [nImageSets*nInits,1])
   real_vals_trained = np.reshape(aniso_vals[pp+1,:,:,ww1], [nImageSets*nInits,1])
 
-  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=False)
-  # making this one-tailed
-  if t<0:
-    p_one_tailed = p/2
-  else:
-    p_one_tailed = 1-p/2
-  pvals_trained_vs_random[0,ww1] = p_one_tailed
+  rand_seed = rand_seed+1
+  p = nonpar_onetailed_ttest(real_vals_rand,real_vals_trained,niter,rand_seed)
+  pvals_trained_vs_random[0,ww1] = p
+#  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=False)
+##  t, p = scipy.stats.ttest_ind(real_vals_rand,real_vals_trained,equal_var=True)
+#  # making this one-tailed
+##  p_one_tailed=p
+#  if t<0:
+#    p_one_tailed = p/2
+#  else:
+#    p_one_tailed = 1-p/2
+#  pvals_trained_vs_random[0,ww1] = p_one_tailed
     
 # do FDR correction on all these pairwise comparisons
 [is_sig_fdr, pvals_fdr] = statsmodels.stats.multitest.fdrcorrection(np.ravel(pvals_trained_vs_random),alpha)
@@ -476,3 +520,68 @@ fig.set_size_inches(10,7)
 figname = os.path.join(figfolder, 'Trained_rot_versus_random_%s.pdf'%(lstrings[pp]))
 #plt.savefig(figname, format='pdf',transparent=True)
 
+#%% plot each kind of Fisher Information Bias (FIB) for one network at a time 
+# mean + STD error bars across network initializations
+
+peak_inds=[card_inds, twent_inds,obl_inds]
+plt.rcParams.update({'font.size': 14})
+plt.close('all')
+fig=plt.figure()
+ax=fig.add_subplot(1,1,1)
+handles = []
+layers2plot = np.arange(0,nLayers,1)
+sf=0
+dd=3
+tr=0
+
+# loop over type of FIB - where are we looking for FI peaks?
+for pp in range(np.size(peak_inds)):
+  
+  # matrix to store anisotropy index for each layer    
+  aniso_vals = np.zeros([nInits,nImageSets,np.size(layers2plot)])
+  
+  # loop over network layers
+  for ww1 in range(np.size(layers2plot)):
+    # loop over network initializations
+    for ii in range(nInits):
+      # loop over image sets
+      for kk in range(nImageSets):
+        
+        all_fish= np.squeeze(deepcopy(all_fisher[tr,ii,kk,layers2plot[ww1],sf,:,dd]))
+        
+        # take the bins of interest to get anisotropy
+        base_discrim=  all_fish[baseline_inds]
+        peak_discrim = all_fish[peak_inds[pp]]
+        
+        # final value for this layer: difference divided by sum 
+#        aniso_vals[ii,kk,ww1] = (np.mean(peak_discrim) - np.mean(base_discrim))/(np.mean(peak_discrim) + np.mean(base_discrim))
+        aniso_vals[ii,kk,ww1] = (np.mean(peak_discrim) - np.mean(base_discrim))/(np.mean(peak_discrim) + np.mean(base_discrim))
+      
+  # put the line for this FIB onto the plot      
+  vals = np.mean(np.mean(aniso_vals,0),0)
+  errvals = np.std(np.mean(aniso_vals,0),0)
+#  errvals = np.std(np.reshape(aniso_vals,[nInits*nImageSets,np.size(layers2plot)]),0)
+  myline = mlines.Line2D(np.arange(0,np.size(layers2plot),1),vals,color = colors_main[pp+1,:])
+  ax.add_line(myline)   
+  handles.append(myline)
+  plt.errorbar(np.arange(0,np.size(layers2plot),1),vals,errvals,color=colors_main[pp+1,:])
+
+
+# finish up this subplot 
+ylims = [-0.5,1]
+xlims = [-1, np.size(layers2plot)]
+
+plt.legend(['0 + 90 vs. baseline', '67.5 + 157.5 vs. baseline', '45 + 135 vs. baseline'])
+
+plt.plot(xlims, [0,0], 'k')
+plt.xlim(xlims)
+plt.ylim(ylims)
+plt.yticks([-0.5,0, 0.5,1])
+plt.ylabel('Information Bias')
+plt.xticks(np.arange(0,np.size(layers2plot),1),[layer_labels[ii] for ii in layers2plot],rotation=90)
+
+# finish up the entire plot
+#plt.suptitle('Each type of information bias\n%s\n%s - %s'%(training_strs[tr],dataset_all,sf_labels[sf]))  
+plt.suptitle('Each type of information bias\nusing all units')
+fig.set_size_inches(10,7)
+#figname = os.path.join(figfolder, '%s_AnisoEachType.pdf'%training_strs[tr])

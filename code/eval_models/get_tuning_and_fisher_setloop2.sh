@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=general
+#SBATCH --partition=bigmem_long
 #SBATCH --gres=gpu:0
 #SBATCH --mail-user=xxx@ucsd.edu
 #SBATCH --mail-type=ALL
@@ -13,13 +13,13 @@ CWD=$(pwd)
 cd ../../
 ROOT=$(pwd)
 
-rand_seed_jitter=234324
+rand_seed_jitter=324343
 
 # am i over-writing old folders, or checking which exist already?
 overwrite=0
 TEST=0
 
-rot=0_cos
+rot=45_cos
 which_hyperpars=params1
 dataset_root=FiltIms14AllSFCos
 which_model=vgg_16

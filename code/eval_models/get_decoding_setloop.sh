@@ -17,7 +17,7 @@ ROOT=$(pwd)
 overwrite=0
 TEST=0
 
-rot=45_cos
+rot=0_cos
 which_hyperpars=params1
 dataset_root=FiltIms14AllSFCos
 which_model=vgg_16

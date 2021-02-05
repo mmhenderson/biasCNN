@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --partition=general
 #SBATCH --gres=gpu:0
-#SBATCH --mail-user=xxx@ucsd.edu
+#SBATCH --mail-user=mmhender@ucsd.edu
 #SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=500000
 #SBATCH -o ./sbatch_output/output-%A-%x-%u.out # STDOUT

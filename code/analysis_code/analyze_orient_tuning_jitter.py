@@ -194,12 +194,12 @@ def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, para
     # record the spatial position and channel corresponding to each unit.
     coords_good = coords[units2use,:]
     
-    #%% Save the responsive units   
-    save_name =os.path.join(save_path,'%s_all_responsive_units_eval_at_ckpt_%s0000.npy'%(layer_labels[ll],ckpt_str[0:2]))
+    #%% Save the responsive units     
+    save_name =os.path.join(save_path,'%s_all_responsive_units_eval_at_ckpt_%d.npy'%(layer_labels[ll],np.round(int(ckpt_str),-4)))
     print('saving to %s\n'%save_name)
     np.save(save_name,resp_units)
   
-    save_name =os.path.join(save_path,'%s_coordsHWC_all_responsive_units_eval_at_ckpt_%s0000.npy'%(layer_labels[ll],ckpt_str[0:2]))
+    save_name =os.path.join(save_path,'%s_coordsHWC_all_responsive_units_eval_at_ckpt_%d.npy'%(layer_labels[ll],np.round(int(ckpt_str),-4)))
     print('saving to %s\n'%save_name)
     np.save(save_name,coords_good)
     
@@ -285,26 +285,26 @@ def analyze_orient_tuning(root, model, training_str, dataset_all, nSamples, para
         fit_pars[uu,sf,nPars] = fwhm
 
     #%% save the results of the fitting, all units this layer
-    save_name =os.path.join(save_path,'%s_fit_jitter_%d_r2_eval_at_ckpt_%s0000.npy'%(layer_labels[ll], rand_seed, ckpt_str[0:2]))
+    save_name =os.path.join(save_path,'%s_fit_jitter_%d_r2_eval_at_ckpt_%d.npy'%(layer_labels[ll], rand_seed, np.round(int(ckpt_str),-4)))
     print('saving to %s\n'%save_name)
     np.save(save_name,r2)
-    save_name =os.path.join(save_path,'%s_fit_jitter_%d_r2_each_sample_eval_at_ckpt_%s0000.npy'%(layer_labels[ll], rand_seed, ckpt_str[0:2]))
+    save_name =os.path.join(save_path,'%s_fit_jitter_%d_r2_each_sample_eval_at_ckpt_%d.npy'%(layer_labels[ll], rand_seed, np.round(int(ckpt_str),-4)))
     print('saving to %s\n'%save_name)
     np.save(save_name,r2_each_sample)
-    save_name =os.path.join(save_path,'%s_fit_jitter_%d_pars_eval_at_ckpt_%s0000.npy'%(layer_labels[ll], rand_seed, ckpt_str[0:2]))
+    save_name =os.path.join(save_path,'%s_fit_jitter_%d_pars_eval_at_ckpt_%d.npy'%(layer_labels[ll], rand_seed, np.round(int(ckpt_str),-4)))
     print('saving to %s\n'%save_name)
     np.save(save_name,fit_pars)
 
 
   #%% save the proportion of non-responsive units in each layer
  
-  save_name =os.path.join(save_path,'PropZeroUnits_eval_at_ckpt_%s0000.npy'%(ckpt_str[0:2]))
+  save_name =os.path.join(save_path,'PropZeroUnits_eval_at_ckpt_%d.npy'%(np.round(int(ckpt_str),-4)))
   print('saving to %s\n'%save_name)
   np.save(save_name,propZeroUnits)
-  save_name =os.path.join(save_path,'PropConstUnits_eval_at_ckpt_%s0000.npy'%(ckpt_str[0:2]))
+  save_name =os.path.join(save_path,'PropConstUnits_eval_at_ckpt_%d.npy'%(np.round(int(ckpt_str),-4)))
   print('saving to %s\n'%save_name)
   np.save(save_name,propConstUnits)
-  save_name =os.path.join(save_path,'TotalUnits_eval_at_ckpt_%s0000.npy'%(ckpt_str[0:2]))
+  save_name =os.path.join(save_path,'TotalUnits_eval_at_ckpt_%d.npy'%(np.round(int(ckpt_str),-4)))
   print('saving to %s\n'%save_name)
   np.save(save_name,nTotalUnits)
 

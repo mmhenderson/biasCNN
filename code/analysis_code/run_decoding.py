@@ -15,7 +15,7 @@ from copy import deepcopy
 from sklearn import svm
 
 
-def get_decoding(activ_path,save_path,model_name,dataset_name,num_batches):
+def get_decoding(activ_path,save_path,model_name,dataset_name,num_batches,min_var_expl=99):
   
   #%% get information for this model and dataset
   info=load_activations.get_info(model_name, dataset_name)
@@ -51,8 +51,7 @@ def get_decoding(activ_path,save_path,model_name,dataset_name,num_batches):
       w = np.load(fn)
       # w is nIms x nFeatures
       
-      # for a few layers we saved more components than needed to capture 80% var - remove these now.
-      min_var_expl=80
+      # take the specified number of components to do decoding with
       fn2 = os.path.join(activ_path,'allStimsVarExpl_%s.npy'%layers2load[ll])
       var_expl = np.load(fn2)
       ncomp2keep = np.where(np.cumsum(var_expl)>min_var_expl/100)
@@ -116,11 +115,13 @@ if __name__ == '__main__':
   model_name = sys.argv[3] # The name of the current model.
   dataset_name = sys.argv[4] #The name of the dataset.
   num_batches = int(sys.argv[5]) # The number of batches in the full set of images
+  min_var_expl = int(sys.argv[6]) # The number of batches in the full set of images
   
   print('\nactiv_path is %s'%activ_path)
   print('save_path is %s'%save_path)
   print('model name is %s'%model_name)  
   print('dataset name is %s'%dataset_name)
   print('num_batches is %d'%num_batches)
+  print('min_var_expl is %d'%min_var_expl)
  
-  get_decoding(activ_path, save_path, model_name, dataset_name, num_batches)
+  get_decoding(activ_path, save_path, model_name, dataset_name, num_batches, min_var_expl)

@@ -112,7 +112,7 @@ for rr=1:length(rot_list)
         set(gcf,'Color','w')
         
         % fisher info should be prior^2 (e.g. Wei and Stocker 2015 Nat Neuro)
-        prior = meanvals;
+        prior = meanvals - min(meanvals);
         fisher = prior.^2;
                 
 %         bandedError_MMH(ori_axis,meanvals, stdvals, [0,0,1],0.2);
@@ -121,7 +121,7 @@ for rr=1:length(rot_list)
         xlabel('degrees');
         ylabel('Fisher info')
         xlim([0,180])
-        ylim([0, 0.002])
+%         ylim([0, 0.002])
         set(gca,'XTick',[0,45,90,135],'XTickLabels',[0,45,90,135],'YTick',[0, 0.001, 0.002]);
 
         line([new_card_axes(rr,1), new_card_axes(rr,1)], get(gca,'YLim'),'Color','k');
