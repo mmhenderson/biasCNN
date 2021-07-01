@@ -1,7 +1,9 @@
 %% Calculate the mean and standard deviation of orientation content for all 
-% the modified ImageNet images.
+% the modified ImageNet images. Takes a long time.
+
 % This script loads the files that are save by 
 % get_orientation_stats_imagenet_rots.m
+
 % Plot the output of this script with
 % plot_orientation_stats_imagenet_rots.m
 
@@ -10,10 +12,7 @@
 clear
 close all
 
-saveFigs=1;
-
-% rot_list = [45];
-rot_list = [0,22, 45];
+rot_list = [0, 22, 45];
 
 root = pwd;
 filesepinds = find(root==filesep);

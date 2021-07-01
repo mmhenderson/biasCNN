@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Convert my modified ImageNET images into tfrecord format.
+# Loops over rotations and saves separate dataset for each.
+# MMH 10/29/19
+
+# Modified from Google's tensorflow-slim library.
 # Copyright 2016 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +20,7 @@
 # limitations under the License.
 # ==============================================================================
 
-# Convert my modified ImageNET images into tfrecord format.
-# Loops over rotations and saves separate dataset for each.
-# MMH 10/29/19
+
 
 set -e
 

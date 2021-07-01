@@ -19,10 +19,6 @@ image_path = fullfile(root,'biasCNN','images','gratings',test_image_set,'AllIms'
 nOri=5;
 ori_list=[0,36,72,108,144];
 nPerOri=3;
-% orient_vals_deg = linspace(0,179,180);
-% nOri = numel(orient_vals_deg);
-% orient_kappa_deg=1000;
-% nImsPerOri=1;
 nImsTotal=nOri*nPerOri;
 
  
@@ -56,11 +52,8 @@ axpos_full = [axpos_x(:), axpos_y(:), repmat(axsize_v,numel(axpos_x), 2)];
 pp=0;
 for oo=1:nOri
    for ii=1:nPerOri
-   
-    
-    
-        pp=pp+1;
-        
+ 
+        pp=pp+1;        
         imfn = fullfile(image_path,sprintf('FiltImage_ex%d_%ddeg.png',ii,ori_list(oo)));
                  
         %% load and preprocess the image
@@ -81,7 +74,7 @@ end
     
 set(gcf,'Color','w');
 cdata = print('-RGBImage','-r300');
-savepath = fullfile(savedir, 'TestImages.pdf');
-saveas(gcf,savepath,'pdf')
-fprintf('saved image to %s\n',savepath);
+% savepath = fullfile(savedir, 'TestImages.pdf');
+% saveas(gcf,savepath,'pdf')
+% fprintf('saved image to %s\n',savepath);
 

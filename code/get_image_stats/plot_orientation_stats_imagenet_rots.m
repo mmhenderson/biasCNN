@@ -8,14 +8,15 @@
 %%
 clear
 close all
+saveFigs=0;
 
-% rot_list = [45];
-rot_list = [0,22, 45];
-% Switch these into my usual coordinate system: start at 0 degrees, moving
-% in the clockwise direction. This is how gratings were drawn so it will
-% match those images. The images were actually rotated in a
-% counter-clockwie direction, which corresponds to a negative rotation in
-% this coord system.
+rot_list = [0, 22, 45];
+% Switch these into different coordinate system: start at 0 degrees, moving
+% in the clockwise direction. This is how eval set stims were drawn so it will
+% match those images. 
+% Note that the ImageNet training images were actually rotated in a 
+% counter-clockwise direction from upright, which corresponds to a negative 
+% rotation in this coord system.
 new_card_axes = mod([0-rot_list', 90-rot_list'],180);
 
 root = pwd;
@@ -28,7 +29,7 @@ stat_path = fullfile(root,'image_stats','ImageNet','ILSVRC2012');
 plotFisherPredAll = 1;
 plotOriDistAll=1;
 plotOriDistEachSF=1;
-saveFigs=1;
+
 
 %% get information about the filters that were used
 freq_list = logspace(log10(0.02), log10(.2),4);
@@ -41,7 +42,7 @@ GaborBank = gabor(wavelength_list.*resize_factor,ori_list);
 % order is the correct one.
 orilist_bank = [GaborBank.Orientation];
 % this is the orientation of the filter, switched into the same coordinate
-% system as the grating images I drew (clockwise from 0, where 0=vertical).
+% system as the filtered eval images (clockwise from 0, where 0=vertical).
 orilist_bank_fliptoCW = 180 - orilist_bank;
 sflist_bank = 1./[GaborBank.Wavelength];
 wavelist_bank = [GaborBank.Wavelength];
@@ -74,7 +75,7 @@ for rr=1:length(rot_list)
     load(fn2load);
 
     
-    %% plot stats with error bars
+    %% plot stats (Figure 6)
     if plotOriDistAll
         figure;
         set(gcf,'DefaultLegendAutoUpdate','off');
@@ -104,7 +105,7 @@ for rr=1:length(rot_list)
     end
     
     
-    %% plot predicted fisher information
+    %% plot predicted fisher information (not in paper)
     if plotFisherPredAll
         figure;
         set(gcf,'DefaultLegendAutoUpdate','off');
@@ -137,7 +138,7 @@ for rr=1:length(rot_list)
         end
     end
     
-    %% plot the mean stats, separated by spatial frequency
+    %% plot the mean stats, separated by spatial frequency (not in paper)
     if plotOriDistEachSF
         figure;set(gcf,'Color','w')
         set(gcf,'DefaultLegendAutoUpdate','off');

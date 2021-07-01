@@ -12,11 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Make the dataset (tfrecord) files for grating stimuli. 
-    This script will process orientation-filtered ImageNet ims. 
-    These will be used for model evaluation - estimating Fisher information 
-    and tuning properties.
 
+"""
+Make the dataset (tfrecord) files for eval images.
+This script will process orientation-filtered ImageNet ims. 
+These will be used for model evaluation - estimating Fisher information 
+and tuning properties.
+Modified from the tensorflow-slim library by MMH.
 """
 
 from __future__ import absolute_import

@@ -1,10 +1,14 @@
-% Make a set of noisy images with orientation content varying between 0-180 
-% deg,  by loading random ImageNet images and filtering in the frequency
-% domain. Each image has broadband spatial frequency content.
+% Make a set of filtered images (load random ImageNet images and 
+% filter in the frequency domain). 
+% Each image has broadband spatial frequency content, and orientation 
+% content varying between 0-180 deg.
 % Will create 4 unique random versions of this image set, each with 
 % 180*48 = 8640 images.
+% The codename of this image set is "FiltIms14AllSFCos", referenced
+% elsewhere in this project code.
 
 % MMH April 2020
+
 %% Set up parameters here
 clear
 close all hidden
@@ -247,8 +251,8 @@ for ss = [sets2make_now]
             assert(all(padded_size==size_after_pad));
 
             image=image_padded;
+            
             %% FFT and filter the image
-%                 tic
             [out] = fft2(image);
             image_fft = fftshift(out);  
             

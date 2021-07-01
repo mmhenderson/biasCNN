@@ -3,6 +3,7 @@
 % Copied out of:
 % /mnt/neurocube/local/MATLAB/R2018b/toolbox/images/images/gabor.m  % gabor method
 % by MMH 9/6/2019
+% modified for use in biasCNN project.
 
     % Directly construct frequency domain transfer function of
     % Gabor filter. (Jain, Farrokhnia, "Unsupervised Texture
