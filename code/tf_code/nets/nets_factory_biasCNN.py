@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Contains a factory for building various models."""
+"""Contains a factory for building various models.
+Modified by MMH for biasCNN project.
+"""
 
 from __future__ import absolute_import
 from __future__ import division

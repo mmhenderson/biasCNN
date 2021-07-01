@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """Train model for biasCNN project.
-MODIFIED from train_image_classifier.py by MMH 
+MODIFIED from train_image_classifier.py (from tf-slim library) by MMH 
 """
 
 from __future__ import absolute_import

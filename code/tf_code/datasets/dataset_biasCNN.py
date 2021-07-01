@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""A factory-pattern class which returns classification image/label pairs."""
+"""A factory-pattern class which returns classification image/label pairs.
+Modified by MMH for biasCNN project."""
 
 from __future__ import absolute_import
 from __future__ import division

@@ -26,6 +26,8 @@ report:
 
 More information can be obtained from the VGG website:
 www.robots.ox.ac.uk/~vgg/research/very_deep/
+
+This version modified by MMH for biasCNN project.
 """
 
 from __future__ import absolute_import

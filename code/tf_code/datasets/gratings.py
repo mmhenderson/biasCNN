@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """Provides datasets with grating images, at various orientations.
-
+MMH modified from tensorflow-slim code.
 """
 
 from __future__ import absolute_import

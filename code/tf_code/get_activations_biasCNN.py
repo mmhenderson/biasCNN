@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Evaluate model on an image (grating) dataset to get activation patterns that are saved as numpy files. 
+"""Evaluate model on an image (grating) dataset. 
+Pass images through network to get activation patterns that are saved as numpy files. 
 Dataset is split into several batches, loop over one batch at a time.
-MODIFIED from eval_image_classifier.py by MMH 
+MODIFIED from eval_image_classifier.py (from tf-slim library) by MMH 
 """
 
 from __future__ import absolute_import
