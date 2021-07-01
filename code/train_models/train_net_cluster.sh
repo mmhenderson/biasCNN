@@ -19,7 +19,6 @@ echo "ROOT=$ROOT"
 
 
 # where is all my tensorflow code?
-#slimpath=/cube/neurocube/local/serenceslab/maggie/tensorflow/models/research/slim/
 slimpath=${ROOT}/code/tf_code/
 # where am i loading tfrecord files from?
 dataset_path=${ROOT}/datasets/ImageNet/ILSVRC2012/

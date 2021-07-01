@@ -10,7 +10,7 @@ rot=45_cos
 model=vgg_16
 params=params1
 from_scratch=1
-declare -a inits=(4)
+declare -a inits=(0 1 2 3)
 max_steps=500000
 
 CWD=$(pwd)
