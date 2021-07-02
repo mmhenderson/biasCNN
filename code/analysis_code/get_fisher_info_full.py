@@ -30,17 +30,19 @@ def get_fisher_info(activ_path,save_path,model_name,dataset_name,num_batches):
      
   orilist = info['orilist']
   sflist = info['sflist']
-  if info['nPhase']==1:
-    nOri=180
-    orilist_adj = orilist
-  else:
+  if info['nPhase']==2:
     nOri=360
     orilist_adj = deepcopy(orilist)
     phaselist = info['phaselist']
     orilist_adj[phaselist==1] = orilist_adj[phaselist==1]+180
-     
+  else:
+    nOri=180
+    orilist_adj = orilist
+ 
   nSF = np.size(np.unique(sflist))
 
+  print('dataset %s has %d spatial freqs, orients from 0-%d deg, %d unique phases\n'%(dataset_name,nSF,nOri, info['nPhase']))
+  
   fisher_info = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])
   deriv2 = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])
   varpooled = np.zeros([nLayers, nSF, 180, np.size(delta_vals)])

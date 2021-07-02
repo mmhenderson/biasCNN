@@ -17,28 +17,7 @@ def get_info(model, dataset):
     info = dict()  
   
     #%% list all the layers of this network
-    if 'nasnet'==model:
-        
-        layer_labels = []
-        for cc in range(17):
-            layer_labels.append('Cell_%d' % (cc+1))
-        layer_labels.append('global_pool')
-        layer_labels.append('logits')
-        info['layer_labels'] = layer_labels
-        info['layer_labels_full'] = layer_labels
-        
-    elif 'inception'==model:
-        
-        # list of all the endpoints in this network.
-        layer_labels = ['Conv2d_1a_3x3','Conv2d_2a_3x3','Conv2d_2b_3x3',
-         'MaxPool_3a_3x3','Conv2d_3b_1x1','Conv2d_4a_3x3', 'MaxPool_5a_3x3',
-         'Mixed_5b','Mixed_5c','Mixed_5d','Mixed_6a','Mixed_6b','Mixed_6c',
-         'Mixed_6d','Mixed_6e','Mixed_7a', 'Mixed_7b','Mixed_7c',
-         'AuxLogits','AvgPool_1a','PreLogits','Logits','Predictions']       
-        info['layer_labels'] = layer_labels
-        info['layer_labels_full'] = layer_labels
-        
-    elif 'vgg16' in model and 'simul' not in model:
+    if 'vgg16' in model and 'simul' not in model:
         
         # list of all the endpoints in this network (these are the exact strings we need to use to load files)
         layer_labels_full = ['vgg_16_conv1_conv1_1','vgg_16_conv1_conv1_2','vgg_16_pool1',
@@ -99,20 +78,26 @@ def get_info(model, dataset):
       # make sure we have listed only unique things.
       featureMat = np.concatenate((exlist,orilist,sflist,phaselist),axis=1)      
       assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
-      
-    elif 'Gratings' in dataset and 'PhaseVarying' not in dataset:
 
-      nPhase=2;
-      nEx = 4;      
+    elif 'GratingsMultiPhase' in dataset:
+       
+      nPhase = 24;
+      nEx = 2     
+      # the 6 spatial frequencies are spread across 6 datasets    
+      nSF_here=1
       # list all the image features here. 
-      exlist = np.expand_dims(np.repeat(np.arange(nEx), nPhase*nOri*nSF),axis=1)
-      orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nSF*nPhase), [1,nEx]))
-      sflist=np.transpose(np.tile(np.repeat(np.arange(nSF),nPhase),[1,nOri*nEx]))
-      phaselist=np.transpose(np.tile(np.arange(nPhase),[1,nOri*nSF*nEx]))      
-      # make sure we have listed only unique things.
-      featureMat = np.concatenate((exlist,orilist,sflist,phaselist),axis=1)
+      orilist=np.transpose(np.tile(np.repeat(np.arange(nOri),nPhase*nEx),[1,1]))
+      phaselist=np.transpose(np.tile(np.repeat(np.arange(nPhase),nEx),[1,nOri]))
+      exlist = np.transpose(np.tile(np.arange(nEx), [1,nPhase*nOri]))
+      
+      featureMat = np.concatenate((orilist,phaselist,exlist),axis=1)
+      
       assert np.array_equal(featureMat, np.unique(featureMat, axis=0))
-           
+      
+      # just list of ones
+      sflist=np.transpose(np.tile(np.arange(nSF_here),[1,nOri*nEx*nPhase]))
+      
+      
     else:
         raise ValueError('dataset string not recognized')
 

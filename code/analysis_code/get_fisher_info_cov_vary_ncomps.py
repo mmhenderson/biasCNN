@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Calculate Fisher information at each layer of a trained network, by loading 
-full activation patterns for each stimulus and computing derivative of each 
-unit's orientation response profile. Save the result to desired path.
+PCA-ed activation patterns and computing full multivariate expr for FI.
+Save the result to desired path.
 
 """
 import os
@@ -15,7 +15,7 @@ from copy import deepcopy
 
 # values of "delta" to use for fisher information
 delta_vals = np.arange(1,10,1)
-
+# numbers of principal components to use
 ncomp2do = np.arange(2,48,1)
 
 def get_fisher_info(activ_path,save_path,model_name,dataset_name):

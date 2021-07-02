@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Perform curve fitting for orientation tuning functions. 
-Before running this, need to run get_orient_tuning.py
-Plot the output of this code with plot_unit_tuning.py
-
+Before running this, need to run get_orient_tuning_avgspace.py
 """
 
 import os

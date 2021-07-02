@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Reduce dimensionality of activations for each layer of the network, so that 
-they're small enough to do decoding and other analyses.
+they're small enough to do further analyses (i.e. multivariate Fisher info)
 
 """
 import os

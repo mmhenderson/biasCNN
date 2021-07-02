@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Calculate distance bw responses in multidimensional PC space - normalize by the variability of distances
+Calculate distance bw responses in multidimensional PC space, using a t-statistic-like measure.
+Basically compute all pairwise Eucl. distances between the orients of interest, and then get mean 
+normalized by variance.
+Save the result to specified path.
 
 """
 import os
@@ -13,7 +16,7 @@ from copy import deepcopy
 
 # values of "delta" to use for fisher information
 delta_vals = np.arange(1,10,1)
-
+# numbers of principal components to use
 ncomp2do = [1,2,3,4,5,6,7,8,9,10,20,50,100,500,1000,8640]
 
 def get_dist(activ_path,save_path,model_name,dataset_name):
@@ -88,8 +91,8 @@ def get_dist(activ_path,save_path,model_name,dataset_name):
   
 if __name__ == '__main__':
   
-  activ_path = sys.argv[1] #The path to load the activation files from.'
-  save_path = sys.argv[2] #The path to save the FI calculation to
+  activ_path = sys.argv[1] #The path to load the activation files from.
+  save_path = sys.argv[2] #The path to save the current calculation to
   model_name = sys.argv[3] # The name of the current model.
   dataset_name = sys.argv[4] #The name of the dataset.
  
