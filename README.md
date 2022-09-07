@@ -1,7 +1,5 @@
-Code to accompany the paper:<br />
-Henderson, M. & Serences, J.T. "Biased orientation representations can be explained by experience with non-uniform training set statistics". Journal of Vision, in press.<br />
-Preprint available at:
-https://www.biorxiv.org/content/10.1101/2020.07.17.209536v3
+Code related to the paper:<br />
+Henderson, M. & Serences, J.T. (2022) Biased orientation representations can be explained by experience with non-uniform training set statistics. <i>Journal of Vision.</i> https://doi.org/10.1167/jov.21.8.10.
 <br /><br />
 **Contents**:<br />
 - **analysis_code:** python code to compute Fisher information and single-unit tuning properties.
